@@ -82,7 +82,10 @@ public class CharControllerPhysics : MonoBehaviour
     public GameObject Interaktiv;
     int ExtraGlide;
 
-
+    //visuell
+    public GameObject Powerjumpvis;
+   // public ParticleSystem ;
+    static bool DidawesomeJump = false;
     private void Awake()
     {
         rotationPLPO = PLPO.transform.rotation;
@@ -314,6 +317,14 @@ public class CharControllerPhysics : MonoBehaviour
             Jumping = false;
             DropTimer = 0;
             ExtraGlide = 1;
+
+            //viseffect
+            if (DidawesomeJump == true)
+            {
+                Instantiate(Powerjumpvis, new Vector2(ChaRigidbody.position.x, ChaRigidbody.position.y-0.9f), Quaternion.identity);
+                DidawesomeJump = false;
+            }
+
         }
 
         if (Input.GetKey(KeyCode.W) && Grounded == false)
@@ -360,7 +371,6 @@ public class CharControllerPhysics : MonoBehaviour
             ChaRigidbody.velocity = new Vector3(0, normalized);
 
         Debug.Log("Normalized" + normalized);
-
         IsOnSoundMill = false;
     }
 
@@ -382,6 +392,8 @@ public class CharControllerPhysics : MonoBehaviour
         if (Input.GetKey(KeyCode.S) && Jumping == true && DropTimer > 1)
         {
             ChaRigidbody.velocity = Vector2.down * JumpForce * 5;
+            DidawesomeJump = true;
+
             //Debug.Log(ChaRigidbody.velocity);
         }
 

@@ -464,6 +464,8 @@ MonoBehaviour:
   PlayerVelocity: {x: 0, y: 0, z: 0}
   paracute: {fileID: 2257917438732252988}
   Interaktiv: {fileID: 2257917439880107352}
+  test: {fileID: 4935271996024124908, guid: 97baffe56098b3242b521ad80c78f9cd, type: 3}
+  Powerjumpvis: {fileID: 0}
 --- !u!114 &2257917439533881644
 MonoBehaviour:
   m_ObjectHideFlags: 0
