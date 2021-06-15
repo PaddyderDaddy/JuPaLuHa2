@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager instance;
+    public SoundmillRotation ActiveSoundmill;
+    public static GameManager instance;
     public Vector2 lastCheckPointPos;
 
     void Awake()

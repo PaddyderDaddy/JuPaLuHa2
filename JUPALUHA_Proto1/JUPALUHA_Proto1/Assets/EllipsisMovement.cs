@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class EllipsisMovement : MonoBehaviour
 {
+    [SerializeField] float rotationRadius = 10;
+    [SerializeField] float tilt = 45f;
+
     public Transform rotationCenter;
     public float angle;
     public float speed = 5f;
-    public float rotationRadius = 10;
-    public float tilt = 45f;
     public bool InMotion = true;
 
     Collider2D CableCarCollider;

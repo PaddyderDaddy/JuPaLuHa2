@@ -128,6 +128,11 @@ public class CharControllerPhysics : MonoBehaviour
 
         if (grabCheck.collider != null && grabCheck.collider.tag == "Pin")
         {
+            SoundmillRotation currentSoundmill = grabCheck.collider.transform.parent.GetComponent<SoundmillRotation>();
+
+            if (currentSoundmill != null)
+                GameManager.instance.ActiveSoundmill = currentSoundmill;
+
             Debug.Log("Ich erkenne etwas");
             grabbed = true;
             PlayerVelocity = ChaRigidbody.velocity;
@@ -138,6 +143,7 @@ public class CharControllerPhysics : MonoBehaviour
             xVelocity = 0;
             ChaRigidbody.velocity = new Vector2(0, 0);
             hookup = true;
+
             //Entparent
             Player.transform.parent = null;
             PLPO.transform.parent = null; //Nicht mehr Child des Hooks
@@ -153,6 +159,7 @@ public class CharControllerPhysics : MonoBehaviour
             PLPO.transform.localPosition = new Vector3(0, 0, 0);
             HookGrab.transform.localPosition = new Vector3(0, -0.4f, 0);
             Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0);
+
 
             //Ursprungspunkt
             //SoundmillOffset = Player.transform.root.GetComponent<Transform>();
