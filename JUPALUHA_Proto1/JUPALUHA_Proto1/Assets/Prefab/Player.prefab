@@ -436,7 +436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14fb737e45eb88b458de1e1f3e6f9e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChaRigidbody: {fileID: 0}
+  ChaRigidbody: {fileID: 2257917439533881643}
   MoveSpeed: 10
   jumpDelay: 0.25
   OverlapBoxDistance: -0.2
@@ -464,7 +464,6 @@ MonoBehaviour:
   PlayerVelocity: {x: 0, y: 0, z: 0}
   paracute: {fileID: 2257917438732252988}
   Interaktiv: {fileID: 2257917439880107352}
-  test: {fileID: 4935271996024124908, guid: 97baffe56098b3242b521ad80c78f9cd, type: 3}
   Powerjumpvis: {fileID: 0}
 --- !u!114 &2257917439533881644
 MonoBehaviour:

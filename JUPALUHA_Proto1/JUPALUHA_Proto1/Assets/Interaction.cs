@@ -58,22 +58,6 @@ public class Interaction : MonoBehaviour
         pickedItems.Add(item);
     }
 
-    public void ItemMove()
-    {
-        GameObject[] pipes;
-        pipes = GameObject.FindGameObjectsWithTag("PipeAdjustable");
-        foreach (GameObject pipe in pipes)
-            pipe.transform.eulerAngles = new Vector3(0, 0, rotZ);
-        
-    }
-    public void ItemMoveBack()
-    {
-        GameObject[] pipes;
-        pipes = GameObject.FindGameObjectsWithTag("PipeAdjustable");
-        foreach (GameObject pipe in pipes)
-            pipe.transform.eulerAngles = new Vector3(0, 0, -rotZ);
-        
-    }
 }
 
 

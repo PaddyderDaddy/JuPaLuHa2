@@ -19,17 +19,21 @@ public class CharControllerPhysics : MonoBehaviour
     public bool Grounded = false;
 
     //GRAB
+    [Header("Grab")]
     public bool TouchingObject = false;
     public Vector2 upOffset;
     public float collisionRadius;
     public Color gizmoColor = Color.red;
 
+    [Header("Gravity")]
     public float GravityNormal = -9.81f;
 
     //LEVER
+    [Header("Lever")]
     public bool touchLever = false;
 
     //JUMP
+    [Header("Jump Parameters")]
     bool Jumping = false;
     public float DropTimer;
     public float JumpForce;
@@ -45,6 +49,7 @@ public class CharControllerPhysics : MonoBehaviour
     public static Vector3 PlayerVector;
 
     //HOOK GRAB
+    [Header("Hook Grab")]
     public Transform HookGrab;
     static bool direction = false;
     private Transform Target;
@@ -57,6 +62,7 @@ public class CharControllerPhysics : MonoBehaviour
     public static bool grabbed = false;
 
     //SOUNDMILL
+    [Header("Soundmill")]
     Rigidbody2D SoundRb;
     float Rotationdirection;
     Transform SoundmillObjekt; //ist nicht zugweisene
@@ -68,6 +74,7 @@ public class CharControllerPhysics : MonoBehaviour
     public bool PlayerattachedtoSoundmill;
 
     //Rotation
+    [Header("Rotation")]
     Quaternion rotationPlayer; //idfk what that is
     Quaternion rotationPLPO;
     Quaternion rotationHookGrab;
@@ -78,6 +85,7 @@ public class CharControllerPhysics : MonoBehaviour
     Transform soundmill;
 
     //PARACUTE
+    [Header("Paracute")]
     public Transform paracute;
     public GameObject Interaktiv;
     int ExtraGlide;
@@ -228,20 +236,6 @@ public class CharControllerPhysics : MonoBehaviour
             OpenInteraktableIcon();
             touchLever = true;
         }
-
-        //TOUCHING DRUM OPENS VENT
-        //if(collision.gameObject.tag == "drum" && DeployScript.ventOpen == false )
-        //{
-        //    FindObjectOfType<Vent>().MoveVent();
-        //    TouchingDrum = true;
-        //}
-
-        //if (collision.gameObject.tag == "drum" && DeployScript.ventOpen == true)
-        //{
-        //    FindObjectOfType<Vent>().CloseVent();
-        //    TouchingDrum = false;
-        //}
-
     }
 
     private void OnTriggerExit2D(Collider2D collision)

@@ -9,6 +9,11 @@ public class Item : MonoBehaviour
     public InteractionType type;
     public int KeyPressed = 0;
 
+    [Header("Pipe Rotation")]
+    public GameObject pipe;
+    public float rotZ;
+
+
     private void Reset()
     {
         GetComponent<Collider2D>().isTrigger = true;
@@ -39,21 +44,11 @@ public class Item : MonoBehaviour
             case InteractionType.Examine:
                 if (KeyPressed <= 0)
                 {
-                    FindObjectOfType<Interaction>().ItemMove();
+                    pipe.transform.localEulerAngles = new Vector3(0, 0, rotZ);
                 }
                 else
                 {
-                    FindObjectOfType<Interaction>().ItemMoveBack();
-                }
-                break;
-            case InteractionType.OpenVent:
-                if (KeyPressed <= 0)
-                {
-                    FindObjectOfType<Vent>().MoveVent();
-                }
-                else
-                {
-                    FindObjectOfType<Vent>().CloseVent();
+                    pipe.transform.localEulerAngles = new Vector3(0, 0, -rotZ);
                 }
                 break;
             default:
