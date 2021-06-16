@@ -21,10 +21,10 @@ public class SoundmillRotation : MonoBehaviour
     }
     void Update()
     {
-        if (rb.angularVelocity < 0f)
-            rb.angularVelocity += 10f * Time.deltaTime; //Wenn die kleiner ist als 0.01 dann wird das unschön hin und her ditschen (o.001zb)
-        if (rb.angularVelocity > 0)
-            rb.angularVelocity -= 10f * Time.deltaTime;
+        //if (rb.angularVelocity < 0f)
+        //    rb.angularVelocity += 10f * Time.deltaTime; //Wenn die kleiner ist als 0.01 dann wird das unschön hin und her ditschen (o.001zb)
+        //if (rb.angularVelocity > 0)
+        //    rb.angularVelocity -= 10f * Time.deltaTime;
 
         //setting maxima for rotation velocity
         float newAngularVelocity = Mathf.Clamp(rb.angularVelocity, -180, 180);
@@ -39,7 +39,7 @@ public class SoundmillRotation : MonoBehaviour
     }
     void Coolfunction()
     {
-        Debug.Log("this works");
+        //Debug.Log("this works");
         rb.angularVelocity = connectetrb.angularVelocity;
     }
 }

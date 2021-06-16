@@ -8,16 +8,17 @@ public class EllipsisMovement : MonoBehaviour
     [SerializeField] float tilt = 45f;
 
     public Transform rotationCenter;
-    public float angle;
-    public float speed = 5f;
-    public bool InMotion = true;
+    [SerializeField] float angle;
+    float speed;
+    bool InMotion = true;
 
     Collider2D CableCarCollider;
     SpriteRenderer CableCarRenderer;
-    public float CableCarVanishTimer;
-    public bool VanishTimerActive;
+    float CableCarVanishTimer;
+    bool VanishTimerActive;
 
     public CharControllerPhysics ControlScript;
+    public GameManager GameManagerScript;
 
     private void Start()
     {
@@ -28,6 +29,8 @@ public class EllipsisMovement : MonoBehaviour
 
     void Update()
     {
+        ChangeVelocity();
+
         StopMotion();
 
         if (InMotion)
@@ -73,19 +76,26 @@ public class EllipsisMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        collision.collider.transform.SetParent(transform);
-        VanishTimerActive = true;
+        if (collision.collider.gameObject.tag == "Player")
+        {
+            collision.collider.transform.SetParent(transform);
+            VanishTimerActive = true;
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        ControlScript.Grounded = true;
+        if (collision.collider.gameObject.tag == "Player")
+            ControlScript.Grounded = true;
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        collision.collider.transform.SetParent(null);
-        ControlScript.Grounded = false;
+        if (collision.collider.gameObject.tag == "Player")
+        {
+            collision.collider.transform.SetParent(null);
+            ControlScript.Grounded = false;
+        }
     }
 
     void StopMotion()
@@ -102,5 +112,13 @@ public class EllipsisMovement : MonoBehaviour
     float MSin(float value)
     {
         return Mathf.Sin(Mathf.Deg2Rad * value);
+    }
+
+    void ChangeVelocity()
+    {
+        if (GameManager.instance.ActiveSoundmill != null)
+        {
+            speed = GameManager.instance.ActiveSoundmill.rb.angularVelocity * 0.5f;
+        }
     }
 }
