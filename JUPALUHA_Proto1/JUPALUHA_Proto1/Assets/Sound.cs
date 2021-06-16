@@ -14,7 +14,7 @@ public class Sound : MonoBehaviour
     public float collisionRadius;
     public GameObject spawnStartPoint;
 
-    public enum PipeDirection { Left, Right }
+    public enum PipeDirection {Left, Right, Up, Down}
     public PipeDirection type;
 
     [Header("Boolins")]
@@ -22,7 +22,7 @@ public class Sound : MonoBehaviour
     public bool onStart;
     public bool TouchingObject = false;
 
-    public enum SoundOutput { SoundOutput, SoundOutput1, SoundOutput2, SoundOutput3, SoundOutput4, SoundOutput5, SoundOutput6, SoundOutput7 }
+    public enum SoundOutput {SoundOutput, SoundOutput1, SoundOutput2, SoundOutput3, SoundOutput4, SoundOutput5, SoundOutput6, SoundOutput7 }
     public SoundOutput number;
 
     void Start()
@@ -31,22 +31,20 @@ public class Sound : MonoBehaviour
         rb = this.GetComponent<Rigidbody2D>();
         rb.velocity = new Vector2(1, -1) * speed;
         //rb.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-        TouchingObject = Physics2D.OverlapCircle(rb.transform.position, collisionRadius, LayerMask.GetMask("GrabbableObject"));
-
+        TouchingObject = Physics2D.OverlapCircle(rb.transform.position, collisionRadius, LayerMask.GetMask("Soundmillrotor"));
     }
 
     private void FixedUpdate()
     {
-        Round();
 
         switch (number)
         {
             case SoundOutput.SoundOutput:
-                if (GameObject.Find("RotationPoint").transform.rotation.eulerAngles.z == 55)
+                if (GameObject.Find("RotationPoint").transform.localRotation.z <= 0)
                 {
                     pipeUp = true;
                 }
-                if (GameObject.Find("RotationPoint").transform.rotation.eulerAngles.z == -55)
+                if (GameObject.Find("RotationPoint").transform.localRotation.z > 0)
                 {
                     pipeUp = false;
                 }
@@ -60,15 +58,14 @@ public class Sound : MonoBehaviour
                 {
                     onStart = false;
                 }
-
                 break;
             case SoundOutput.SoundOutput1:
-                if (GameObject.Find("RotationPoint1").transform.localEulerAngles.z == 55)
+                if (GameObject.Find("RotationPoint1").transform.localRotation.z <= 0)
                 {
                     pipeUp = true;
 
                 }
-                if (GameObject.Find("RotationPoint1").transform.localEulerAngles.z == -55)
+                if (GameObject.Find("RotationPoint1").transform.localRotation.z > 0)
                 {
                     pipeUp = false;
 
@@ -86,11 +83,11 @@ public class Sound : MonoBehaviour
 
                 break;
             case SoundOutput.SoundOutput2:
-                if (GameObject.Find("RotationPoint2").transform.rotation.eulerAngles.z == 55)
+                if (GameObject.Find("RotationPoint2").transform.localRotation.z <= 0)
                 {
                     pipeUp = true;
                 }
-                if (GameObject.Find("RotationPoint2").transform.rotation.eulerAngles.z == -55)
+                if (GameObject.Find("RotationPoint2").transform.localRotation.z > 0)
                 {
                     pipeUp = false;
                 }
@@ -106,11 +103,11 @@ public class Sound : MonoBehaviour
                 }
                 break;
             case SoundOutput.SoundOutput3:
-                if (GameObject.Find("RotationPoint3").transform.rotation.eulerAngles.z == 55)
+                if (GameObject.Find("RotationPoint3").transform.localRotation.z <= 0)
                 {
                     pipeUp = true;
                 }
-                if (GameObject.Find("RotationPoint3").transform.rotation.eulerAngles.z == -55)
+                if (GameObject.Find("RotationPoint3").transform.localRotation.z > 0)
                 {
                     pipeUp = false;
                 }
@@ -126,11 +123,11 @@ public class Sound : MonoBehaviour
                 }
                 break;
             case SoundOutput.SoundOutput4:
-                if (GameObject.Find("RotationPoint4").transform.rotation.eulerAngles.z == 55)
+                if (GameObject.Find("RotationPoint4").transform.localRotation.z <= 0)
                 {
                     pipeUp = true;
                 }
-                if (GameObject.Find("RotationPoint4").transform.rotation.eulerAngles.z == -55)
+                if (GameObject.Find("RotationPoint4").transform.localRotation.z > 0)
                 {
                     pipeUp = false;
                 }
@@ -146,11 +143,11 @@ public class Sound : MonoBehaviour
                 }
                 break;
             case SoundOutput.SoundOutput5:
-                if (GameObject.Find("RotationPoint5").transform.rotation.eulerAngles.z == 55)
+                if (GameObject.Find("RotationPoint5").transform.localRotation.z <= 0)
                 {
                     pipeUp = true;
                 }
-                if (GameObject.Find("RotationPoint5").transform.rotation.eulerAngles.z == -55)
+                if (GameObject.Find("RotationPoint5").transform.localRotation.z > 0)
                 {
                     pipeUp = false;
                 }
@@ -166,14 +163,7 @@ public class Sound : MonoBehaviour
                 }
                 break;
             case SoundOutput.SoundOutput6:
-                if (GameObject.Find("RotationPoint6").transform.rotation.eulerAngles.z == 55)
-                {
-                    pipeUp = true;
-                }
-                if (GameObject.Find("RotationPoint6").transform.rotation.eulerAngles.z == -55)
-                {
-                    pipeUp = false;
-                }
+                pipeUp = true;
 
                 if (GameObject.Find("SoundOutput6").transform.position == this.gameObject.transform.position)
                 {
@@ -186,11 +176,11 @@ public class Sound : MonoBehaviour
                 }
                 break;
             case SoundOutput.SoundOutput7:
-                if (GameObject.Find("RotationPoint7").transform.rotation.eulerAngles.z == 55)
+                if (GameObject.Find("RotationPoint7").transform.localRotation.z <= 0)
                 {
                     pipeUp = true;
                 }
-                if (GameObject.Find("RotationPoint7").transform.rotation.eulerAngles.z == -55)
+                if (GameObject.Find("RotationPoint7").transform.localRotation.z > 0)
                 {
                     pipeUp = false;
                 }
@@ -208,7 +198,7 @@ public class Sound : MonoBehaviour
             default:
                 break;
         }
-
+        Round();
 
     }
 
@@ -237,15 +227,27 @@ public class Sound : MonoBehaviour
                     if (pipeUp == true)
                     {
                         rb = GetComponent<Rigidbody2D>();
-                        rb.velocity = new Vector2(-1, -1) * speed;
+                        rb.velocity = new Vector2(-1, 1) * speed;
                     }
                     else
                     {
                         rb = GetComponent<Rigidbody2D>();
-                        rb.velocity = new Vector2(-1, 1) * speed;
+                        rb.velocity = new Vector2(-1, -1) * speed;
                     }
                     break;
                 case PipeDirection.Right:
+                    if (pipeUp == true)
+                    {
+                        rb = GetComponent<Rigidbody2D>();
+                        rb.velocity = new Vector2(1, -1) * speed;
+                    }
+                    else
+                    {
+                        rb = GetComponent<Rigidbody2D>();
+                        rb.velocity = new Vector2(1, 1) * speed;
+                    }
+                    break;
+                case PipeDirection.Up:
                     if (pipeUp == true)
                     {
                         rb = GetComponent<Rigidbody2D>();
@@ -254,9 +256,22 @@ public class Sound : MonoBehaviour
                     else
                     {
                         rb = GetComponent<Rigidbody2D>();
+                        rb.velocity = new Vector2(-1, 1) * speed;
+                    }
+                    break;
+                case PipeDirection.Down:
+                    if (pipeUp == true)
+                    {
+                        rb = GetComponent<Rigidbody2D>();
+                        rb.velocity = new Vector2(-1, -1) * speed;
+                    }
+                    else
+                    {
+                        rb = GetComponent<Rigidbody2D>();
                         rb.velocity = new Vector2(1, -1) * speed;
                     }
                     break;
+
                 default:
                     break;
             }
