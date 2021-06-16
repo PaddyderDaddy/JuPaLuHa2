@@ -9,7 +9,7 @@ public class EllipsisMovement : MonoBehaviour
 
     public Transform rotationCenter;
     [SerializeField] float angle;
-    float speed;
+    [SerializeField] float speed;
     bool InMotion = true;
 
     Collider2D CableCarCollider;

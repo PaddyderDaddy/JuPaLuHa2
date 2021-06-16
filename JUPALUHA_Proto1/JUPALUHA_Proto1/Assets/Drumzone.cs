@@ -31,14 +31,12 @@ public class Drumzone : MonoBehaviour
         {
             isOpen = true;
             vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 1, 0);
-            Debug.Log("Jump1");
         }
 
         if (PlayerScript.ChaRigidbody.velocity.y <= -40 && ventOpen == true)
         {
             vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 0, 0);
             isOpen = false;
-            Debug.Log("Jump2");
         }
     }
 
