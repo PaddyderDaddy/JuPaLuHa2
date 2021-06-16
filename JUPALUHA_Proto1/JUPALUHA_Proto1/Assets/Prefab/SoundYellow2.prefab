@@ -138,7 +138,7 @@ MonoBehaviour:
   DestroyTime: 1
   collisionRadius: 5
   spawnStartPoint: {fileID: 5690634127549794890}
-  type: 1
+  type: 2
   pipeUp: 0
   onStart: 0
   TouchingObject: 0

@@ -193,7 +193,7 @@ public class CharControllerPhysics : MonoBehaviour
         Vector2 gloabalpinvector = Target.transform.position;
         Vector3 targetDir = gloabalpinvector - SoundmillOffsetVector;
         Angle = Vector3.Angle(targetDir, PlayerVelocity);
-        Debug.Log(string.Format("angle={0}", Angle));
+        //Debug.Log(string.Format("angle={0}", Angle));
 
         //In welche richtung soll sich die Soundmill drehen?
         float direction = 1;
@@ -391,7 +391,7 @@ public class CharControllerPhysics : MonoBehaviour
             DropTimer += Time.deltaTime;
 
         //POWER DROP
-        if (Input.GetKey(KeyCode.Space) && Jumping == true && DropTimer > 2 || Input.GetKey(KeyCode.Space) && Milljump == true && DropTimer > 1.5f)
+        if (Input.GetKey(KeyCode.I) && Jumping == true && DropTimer > 2 || Input.GetKey(KeyCode.Space) && Milljump == true && DropTimer > 1.5f)
         {
             ChaRigidbody.velocity = Vector2.down * JumpForce * 5;
             DidawesomeJump = true;
