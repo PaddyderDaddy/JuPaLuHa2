@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SoundMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: bb1281ab727a2f6478c6688866221b80, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: a405f32dab7d8d546918d6e7e9ba3ff1, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -49,8 +49,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_2607c0cdd02f4b9fbd40488230f33281: 10
+    - Vector1_4e1756278e1c466bbe2574fd4d7338f3: 0.2
+    - Vector1_9184f143acb7486cb9a5900ce1338701: 1
     - _EnableExternalAlpha: 0
     m_Colors:
+    - Color_f96d23b80b834274a9ca3f56d672ffdd: {r: 1, g: 0.8433962, b: 0.8433962, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}

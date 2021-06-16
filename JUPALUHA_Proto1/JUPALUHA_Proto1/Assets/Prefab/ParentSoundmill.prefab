@@ -555,6 +555,7 @@ MonoBehaviour:
   rb: {fileID: 6899771172745466394}
   RotationZ: 1
   connectetrb: {fileID: 0}
+  ConnectedSoundmill: {fileID: 6899771172745466392}
 --- !u!50 &6899771172745466394
 Rigidbody2D:
   serializedVersion: 4
