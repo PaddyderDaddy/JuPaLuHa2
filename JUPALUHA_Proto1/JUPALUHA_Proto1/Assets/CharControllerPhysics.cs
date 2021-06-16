@@ -92,6 +92,7 @@ public class CharControllerPhysics : MonoBehaviour
 
     //visuell
     public GameObject Powerjumpvis;
+    public GameObject GrabVis;
    // public ParticleSystem ;
     static bool DidawesomeJump = false;
     private void Awake()
@@ -167,7 +168,10 @@ public class CharControllerPhysics : MonoBehaviour
             //Position
             PLPO.transform.localPosition = new Vector3(0, 0, 0);
             HookGrab.transform.localPosition = new Vector3(0, -0.4f, 0);
-            Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0);
+            Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0); 
+            //effect
+
+            Instantiate(GrabVis, new Vector2(HookGrab.transform.position.x, HookGrab.transform.position.y), Quaternion.identity);
             //Ursprungspunkt
             //SoundmillOffset = Player.transform.root.GetComponent<Transform>();
             //SoundmillOffsetVector = SoundmillOffset.transform.position;
@@ -391,7 +395,7 @@ public class CharControllerPhysics : MonoBehaviour
             DropTimer += Time.deltaTime;
 
         //POWER DROP
-        if (Input.GetKey(KeyCode.I) && Jumping == true && DropTimer > 2 || Input.GetKey(KeyCode.I) && Milljump == true && DropTimer > 1.5f)
+        if (Input.GetKey(KeyCode.I) && Jumping == true && DropTimer > 2 || Input.GetKey(KeyCode.I) && Milljump == true && DropTimer  > 1.5f)
         {
             ChaRigidbody.velocity = Vector2.down * JumpForce * 5;
             DidawesomeJump = true;
