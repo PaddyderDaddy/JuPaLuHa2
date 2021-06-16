@@ -19,22 +19,26 @@ public class CharControllerPhysics : MonoBehaviour
     public bool Grounded = false;
 
     //GRAB
+    [Header("Grab")]
     public bool TouchingObject = false;
     public Vector2 upOffset;
     public float collisionRadius;
     public Color gizmoColor = Color.red;
 
+    [Header("Gravity")]
     public float GravityNormal = -9.81f;
 
     //LEVER
+    [Header("Lever")]
     public bool touchLever = false;
 
     //JUMP
+    [Header("Jump Parameters")]
     bool Jumping = false;
     public float DropTimer;
     public float JumpForce;
     public bool wasGrounded = false;
-
+    static bool Milljump; //ist drinnen weil der normale "jumping" bool ärger macht.
     //MOMENTUM JUMP
     public Transform grabDetect;
     //public Transform boxHolder; //bzw ich halte mich an dem objekt fest
@@ -45,6 +49,7 @@ public class CharControllerPhysics : MonoBehaviour
     public static Vector3 PlayerVector;
 
     //HOOK GRAB
+    [Header("Hook Grab")]
     public Transform HookGrab;
     static bool direction = false;
     private Transform Target;
@@ -57,6 +62,7 @@ public class CharControllerPhysics : MonoBehaviour
     public static bool grabbed = false;
 
     //SOUNDMILL
+    [Header("Soundmill")]
     Rigidbody2D SoundRb;
     float Rotationdirection;
     Transform SoundmillObjekt; //ist nicht zugweisene
@@ -68,6 +74,7 @@ public class CharControllerPhysics : MonoBehaviour
     public bool PlayerattachedtoSoundmill;
 
     //Rotation
+    [Header("Rotation")]
     Quaternion rotationPlayer; //idfk what that is
     Quaternion rotationPLPO;
     Quaternion rotationHookGrab;
@@ -78,6 +85,7 @@ public class CharControllerPhysics : MonoBehaviour
     Transform soundmill;
 
     //PARACUTE
+    [Header("Paracute")]
     public Transform paracute;
     public GameObject Interaktiv;
     int ExtraGlide;
@@ -143,7 +151,8 @@ public class CharControllerPhysics : MonoBehaviour
             xVelocity = 0;
             ChaRigidbody.velocity = new Vector2(0, 0);
             hookup = true;
-
+            Milljump = false;
+            Jumping = false;
             //Entparent
             Player.transform.parent = null;
             PLPO.transform.parent = null; //Nicht mehr Child des Hooks
@@ -159,15 +168,12 @@ public class CharControllerPhysics : MonoBehaviour
             PLPO.transform.localPosition = new Vector3(0, 0, 0);
             HookGrab.transform.localPosition = new Vector3(0, -0.4f, 0);
             Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0);
-
-
             //Ursprungspunkt
             //SoundmillOffset = Player.transform.root.GetComponent<Transform>();
             //SoundmillOffsetVector = SoundmillOffset.transform.position;
             // Debug.Log(SoundmillOffsetVector);        
             //Ursprungspunkt
             Rotation();
-            Jumping = true;
             HookDetect = true;
             PlayerattachedtoSoundmill = true;
         }
@@ -228,20 +234,6 @@ public class CharControllerPhysics : MonoBehaviour
             OpenInteraktableIcon();
             touchLever = true;
         }
-
-        //TOUCHING DRUM OPENS VENT
-        //if(collision.gameObject.tag == "drum" && DeployScript.ventOpen == false )
-        //{
-        //    FindObjectOfType<Vent>().MoveVent();
-        //    TouchingDrum = true;
-        //}
-
-        //if (collision.gameObject.tag == "drum" && DeployScript.ventOpen == true)
-        //{
-        //    FindObjectOfType<Vent>().CloseVent();
-        //    TouchingDrum = false;
-        //}
-
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -299,11 +291,11 @@ public class CharControllerPhysics : MonoBehaviour
             ChaRigidbody.velocity = new Vector3(0, JumpForce / 5);
         }
         //Soundmilljump
-        if (Input.GetKey(KeyCode.Space) && IsOnSoundMill == true && !Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.Space) && IsOnSoundMill == true && !Input.GetKey(KeyCode.K))
             SoundmillJump();
 
         //Soundmillgrab
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.K)) //funktioniert leider nicht wenn man das gedrückt hält... muss getestet werden ob das besser in "update" hineinkommt.
             GrabHook();
         
         //ONSOUNDMILL
@@ -324,17 +316,18 @@ public class CharControllerPhysics : MonoBehaviour
             Jumping = false;
             DropTimer = 0;
             ExtraGlide = 1;
-
+            Milljump = false;
             //viseffect
             if (DidawesomeJump == true)
             {
-                Instantiate(Powerjumpvis, new Vector2(ChaRigidbody.position.x, ChaRigidbody.position.y-0.9f), Quaternion.identity);
+                //ChaRigidbody.position.
+                Instantiate(Powerjumpvis, new Vector2(Player.transform.localPosition.x, Player.transform.localPosition.y-0.5f), Quaternion.identity);
                 DidawesomeJump = false;
             }
 
         }
-
-        if (Input.GetKey(KeyCode.W) && Grounded == false)
+        
+        if (Input.GetKey(KeyCode.LeftShift) && Grounded == false)
         {
             paracute.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
         }
@@ -367,26 +360,22 @@ public class CharControllerPhysics : MonoBehaviour
         normalized = normalized * Momentumjumpmin;
 
         if (Input.GetKey(KeyCode.A))
-        {
             ChaRigidbody.velocity = new Vector3(-Mathf.Cos(-45), Mathf.Sin(45)) * normalized;
-        }
+
         if (Input.GetKey(KeyCode.D))
-        {
             ChaRigidbody.velocity = new Vector3(Mathf.Cos(-45), Mathf.Sin(45)) * normalized;
-        }
-        if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
+        
+        if (Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
             ChaRigidbody.velocity = new Vector3(0, normalized);
 
-        Debug.Log("Normalized" + normalized);
+        Milljump = true;
+        //Debug.Log("Normalized" + normalized);
         IsOnSoundMill = false;
     }
 
     void Update()
-    {
-        
-        if (Jumping == true)
-            DropTimer += Time.deltaTime;
-
+    {      
+     
         //SIMPLE JUMP
         if (Input.GetKey(KeyCode.Space) && Grounded)
         {
@@ -394,27 +383,36 @@ public class CharControllerPhysics : MonoBehaviour
             ChaRigidbody.velocity = Vector2.up * JumpForce;
             Jumping = true;
         }
+        if(Milljump ==true)    
+            jumpTimer = Time.deltaTime + jumpDelay;
+
+        //Timer for Powerdrop
+        if (Jumping == true || Milljump == true)
+            DropTimer += Time.deltaTime;
 
         //POWER DROP
-        if (Input.GetKey(KeyCode.S) && Jumping == true && DropTimer > 1)
+        if (Input.GetKey(KeyCode.Space) && Jumping == true && DropTimer > 2 || Input.GetKey(KeyCode.Space) && Milljump == true && DropTimer > 1.5f)
         {
             ChaRigidbody.velocity = Vector2.down * JumpForce * 5;
             DidawesomeJump = true;
-
             //Debug.Log(ChaRigidbody.velocity);
         }
-
-
         //GLIDING
-        if (Input.GetKeyDown(KeyCode.W) && Grounded == false && ExtraGlide > 0)
-        { 
+        bool currentlygliding=false;
+        //start gliding
+        if (Input.GetKeyDown(KeyCode.LeftShift) && Grounded == false) 
+        {
+            FindObjectOfType<Gliding>().StopGliding();
+            paracute.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+            currentlygliding = true;
+        }
+        //extragliding
+        if (Input.GetKeyDown(KeyCode.LeftShift) && Grounded == false && ExtraGlide > 0 && currentlygliding == true)
+        {
             FindObjectOfType<Gliding>().StartGliding();
             ExtraGlide--;
+            currentlygliding = false;
         }
-
-        if (Input.GetKeyDown(KeyCode.S)&& Grounded == false)
-            FindObjectOfType<Gliding>().StopGliding();
-        
 
         if (Grounded == true)
         {

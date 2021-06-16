@@ -7,32 +7,18 @@ public class DeploySound : MonoBehaviour
     public GameObject soundPrefab;
     public float respawnTime = 1f;
 
+    [Header("Scripts")]
     public GameObject spawnStartPoint;
-
-    public bool ventOpen = true;
-
+    public Drumzone DrumzoneScript;
 
     void Start()
     {
         StartCoroutine(SoundWave());
     }
 
-    private void FixedUpdate()
-    {
-        if (GameObject.Find("Vent").transform.localPosition.y >= 1)
-        {
-            ventOpen = true;
-        }
-        else
-        {
-            ventOpen = false;
-        }
-    }
-
-
     private void SpawnSound()
     {
-        if (ventOpen == true)
+        if (DrumzoneScript.ventOpen == true)
         {
             GameObject clone = Instantiate(soundPrefab) as GameObject;
             clone.transform.position = spawnStartPoint.transform.position;
