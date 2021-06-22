@@ -30,7 +30,7 @@ public class PausePlayer : MonoBehaviour
 
             //Time.timeScale = 1f;
 
-            Camera.main.gameObject.transform.position = new Vector3(gm.lastCheckPointPos.x, gm.lastCheckPointPos.y, -10f);
+            Camera.main.gameObject.transform.position = new Vector3(/*gm.lastCheckPointPos.x*/ Camera.main.gameObject.transform.position.x, gm.lastCheckPointPos.y, -10f);
 
             //transform.position = gm.lastCheckPointPos;
             //cf.transform.position = new Vector3 (this.gameObject.transform.position.x, this.gameObject.transform.position.y, -10f);

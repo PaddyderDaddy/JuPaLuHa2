@@ -14,6 +14,7 @@ public class SoundmillRotation : MonoBehaviour
     public SoundmillRotation ConnectedSoundmill;
     public SoundmillRotation ConnectedScript;
 
+    public float Timer;
 
     public delegate void RotationChange();
     public RotationChange onRotationChange;
@@ -26,6 +27,13 @@ public class SoundmillRotation : MonoBehaviour
     }
     void Update()
     {
+        Timer += Time.deltaTime;
+        if(Timer>1)
+        {
+            isSoundtouching = false;
+            Timer = 0;
+        }
+
         //if (rb.angularVelocity < 0f)
         //    rb.angularVelocity += 10f * Time.deltaTime; //Wenn die kleiner ist als 0.01 dann wird das unschön hin und her ditschen (o.001zb)
         //if (rb.angularVelocity > 0)
@@ -47,13 +55,14 @@ public class SoundmillRotation : MonoBehaviour
         //Debug.Log("this works");
         rb.angularVelocity = connectetrb.angularVelocity;
     }
-
+    //Sobald der Sound die Soundmills aktiviert soll der Player nicht mehr sein Momentum benutzen um die SOundmills zu verändern.
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.tag == "SoundPrefab")
         {
             isSoundtouching = true;
             ConnectedScript.isSoundtouching = true;
+            Destroy(collision.gameObject);
         }
     }
 

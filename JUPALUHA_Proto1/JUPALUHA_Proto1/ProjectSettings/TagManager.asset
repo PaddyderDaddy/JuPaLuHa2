@@ -13,6 +13,7 @@ TagManager:
   - SoundMillRotor
   - GameManager
   - Trigger
+  - SoundPrefab
   layers:
   - Default
   - TransparentFX
