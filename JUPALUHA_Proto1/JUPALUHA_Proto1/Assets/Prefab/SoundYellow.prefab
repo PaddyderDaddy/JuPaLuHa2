@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3604847235369522740}
   - component: {fileID: 6959697923813767739}
   - component: {fileID: 2597764128046334820}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SoundYellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
