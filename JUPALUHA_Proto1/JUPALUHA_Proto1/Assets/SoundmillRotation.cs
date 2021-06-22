@@ -9,7 +9,10 @@ public class SoundmillRotation : MonoBehaviour
     GameObject connectetSoundmill;
     public Rigidbody2D connectetrb;
 
+    public bool isSoundtouching = false;
+
     public SoundmillRotation ConnectedSoundmill;
+    public SoundmillRotation ConnectedScript;
 
 
     public delegate void RotationChange();
@@ -18,6 +21,8 @@ public class SoundmillRotation : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         ConnectedSoundmill.onRotationChange += Coolfunction;
+
+        ConnectedScript.GetComponent<SoundmillRotation>();
     }
     void Update()
     {
@@ -42,4 +47,14 @@ public class SoundmillRotation : MonoBehaviour
         //Debug.Log("this works");
         rb.angularVelocity = connectetrb.angularVelocity;
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "SoundPrefab")
+        {
+            isSoundtouching = true;
+            ConnectedScript.isSoundtouching = true;
+        }
+    }
+
 }

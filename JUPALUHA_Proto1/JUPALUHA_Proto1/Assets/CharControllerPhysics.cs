@@ -64,6 +64,7 @@ public class CharControllerPhysics : MonoBehaviour
 
     //SOUNDMILL
     [Header("Soundmill")]
+    //public SoundmillRotation SoundmillRotationScript;
     Rigidbody2D SoundRb;
     float Rotationdirection;
     Transform SoundmillObjekt; //ist nicht zugweisene
@@ -181,7 +182,9 @@ public class CharControllerPhysics : MonoBehaviour
             //SoundmillOffsetVector = SoundmillOffset.transform.position;
             // Debug.Log(SoundmillOffsetVector);
             //Ursprungspunkt
-            Rotation();
+            if(currentSoundmill.isSoundtouching == false)
+                Rotation();
+        
             HookDetect = true;
             PlayerattachedtoSoundmill = true;
         }
