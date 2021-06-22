@@ -6,6 +6,8 @@ public class CharControllerPhysics : MonoBehaviour
 {
     public Rigidbody2D ChaRigidbody;
     SpriteRenderer Renderer;
+    TrailRenderer TrailRender;
+    Material TrailMat;
     BoxCollider2D ChaBoxCollider;
 
     public float MoveSpeed = 10;
@@ -41,7 +43,6 @@ public class CharControllerPhysics : MonoBehaviour
     static bool Milljump; //ist drinnen weil der normale "jumping" bool ärger macht.
     //MOMENTUM JUMP
     public Transform grabDetect;
-    //public Transform boxHolder; //bzw ich halte mich an dem objekt fest
     float rayDist;
     public float Momentumjumpmin = 20;
     GameObject PlayerObj;
@@ -107,6 +108,7 @@ public class CharControllerPhysics : MonoBehaviour
         ChaRigidbody = GetComponent<Rigidbody2D>();
         Renderer = GetComponent<SpriteRenderer>();
         ChaBoxCollider = GetComponent<BoxCollider2D>();
+        TrailRender = GetComponent<TrailRenderer>();
 
         Interaktiv.gameObject.SetActive(false);
         paracute.gameObject.SetActive(true);
@@ -154,6 +156,8 @@ public class CharControllerPhysics : MonoBehaviour
             hookup = true;
             Milljump = false;
             Jumping = false;
+            DropTimer = 0;
+
             //Entparent
             Player.transform.parent = null;
             PLPO.transform.parent = null; //Nicht mehr Child des Hooks
@@ -175,7 +179,7 @@ public class CharControllerPhysics : MonoBehaviour
             //Ursprungspunkt
             //SoundmillOffset = Player.transform.root.GetComponent<Transform>();
             //SoundmillOffsetVector = SoundmillOffset.transform.position;
-            // Debug.Log(SoundmillOffsetVector);        
+            // Debug.Log(SoundmillOffsetVector);
             //Ursprungspunkt
             Rotation();
             HookDetect = true;
@@ -298,10 +302,6 @@ public class CharControllerPhysics : MonoBehaviour
         if (Input.GetKey(KeyCode.Space) && IsOnSoundMill == true && !Input.GetKey(KeyCode.K))
             SoundmillJump();
 
-        //Soundmillgrab
-        if (Input.GetKey(KeyCode.K)) //funktioniert leider nicht wenn man das gedrückt hält... muss getestet werden ob das besser in "update" hineinkommt.
-            GrabHook();
-        
         //ONSOUNDMILL
         if (IsOnSoundMill == true)
         {
@@ -321,6 +321,7 @@ public class CharControllerPhysics : MonoBehaviour
             DropTimer = 0;
             ExtraGlide = 1;
             Milljump = false;
+            DropTimer = 0;
             //viseffect
             if (DidawesomeJump == true)
             {
@@ -372,14 +373,18 @@ public class CharControllerPhysics : MonoBehaviour
         if (Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
             ChaRigidbody.velocity = new Vector3(0, normalized);
 
+        DropTimer = 0; //mal schauen
         Milljump = true;
         //Debug.Log("Normalized" + normalized);
         IsOnSoundMill = false;
     }
 
     void Update()
-    {      
-     
+    {
+        //Soundmillgrab
+        if (Input.GetKey(KeyCode.K)&& IsOnSoundMill==false) //funktioniert leider nicht wenn man das gedrückt hält... muss getestet werden ob das besser in "update" hineinkommt.
+            GrabHook();
+
         //SIMPLE JUMP
         if (Input.GetKey(KeyCode.Space) && Grounded)
         {
@@ -387,18 +392,33 @@ public class CharControllerPhysics : MonoBehaviour
             ChaRigidbody.velocity = Vector2.up * JumpForce;
             Jumping = true;
         }
-        if(Milljump ==true)    
+        if(Jumping == true)    
             jumpTimer = Time.deltaTime + jumpDelay;
 
-        //Timer for Powerdrop
-        if (Jumping == true || Milljump == true)
+        //POWERDROP
+        if (/*Jumping == true ||*/ Milljump == true)
             DropTimer += Time.deltaTime;
 
+        //visuell Feedback sobald es möglich ist Powerdrop zu machen!
+        if(DropTimer>1.5f)
+        {
+            TrailRender.material.EnableKeyword("_ShowDropColor"); //Klappt noch nicht.. :C
+            //TrailRender.sharedMaterial.SetFloat("_YourParameter", someValue);
+            TrailRender.material.SetColor("_ShowDropColor", Color.yellow);
+        }
+        if (DropTimer < 1.5f)
+        {
+            TrailRender.material.EnableKeyword("_ShowDropColor"); //Klappt noch nicht.. :C
+            TrailRender.material.SetColor("_ShowDropColor", Color.white);
+        }
         //POWER DROP
-        if (Input.GetKey(KeyCode.L) && Jumping == true && DropTimer > 2 || Input.GetKey(KeyCode.L) && Milljump == true && DropTimer  > 1.5f)
+        if (Input.GetKey(KeyCode.Space) && Milljump == true && DropTimer > 1.5f /*Input.GetKey(KeyCode.L) && Jumping == true && DropTimer > 2 || */)
         {
             ChaRigidbody.velocity = Vector2.down * JumpForce * 5;
             DidawesomeJump = true;
+            Milljump = false;
+            TrailRender.material.EnableKeyword("_ShowDropColor"); //Klappt noch nicht.. :C
+            TrailRender.material.SetColor("_ShowDropColor", Color.red);
             //Debug.Log(ChaRigidbody.velocity);
         }
         //GLIDING
