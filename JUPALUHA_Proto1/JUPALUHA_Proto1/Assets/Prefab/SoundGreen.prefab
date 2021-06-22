@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 2321640836073219003}
   - component: {fileID: 8262712368595849140}
   - component: {fileID: 3905678374548600555}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SoundGreen
-  m_TagString: Untagged
+  m_TagString: SoundPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
