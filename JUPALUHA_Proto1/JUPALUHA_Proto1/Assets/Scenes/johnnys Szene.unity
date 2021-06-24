@@ -429,6 +429,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 383778072}
     - target: {fileID: 6899771172745466392, guid: 961f66bd2fab2ad478cee45122226486, type: 3}
+      propertyPath: InstrumentsScript
+      value: 
+      objectReference: {fileID: 1994417614}
+    - target: {fileID: 6899771172745466392, guid: 961f66bd2fab2ad478cee45122226486, type: 3}
       propertyPath: ConnectedSoundmill
       value: 
       objectReference: {fileID: 383778072}
@@ -1315,6 +1319,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 842914537}
     - target: {fileID: 6899771172745466392, guid: 961f66bd2fab2ad478cee45122226486, type: 3}
+      propertyPath: InstrumentsScript
+      value: 
+      objectReference: {fileID: 1994417614}
+    - target: {fileID: 6899771172745466392, guid: 961f66bd2fab2ad478cee45122226486, type: 3}
       propertyPath: ConnectedSoundmill
       value: 
       objectReference: {fileID: 383778072}
@@ -1908,6 +1916,10 @@ PrefabInstance:
       propertyPath: ConnectedScript
       value: 
       objectReference: {fileID: 1211247247}
+    - target: {fileID: 6899771172745466392, guid: 961f66bd2fab2ad478cee45122226486, type: 3}
+      propertyPath: InstrumentsScript
+      value: 
+      objectReference: {fileID: 1994417614}
     - target: {fileID: 6899771172745466392, guid: 961f66bd2fab2ad478cee45122226486, type: 3}
       propertyPath: ConnectedSoundmill
       value: 

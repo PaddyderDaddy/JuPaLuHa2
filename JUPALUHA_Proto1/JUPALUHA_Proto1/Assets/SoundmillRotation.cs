@@ -31,16 +31,16 @@ public class SoundmillRotation : MonoBehaviour
     }
     void Update()
     {
-        //if (isSoundtouching)
-        //    Timer += Time.deltaTime;
+        if (isSoundtouching)
+            Timer += Time.deltaTime;
 
-        //if (Timer > 1f)
-        //{
-        //    isSoundtouching = false;
-        //    ConnectedScript.isSoundtouching = false;
-
-        //    Timer = 0;
-        //}
+        if (Timer > 2f && isSoundtouching)
+        {
+            isSoundtouching = false;
+            ConnectedScript.isSoundtouching = false;
+ 
+            Timer = 0;
+        }
 
         //if (rb.angularVelocity < 0f)
         //    rb.angularVelocity += 10f * Time.deltaTime; //Wenn die kleiner ist als 0.01 dann wird das unschön hin und her ditschen (o.001zb)
@@ -58,8 +58,8 @@ public class SoundmillRotation : MonoBehaviour
                 onRotationChange();
         }
 
-        if (Mathf.Round(newAngularVelocity) == 0)
-            isSoundtouching = false;
+        //if (Mathf.Round(newAngularVelocity) == 0)
+        //    isSoundtouching = false;
 
         //if (InstrumentsScript.Instrumentactiv == true && isSoundtouching == true)
         //    rb.angularDrag = 1;
@@ -95,7 +95,8 @@ public class SoundmillRotation : MonoBehaviour
             isSoundtouching = true;
             ConnectedScript.isSoundtouching = true;
             Destroy(collision.gameObject);
-            //Timer = 0;
+            Timer = 0;
+            ConnectedScript.Timer = Timer; // copying Timer value to connected soundmill's Timer
         }
     }
 
