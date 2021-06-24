@@ -134,11 +134,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27accd0a802b97e43aeb78849c97154a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
+  speed: 10
   DestroyTime: 1
   collisionRadius: 5
   spawnStartPoint: {fileID: 3241147184860291041}
-  type: 0
+  type: 1
   pipeUp: 0
   onStart: 0
   TouchingObject: 0

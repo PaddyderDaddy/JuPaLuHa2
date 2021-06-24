@@ -15,9 +15,13 @@ public class SoundmillRotation : MonoBehaviour
     public SoundmillRotation ConnectedScript;
 
     public float Timer;
+    float time2 = 0;
 
     public delegate void RotationChange();
     public RotationChange onRotationChange;
+
+    public Instruments InstrumentsScript;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -27,10 +31,14 @@ public class SoundmillRotation : MonoBehaviour
     }
     void Update()
     {
-        Timer += Time.deltaTime;
-        if(Timer>1)
+        if (isSoundtouching)
+            Timer += Time.deltaTime;
+
+        if (Timer > 2f && isSoundtouching)
         {
             isSoundtouching = false;
+            ConnectedScript.isSoundtouching = false;
+ 
             Timer = 0;
         }
 
@@ -49,6 +57,16 @@ public class SoundmillRotation : MonoBehaviour
             if (Mathf.Round(newAngularVelocity) != 0 && GameManager.instance.ActiveSoundmill == this)
                 onRotationChange();
         }
+
+        //if (Mathf.Round(newAngularVelocity) == 0)
+        //    isSoundtouching = false;
+
+        //if (InstrumentsScript.Instrumentactiv == true && isSoundtouching == true)
+        //    rb.angularDrag = 1;
+        //if (InstrumentsScript.Instrumentactiv == false && isSoundtouching == false)
+        //    rb.angularDrag = 0.1f;
+
+
     }
     void Coolfunction()
     {
@@ -56,13 +74,29 @@ public class SoundmillRotation : MonoBehaviour
         rb.angularVelocity = connectetrb.angularVelocity;
     }
     //Sobald der Sound die Soundmills aktiviert soll der Player nicht mehr sein Momentum benutzen um die SOundmills zu verändern.
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.tag == "VentTrigger")
+    //    {
+    //        //time2 += Time.deltaTime;
+
+    //        isSoundtouching = true;
+    //        ConnectedScript.isSoundtouching = true;
+    //        //Destroy(collision.gameObject);
+    //    }
+
+    //}
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.tag == "SoundPrefab")
         {
+            //time2 += Time.deltaTime;
+
             isSoundtouching = true;
             ConnectedScript.isSoundtouching = true;
             Destroy(collision.gameObject);
+            Timer = 0;
+            ConnectedScript.Timer = Timer; // copying Timer value to connected soundmill's Timer
         }
     }
 

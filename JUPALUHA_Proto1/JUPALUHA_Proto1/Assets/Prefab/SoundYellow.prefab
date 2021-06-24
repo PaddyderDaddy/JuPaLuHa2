@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: -2135585597343286014, guid: eed45a33cd08446c8b88325cf82fc52f, type: 3}
-  m_Color: {r: 0.8773585, g: 0.6888104, b: 0.19450872, a: 0}
+  m_Color: {r: 0.8773585, g: 0.6888104, b: 0.19450872, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -134,9 +134,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27accd0a802b97e43aeb78849c97154a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
+  speed: 25
   DestroyTime: 0.6
-  collisionRadius: 8
+  collisionRadius: 15
   spawnStartPoint: {fileID: 2083615655808025671}
   type: 0
   pipeUp: 0
