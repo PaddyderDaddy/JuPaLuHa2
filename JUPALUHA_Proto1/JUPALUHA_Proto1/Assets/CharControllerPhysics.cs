@@ -301,10 +301,7 @@ public class CharControllerPhysics : MonoBehaviour
             ChaRigidbody.gravityScale = 1;
             ChaRigidbody.velocity = new Vector3(0, JumpForce / 5);
         }
-        //Soundmilljump
-        if (Input.GetKey(KeyCode.Space) && IsOnSoundMill == true && !Input.GetKey(KeyCode.K))
-            SoundmillJump();
-
+       
         //ONSOUNDMILL
         if (IsOnSoundMill == true)
         {
@@ -384,6 +381,10 @@ public class CharControllerPhysics : MonoBehaviour
 
     void Update()
     {
+        //Soundmilljump
+        if (Input.GetKey(KeyCode.Space) && IsOnSoundMill == true && !Input.GetKey(KeyCode.K))
+            SoundmillJump();
+
         //Soundmillgrab
         if (Input.GetKey(KeyCode.K)&& IsOnSoundMill==false) //funktioniert leider nicht wenn man das gedrückt hält... muss getestet werden ob das besser in "update" hineinkommt.
             GrabHook();

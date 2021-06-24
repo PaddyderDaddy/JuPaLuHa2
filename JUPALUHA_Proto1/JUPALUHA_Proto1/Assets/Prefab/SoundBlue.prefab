@@ -135,10 +135,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  DestroyTime: 1
-  collisionRadius: 5
+  DestroyTime: 0.1
+  collisionRadius: 1
   spawnStartPoint: {fileID: 3241147184860291041}
-  type: 1
+  type: 0
   pipeUp: 0
   onStart: 0
   TouchingObject: 0
