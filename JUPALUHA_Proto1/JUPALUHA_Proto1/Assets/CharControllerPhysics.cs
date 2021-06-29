@@ -6,8 +6,7 @@ public class CharControllerPhysics : MonoBehaviour
 {
     public Rigidbody2D ChaRigidbody;
     SpriteRenderer Renderer;
-    TrailRenderer TrailRender;
-    Material TrailMat;
+
     BoxCollider2D ChaBoxCollider;
 
     public float MoveSpeed = 10;
@@ -97,7 +96,9 @@ public class CharControllerPhysics : MonoBehaviour
     [Header("Visuellobjects")]
     public GameObject Powerjumpvis;
     public GameObject GrabVis;
-   // public ParticleSystem ;
+    TrailRenderer TrailRender;
+    Material TrailMat;
+    // public ParticleSystem ;
     static bool DidawesomeJump = false;
     private void Awake()
     {
@@ -414,6 +415,40 @@ public class CharControllerPhysics : MonoBehaviour
         IsOnSoundMill = false;
     }
 
+    void TrailRendererVFX()
+    {
+        //visuell Feedback sobald es möglich ist Powerdrop zu machen!
+        if (DropTimer > 1.5f)
+        {
+            TrailRender.material.EnableKeyword("_ShowDropColor");
+            //TrailRender.sharedMaterial.SetFloat("_YourParameter", someValue);
+            //  TrailRender.material.SetColor("_ShowDropColor", Color.red);
+        }
+        if (DropTimer > 1.5f)
+        {
+            //Vector4 somevalue = new Vector4();
+            TrailRender.material.EnableKeyword("_ShowDropColor2");
+            //TrailRender.sharedMaterial.SetColor("_ShowDropColor2", somevalue);
+            // TrailRender.material.Color("_ShowDropColor2", Color.yellow);
+        }
+
+        if (DropTimer < 1.5f)
+        {
+            Vector4 somevalue = new Vector4(118, 231, 177, 255);
+            // TrailRender.material.EnableKeyword("_ShowDropColor"); //Klappt noch nicht.. :C
+            // TrailRender.material.SetColor("_ShowDropColor", somevalue);
+        }
+        if (DropTimer < 1.5f)
+        {
+            Vector4 somevalue = new Vector4(229, 223, 123, 255);
+            float R = 229;
+            float G = 223;
+            float B = 123;
+            // TrailRender.material.EnableKeyword("_ShowDropColor2");
+            // TrailRender.material.SetColor("_ShowDropColor2", somevalue);
+            //TrailRender.material.SetColor("_ShowDropColor2", Color.RGBToHSV(Color rgbColor, R, G, B);
+        }
+    }
     void Update()
     {
      
@@ -436,18 +471,7 @@ public class CharControllerPhysics : MonoBehaviour
         if (/*Jumping == true ||*/ Milljump == true)
             DropTimer += Time.deltaTime;
 
-        //visuell Feedback sobald es möglich ist Powerdrop zu machen!
-        if(DropTimer>1.5f)
-        {
-            TrailRender.material.EnableKeyword("_ShowDropColor"); //Klappt noch nicht.. :C
-            //TrailRender.sharedMaterial.SetFloat("_YourParameter", someValue);
-            TrailRender.material.SetColor("_ShowDropColor", Color.yellow);
-        }
-        if (DropTimer < 1.5f)
-        {
-            TrailRender.material.EnableKeyword("_ShowDropColor"); //Klappt noch nicht.. :C
-            TrailRender.material.SetColor("_ShowDropColor", Color.white);
-        }
+      
         //POWER DROP
         if (Input.GetKey(KeyCode.Space) && Milljump == true && DropTimer > 1.5f /*Input.GetKey(KeyCode.L) && Jumping == true && DropTimer > 2 || */)
         {

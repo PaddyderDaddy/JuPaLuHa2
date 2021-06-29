@@ -31,7 +31,6 @@ public class Instruments : MonoBehaviour
 
     float shmolsound = 0.5f;
     float allInsound = 1f;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -67,14 +66,6 @@ public class Instruments : MonoBehaviour
     {
         if (Aktivatorscript.AktivatorAktiv == true && SoundmillScript.isSoundtouching == true)
         {
-            //Timer += Time.deltaTime;
-            //if (Timer <= 3)
-            //{
-            //    Instrumentactiv = true;
-            //    Instrument();
-            //}
-            //else if (Timer > 3)
-            //    Timer = 0;
             ShmolInstruAktiv = true;
             if (Drumzonescript.isOpen == true)
             {
@@ -85,27 +76,16 @@ public class Instruments : MonoBehaviour
         {
             ShmolInstruAktiv = false;
             AllinInstruAktiv = false;
-            //InstrumentYellow.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1);
         }
         Instrument();
     }
     void Instrument()
     {
-        //InstrumentYellow.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
         switch (type)
         {
-            case InteractionType.First:
-                if (ShmolInstruAktiv == true)
-                {
-                    if (AllinInstruAktiv == true)
-                        FirstInstru.volume = allInsound;
-                    else
-                        FirstInstru.volume = shmolsound;
-                }
-                else
-                    FirstInstru.volume = 0;
-
+            case InteractionType.First:            
                     break;
+
             case InteractionType.Second:
                 if (ShmolInstruAktiv == true)
                 {
