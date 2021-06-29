@@ -50,6 +50,9 @@ public class SoundmillRotation : MonoBehaviour
         //setting maxima for rotation velocity
         float newAngularVelocity = Mathf.Clamp(rb.angularVelocity, -180, 180);
 
+        if(isSoundtouching==true)
+            newAngularVelocity = Mathf.Clamp(rb.angularVelocity, -240, 240);
+
         rb.angularVelocity = newAngularVelocity;
 
         if (onRotationChange != null)
@@ -97,6 +100,7 @@ public class SoundmillRotation : MonoBehaviour
             Destroy(collision.gameObject);
             Timer = 0;
             ConnectedScript.Timer = Timer; // copying Timer value to connected soundmill's Timer
+
         }
     }
 

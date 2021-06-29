@@ -9,7 +9,10 @@ public class Instruments : MonoBehaviour
 
     public SoundmillRotation SoundmillScript;
     public Aktivator Aktivatorscript;
-    public bool Instrumentactiv;
+    public Drumzone Drumzonescript;
+
+    static bool ShmolInstruAktiv;
+    static bool AllinInstruAktiv;
 
     GameObject[] InstrumentenARRAY; //dot length oder so
     //Dictoniary
@@ -18,19 +21,40 @@ public class Instruments : MonoBehaviour
     public GameObject SecInstruSOUND;
     public GameObject ThirdInstruSOUND;
     public GameObject FourthInstruSOUND;
-
+   
     public float Timer = 0;
 
+    AudioSource FirstInstru;
+    AudioSource SecInstru;
+    AudioSource ThirdInstru;
+    AudioSource FourthInstru;
+
+    float shmolsound = 0.5f;
+    float allInsound = 1f;
     // Start is called before the first frame update
     void Start()
     {
         SoundmillScript.GetComponent<SoundmillRotation>();
         Aktivatorscript.GetComponent<BoxCollider2D>();
         FirstInstruSOUND.SetActive(true);
-        SecInstruSOUND.SetActive(false);
-        ThirdInstruSOUND.SetActive(false);
-        FourthInstruSOUND.SetActive(false);
+        SecInstruSOUND.SetActive(true);
+        ThirdInstruSOUND.SetActive(true);
+        FourthInstruSOUND.SetActive(true);
+        notaktivInstru();
+    }
+    void notaktivInstru ()
+    {
+        FirstInstruSOUND.GetComponent<AudioBehaviour>();
 
+        FirstInstru = FirstInstruSOUND.GetComponent<AudioSource>();
+        SecInstru = SecInstruSOUND.GetComponent<AudioSource>();
+        ThirdInstru = ThirdInstruSOUND.GetComponent<AudioSource>();
+        FourthInstru = FourthInstruSOUND.GetComponent<AudioSource>();
+
+        FirstInstru.volume = 0;
+        SecInstru.volume = 0;
+        ThirdInstru.volume = 0;
+        FourthInstru.volume = 0;
     }
     void aktiv()
     {    
@@ -42,42 +66,62 @@ public class Instruments : MonoBehaviour
     {
         if (Aktivatorscript.AktivatorAktiv == true && SoundmillScript.isSoundtouching == true)
         {
-            //Timer += Time.deltaTime;
-            //if (Timer <= 3)
-            //{
-            //    Instrumentactiv = true;
-            //    Instrument();
-            //}
-            //else if (Timer > 3)
-            //    Timer = 0;
-            Instrumentactiv = true;
-            Instrument();
-
-            
+            ShmolInstruAktiv = true;
+            if (Drumzonescript.isOpen == true)
+            {
+                AllinInstruAktiv = true;
+            }
         }
         else
         {
-            Instrumentactiv = false;
-            //InstrumentYellow.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1);
+            ShmolInstruAktiv = false;
+            AllinInstruAktiv = false;
         }
-
+        Instrument();
     }
     void Instrument()
     {
-        //InstrumentYellow.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
         switch (type)
         {
-            case InteractionType.First:
-                FirstInstruSOUND.SetActive(true);
-                break;
+            case InteractionType.First:            
+                    break;
+
             case InteractionType.Second:
-                SecInstruSOUND.gameObject.SetActive(true);
+                if (ShmolInstruAktiv == true)
+                {
+                    if (AllinInstruAktiv == true)
+                        SecInstru.volume = allInsound;
+                    else
+                        SecInstru.volume = shmolsound;
+                }
+                else
+                    SecInstru.volume = 0;
+
                 break;
             case InteractionType.Third:
-                ThirdInstruSOUND.SetActive(true);
+                if (ShmolInstruAktiv == true)
+                {
+                    if (AllinInstruAktiv == true)
+                        ThirdInstru.volume = allInsound;
+                    else
+                        ThirdInstru.volume = shmolsound;
+                }      
+                else
+                    ThirdInstru.volume = 0;
+
                 break;
+
             case InteractionType.Fourth:
-                FourthInstruSOUND.SetActive(true);
+                if (ShmolInstruAktiv == true)
+                {
+                    if (AllinInstruAktiv == true)
+                        FourthInstru.volume = allInsound;
+                    else
+                        FourthInstru.volume = shmolsound;
+                }          
+                else
+                    FourthInstru.volume = 0;
+
                 break;
             default:
                 Debug.Log("NONE");
