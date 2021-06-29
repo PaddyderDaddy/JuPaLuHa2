@@ -15,6 +15,7 @@ TagManager:
   - Trigger
   - SoundPrefab
   - VentTrigger
+  - CollisionObject
   layers:
   - Default
   - TransparentFX

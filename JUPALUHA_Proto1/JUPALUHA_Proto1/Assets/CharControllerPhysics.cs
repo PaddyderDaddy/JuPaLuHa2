@@ -41,7 +41,8 @@ public class CharControllerPhysics : MonoBehaviour
     public float JumpForce;
     public bool wasGrounded = false;
     static bool Milljump; //ist drinnen weil der normale "jumping" bool ärger macht.
-    //MOMENTUM JUMP
+                          //MOMENTUM JUMP
+    [Header("MOMENTUM JUMP")]
     public Transform grabDetect;
     float rayDist;
     public float Momentumjumpmin = 20;
@@ -74,7 +75,7 @@ public class CharControllerPhysics : MonoBehaviour
     Vector2 SoundmillOffsetVector;
     float Angle;
     public bool PlayerattachedtoSoundmill;
-
+    SoundmillRotation Soundmillscript;
     //Rotation
     [Header("Rotation")]
     Quaternion rotationPlayer; //idfk what that is
@@ -93,6 +94,7 @@ public class CharControllerPhysics : MonoBehaviour
     int ExtraGlide;
 
     //visuell
+    [Header("Visuellobjects")]
     public GameObject Powerjumpvis;
     public GameObject GrabVis;
    // public ParticleSystem ;
@@ -126,6 +128,27 @@ public class CharControllerPhysics : MonoBehaviour
         {
             IsOnSoundMill = false;
             Physics2D.IgnoreCollision(collision.collider, Player.GetComponent<Collider2D>());
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "CollisionObject" && IsOnSoundMill == true)
+        {
+            //VERSTOßEN
+            Player.transform.parent = null;
+            PLPO.transform.parent = null; //Nicht mehr Child des Hooks
+            HookGrab.transform.parent = null; //nicht mehr Child des Players
+                                              //PARENTEN
+            HookGrab.transform.parent = Player.transform; //Hook = Child des Player
+            PLPO.transform.parent = HookGrab.transform;   //PLPO = Child des Hooks   
+            HookGrab.transform.localPosition = new Vector3(-0.7f, 0, 0);
+            PLPO.transform.localPosition = new Vector3(0, 0.4f, 0);
+
+            hookup = false;
+            HookDetect = false;
+            ChaRigidbody.gravityScale = 1;
+            IsOnSoundMill = false;
+
         }
     }
     public void GrabHook()
@@ -239,12 +262,12 @@ public class CharControllerPhysics : MonoBehaviour
                 IsOnCableCar = true;
             }
         }
-
         if (collision.gameObject.tag == "interaction")
         {
             OpenInteraktableIcon();
             touchLever = true;
         }
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -336,6 +359,9 @@ public class CharControllerPhysics : MonoBehaviour
         {
             paracute.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
         }
+        //Soundmilljump
+        if (Input.GetKey(KeyCode.Space) && IsOnSoundMill == true && !Input.GetKey(KeyCode.K))
+            SoundmillJump();
     }
 
     void SoundmillJump()
@@ -360,10 +386,19 @@ public class CharControllerPhysics : MonoBehaviour
         ChaRigidbody.gravityScale = 1;
         if (SoundOffsetAngle < SoundOffsetAngleSavedPosition)
             Force *= -1;
+        //??????????????????????????????????????????????????????????????????????????????????????????????????????????????
+        ///if (Soundmillscript.isSoundtouching == true)
+            //max = 240f;
 
-        float normalized = Mathf.InverseLerp(0, 180, Force); //Damit habe ich eine Value zwischen ´0-1
+        float normalized = Mathf.InverseLerp(0, 180f, Force); //Damit habe ich eine Value zwischen ´0-1      
+        if (normalized <= 0.2f)
+            normalized = 0.3f;
+        //??????????????????????????????????????????????????????????????????????????????????????????????????????????????
+        // if (Soundmillscript.isSoundtouching == true)//stärker Jump sobald aktiv
+        // normalized *= 2;
+
         normalized = normalized * Momentumjumpmin;
-
+     
         if (Input.GetKey(KeyCode.A))
             ChaRigidbody.velocity = new Vector3(-Mathf.Cos(-45), Mathf.Sin(45)) * normalized;
 
@@ -381,9 +416,7 @@ public class CharControllerPhysics : MonoBehaviour
 
     void Update()
     {
-        //Soundmilljump
-        if (Input.GetKey(KeyCode.Space) && IsOnSoundMill == true && !Input.GetKey(KeyCode.K))
-            SoundmillJump();
+     
 
         //Soundmillgrab
         if (Input.GetKey(KeyCode.K)&& IsOnSoundMill==false) //funktioniert leider nicht wenn man das gedrückt hält... muss getestet werden ob das besser in "update" hineinkommt.
