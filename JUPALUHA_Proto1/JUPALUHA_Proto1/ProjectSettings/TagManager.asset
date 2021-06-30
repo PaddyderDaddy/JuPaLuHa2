@@ -13,6 +13,9 @@ TagManager:
   - SoundMillRotor
   - GameManager
   - Trigger
+  - SoundPrefab
+  - VentTrigger
+  - CollisionObject
   layers:
   - Default
   - TransparentFX
@@ -26,7 +29,7 @@ TagManager:
   - GrabbableObject
   - Drum
   - Soundmillrotor
-  - 
+  - notPlayerinteract
   - 
   - 
   - 
