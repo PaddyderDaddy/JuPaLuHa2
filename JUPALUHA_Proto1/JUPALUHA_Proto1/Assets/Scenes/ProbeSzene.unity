@@ -10066,6 +10066,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.447122
       objectReference: {fileID: 0}
+    - target: {fileID: 6899771172745466392, guid: 961f66bd2fab2ad478cee45122226486, type: 3}
+      propertyPath: ConnectedSoundmill
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6899771172745466393, guid: 961f66bd2fab2ad478cee45122226486, type: 3}
       propertyPath: m_RootOrder
       value: 13
