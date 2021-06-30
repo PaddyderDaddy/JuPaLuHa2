@@ -70,6 +70,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e028158ec924a78409451fcfb521d22f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vent: {fileID: 0}
+  isOpen: 0
+  ventOpen: 1
   PlayerScript: {fileID: 0}
   DeployScript: {fileID: 0}
 --- !u!1 &5341886053248917389
@@ -165,7 +168,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 5341886053248917389}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 9e93a4fa3848cba45af12d53d6864619, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0

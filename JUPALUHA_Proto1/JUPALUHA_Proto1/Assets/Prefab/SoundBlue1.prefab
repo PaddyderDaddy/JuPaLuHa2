@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 4920107713803150210}
   - component: {fileID: 1645105725471182733}
   - component: {fileID: 5930213929437296338}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SoundBlue1
-  m_TagString: Untagged
+  m_TagString: SoundPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,8 +134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27accd0a802b97e43aeb78849c97154a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
-  DestroyTime: 2
+  speed: 12
+  DestroyTime: 1
   collisionRadius: 5
   spawnStartPoint: {fileID: 7686303114784928241}
   type: 1

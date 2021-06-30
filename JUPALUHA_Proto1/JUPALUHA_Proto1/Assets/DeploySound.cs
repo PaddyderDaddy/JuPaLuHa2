@@ -20,6 +20,7 @@ public class DeploySound : MonoBehaviour
     {
         if (DrumzoneScript.ventOpen == true)
         {
+            //hier kann man auch dann später particle/Feedback effecte reinhauen.   
             GameObject clone = Instantiate(soundPrefab) as GameObject;
             clone.transform.position = spawnStartPoint.transform.position;
         }

@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 4186126172170867606}
   - component: {fileID: 7533174751875530649}
   - component: {fileID: 3176157388008736454}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SoundYellow1
-  m_TagString: Untagged
+  m_TagString: SoundPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

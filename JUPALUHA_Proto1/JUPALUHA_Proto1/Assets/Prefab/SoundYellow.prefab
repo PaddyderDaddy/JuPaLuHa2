@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 3604847235369522740}
   - component: {fileID: 6959697923813767739}
   - component: {fileID: 2597764128046334820}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SoundYellow
-  m_TagString: Untagged
+  m_TagString: SoundPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,12 +134,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27accd0a802b97e43aeb78849c97154a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
-  DestroyTime: 1
-  collisionRadius: 5
+  speed: 25
+  DestroyTime: 0.6
+  collisionRadius: 15
   spawnStartPoint: {fileID: 2083615655808025671}
-  type: 3
+  type: 0
   pipeUp: 0
   onStart: 0
   TouchingObject: 0
-  number: 4
+  number: 0
