@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Instruments : MonoBehaviour
 {
-    public enum InteractionType { First, Second, Third, Fourth }
+    public enum InteractionType {Second, Third, Fourth }
     public InteractionType type;
 
     public SoundmillRotation SoundmillScript;
@@ -17,26 +17,25 @@ public class Instruments : MonoBehaviour
     GameObject[] InstrumentenARRAY; //dot length oder so
     //Dictoniary
 
-    public GameObject FirstInstruSOUND;
     public GameObject SecInstruSOUND;
     public GameObject ThirdInstruSOUND;
     public GameObject FourthInstruSOUND;
    
     public float Timer = 0;
 
-    AudioSource FirstInstru;
     AudioSource SecInstru;
     AudioSource ThirdInstru;
     AudioSource FourthInstru;
 
     float shmolsound = 0.5f;
     float allInsound = 1f;
+
+    int finaltimer = 0;
     // Start is called before the first frame update
     void Start()
     {
         SoundmillScript.GetComponent<SoundmillRotation>();
         Aktivatorscript.GetComponent<BoxCollider2D>();
-        FirstInstruSOUND.SetActive(true);
         SecInstruSOUND.SetActive(true);
         ThirdInstruSOUND.SetActive(true);
         FourthInstruSOUND.SetActive(true);
@@ -44,14 +43,10 @@ public class Instruments : MonoBehaviour
     }
     void notaktivInstru ()
     {
-        FirstInstruSOUND.GetComponent<AudioBehaviour>();
-
-        FirstInstru = FirstInstruSOUND.GetComponent<AudioSource>();
         SecInstru = SecInstruSOUND.GetComponent<AudioSource>();
         ThirdInstru = ThirdInstruSOUND.GetComponent<AudioSource>();
         FourthInstru = FourthInstruSOUND.GetComponent<AudioSource>();
 
-        FirstInstru.volume = 0;
         SecInstru.volume = 0;
         ThirdInstru.volume = 0;
         FourthInstru.volume = 0;
@@ -83,16 +78,22 @@ public class Instruments : MonoBehaviour
     {
         switch (type)
         {
-            case InteractionType.First:            
-                    break;
+            //case InteractionType.First:            
+            //        break;
 
             case InteractionType.Second:
                 if (ShmolInstruAktiv == true)
                 {
                     if (AllinInstruAktiv == true)
+                    {
                         SecInstru.volume = allInsound;
+                        Debug.Log("allinsound works");
+                    }
                     else
+                    {
                         SecInstru.volume = shmolsound;
+                        Debug.Log("shmol shmolsound works");
+                    }
                 }
                 else
                     SecInstru.volume = 0;
