@@ -18,6 +18,7 @@ public class InstrumentAktivatorA : MonoBehaviour
         if (startMusic == true)
         {
             musicVolume += Time.deltaTime / FadeTime;
+
             if (musicVolume < 0.7f && DONOTBOTHERME == false)
             {
                 if (musicVolume > 0.6f)

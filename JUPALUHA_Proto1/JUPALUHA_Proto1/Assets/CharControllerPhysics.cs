@@ -99,7 +99,7 @@ public class CharControllerPhysics : MonoBehaviour
     TrailRenderer TrailRender;
     Material TrailMat;
     // public ParticleSystem ;
-    static bool DidawesomeJump = false;
+    public bool DidawesomeJump = false;
     private void Awake()
     {
         rotationPLPO = PLPO.transform.rotation;
