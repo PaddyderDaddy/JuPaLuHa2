@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NEW test
-  m_Shader: {fileID: -6465566751694194690, guid: 03ea91143860c18478b2e97ae2b22adf, type: 3}
+  m_Name: Soundstuff2
+  m_Shader: {fileID: -6465566751694194690, guid: 8a08d591acc4ad443af4546252c85d72, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -35,10 +35,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_28f9677c42514fde94418ca57a0fec0b_Texture_1:
-        m_Texture: {fileID: 2800000, guid: c48d50a90c1e4ce49981edc2ad790683, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -52,18 +48,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_14d59502c4224354a530822a98c5d17b: 0.5
-    - Vector1_1b22ec11eea242abb1a89bf211a8c0df: 1.97
-    - Vector1_d4079afcdc7a4a4b99a6dded75c9d91d: 10
+    - Vector1_4fe4b34b23fd4800b02a17eb8964dc58: 0.5
     - _EnableExternalAlpha: 0
     m_Colors:
-    - Color_368129b5cc73414b88669ebe71b08046: {r: 0.8745099, g: 0.8745099, b: 0.482353, a: 1}
-    - Color_c806d57a2ec84f56aaa125071bfd0211: {r: 0.4627451, g: 0.9058824, b: 0.6941177, a: 1}
-    - Vector2_15e6305a49e64900a936ad323032ea87: {r: -0.13, g: 0, b: 0, a: 0}
-    - Vector2_d427627b4d574089aaef141aa6c5c2a5: {r: 0.08, g: 0.35, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
-    - _ShowDropColor: {r: 0.42352945, g: 0.8980393, b: 0.7019608, a: 1}
-    - _ShowDropColor2: {r: 0.8941177, g: 0.8313726, b: 0.40784317, a: 1}
   m_BuildTextureStacks: []
