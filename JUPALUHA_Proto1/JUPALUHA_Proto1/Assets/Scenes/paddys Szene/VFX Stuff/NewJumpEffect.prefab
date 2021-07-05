@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 4931543804908846288}
   m_LocalRotation: {x: -0.5004922, y: -0.4995073, z: 0.49950743, w: 0.50049216}
   m_LocalPosition: {x: 8.79958, y: 2.7318466, z: -16.151155}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5849245, y: 0.5849245, z: 0.5849245}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -42,11 +42,11 @@ ParticleSystem:
   serializedVersion: 7
   lengthInSec: 1
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 2
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -115,7 +115,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.75
+      scalar: 0.5
       minScalar: 0.25
       maxCurve:
         serializedVersion: 2
@@ -168,8 +168,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 8
-      minScalar: 2
+      scalar: 15
+      minScalar: 10
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1622,7 +1622,7 @@ ParticleSystem:
     x:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 0.95
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -1675,7 +1675,7 @@ ParticleSystem:
     y:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 8.86
+      scalar: 14
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4913,7 +4913,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_RenderMode: 0
   m_SortMode: 3
   m_MinParticleSize: 0

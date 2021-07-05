@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: "Assets/Scenes/Men\xFC.unity"
+    guid: 0462d12ecf4e88a49883ba78b0d016d5
+  - enabled: 1
     path: Assets/Scenes/ProbeSzene.unity
     guid: eeea15f89110d7b4dab72af5304dcb76
   m_configObjects: {}
