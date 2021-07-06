@@ -43,7 +43,7 @@ public class Drumzone : MonoBehaviour
                 vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 0, 0);
                 isOpen = false;
             }
-        }      
+        }
        // else
        // {
             //feedbackSound/vis das es noch nicht aufgeht
