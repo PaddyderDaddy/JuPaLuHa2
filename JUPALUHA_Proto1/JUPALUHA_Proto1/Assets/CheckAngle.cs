@@ -10,8 +10,6 @@ public class CheckAngle : MonoBehaviour
 
     private void Update()
     {
-        //if ([bool]soundOutputShooting)
-
         if (Input.GetKeyDown(KeyCode.Space))
             ShootRaycast();
     }
