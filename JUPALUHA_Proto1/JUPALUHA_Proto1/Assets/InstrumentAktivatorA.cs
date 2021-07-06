@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class InstrumentAktivatorA : MonoBehaviour
 {
+    public bool connectetInstruaktivA;//Wichtig für Vents
+
     public AudioSource audioSourceOne;
     public Drumzone DrumScript;
     public Drumzone DrumScriptleft;
@@ -43,6 +45,7 @@ public class InstrumentAktivatorA : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.U))
         {
             startMusic = true;
+            connectetInstruaktivA = true;
         }
     }
 }

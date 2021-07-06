@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class CharControllerPhysics : MonoBehaviour
+public class CharControllerPhysics2 : MonoBehaviour
 {
     public Rigidbody2D ChaRigidbody;
     SpriteRenderer Renderer;
@@ -41,7 +40,8 @@ public class CharControllerPhysics : MonoBehaviour
     public float JumpForce;
     public bool wasGrounded = false;
     static bool Milljump; //ist drinnen weil der normale "jumping" bool ärger macht.
-                          //MOMENTUM JUMP
+
+    //MOMENTUM JUMP
     [Header("MOMENTUM JUMP")]
     public Transform grabDetect;
     float rayDist;
@@ -87,24 +87,26 @@ public class CharControllerPhysics : MonoBehaviour
     bool IsOnCableCar = false;
     Transform soundmill;
 
-    //PARACUTE
-    [Header("Paracute")]
-    public Transform paracute;
-    public GameObject Interaktiv;
-    int ExtraGlide;
-
     //visuell
     [Header("Visuellobjects")]
     public GameObject Powerjumpvis;
     public GameObject GrabVis;
     TrailRenderer TrailRender;
     Material TrailMat;
-
-    [Header("menu")]
-    public bool pauseMenu = false;
-
     // public ParticleSystem ;
     public bool DidawesomeJump = false;
+
+    //PENDULUM
+    public bool isOnPendulum = false;
+    public bool PlayerattachedtoPendulum = false;
+    Transform PendulumObject;
+    Rigidbody2D RotationPointRb;
+    Vector2 PendulumOffsetVector;
+    float PendulumOffsetAngle;
+    float PendulumAngle;
+    float PendulumOffsetAngleSavedPosition;
+    bool PendJump = false;
+
     private void Awake()
     {
         rotationPLPO = PLPO.transform.rotation;
@@ -114,56 +116,34 @@ public class CharControllerPhysics : MonoBehaviour
 
     void Start()
     {
-        TrailRender.material.EnableKeyword("_AvaiblePowerjump"); //hier hab ich den float übertragen
-
         ChaRigidbody = GetComponent<Rigidbody2D>();
         Renderer = GetComponent<SpriteRenderer>();
         ChaBoxCollider = GetComponent<BoxCollider2D>();
         TrailRender = GetComponent<TrailRenderer>();
 
-        Interaktiv.gameObject.SetActive(false);
-        paracute.gameObject.SetActive(true);
-
-       // Physics2D.IgnoreLayerCollision(7, 11);//ignore Soundmillrotor and player
+        //Interaktiv.gameObject.SetActive(false);
     }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.collider.tag == "CableCar" && IsOnSoundMill == false)
-        {
-            collision.collider.transform.SetParent(null);
-        }
         if (collision.collider.tag == "SoundMillRotor")
         {
             IsOnSoundMill = false;
             Physics2D.IgnoreCollision(collision.collider, Player.GetComponent<Collider2D>());
         }
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.tag == "CollisionObject" && IsOnSoundMill == true)
+
+        if (collision.collider.tag == "PendulumPin")
         {
-            //VERSTOßEN
-            Player.transform.parent = null;
-            PLPO.transform.parent = null; //Nicht mehr Child des Hooks
-            HookGrab.transform.parent = null; //nicht mehr Child des Players
-                                              //PARENTEN
-            HookGrab.transform.parent = Player.transform; //Hook = Child des Player
-            PLPO.transform.parent = HookGrab.transform;   //PLPO = Child des Hooks   
-            HookGrab.transform.localPosition = new Vector3(-0.7f, 0, 0);
-            PLPO.transform.localPosition = new Vector3(0, 0.4f, 0);
-
-            hookup = false;
-            HookDetect = false;
-            ChaRigidbody.gravityScale = 1;
-            IsOnSoundMill = false;
-
+            isOnPendulum = false;
+            Physics2D.IgnoreCollision(collision.collider, Player.GetComponent<Collider2D>());
         }
     }
+
     public void GrabHook()
     {
-        if (direction == false && IsOnSoundMill == false)
+        if (direction == false && IsOnSoundMill == false || direction == false && isOnPendulum == false)
             HookGrab.transform.localPosition = new Vector2(0.7f, hookupheight); //right up      
-        if (direction == true && IsOnSoundMill == false)
+        if (direction == true && IsOnSoundMill == false || direction == false && isOnPendulum == false)
             HookGrab.transform.localPosition = new Vector2(-0.7f, hookupheight); //left up            
 
         RaycastHit2D grabCheck = Physics2D.Raycast(grabDetect.position, Vector2.right * transform.localScale, rayDist); //kann nur nach rechts schauen
@@ -204,14 +184,11 @@ public class CharControllerPhysics : MonoBehaviour
             //Position
             PLPO.transform.localPosition = new Vector3(0, 0, 0);
             HookGrab.transform.localPosition = new Vector3(0, -0.4f, 0);
-            Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0); 
+            Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0);
+            
             //effect
-
             Instantiate(GrabVis, new Vector2(HookGrab.transform.position.x, HookGrab.transform.position.y), Quaternion.identity);
-            //Ursprungspunkt
-            //SoundmillOffset = Player.transform.root.GetComponent<Transform>();
-            //SoundmillOffsetVector = SoundmillOffset.transform.position;
-            // Debug.Log(SoundmillOffsetVector);
+
             //Ursprungspunkt
             if(currentSoundmill.isSoundtouching == false)
                 Rotation();
@@ -219,15 +196,52 @@ public class CharControllerPhysics : MonoBehaviour
             HookDetect = true;
             PlayerattachedtoSoundmill = true;
         }
+
+        if (grabCheck.collider != null && grabCheck.collider.tag == "PendulumPin")
+        {
+            grabbed = true;
+            PlayerVelocity = ChaRigidbody.velocity;
+
+            //standart Kram
+            isOnPendulum = true;
+            ChaRigidbody.gravityScale = 0;
+            xVelocity = 0;
+            ChaRigidbody.velocity = new Vector2(0, 0);
+            hookup = true;
+            PendJump = false;
+            Jumping = false;
+            DropTimer = 0;
+
+            //Entparent
+            Player.transform.parent = null;
+            PLPO.transform.parent = null; //Nicht mehr Child des Hooks
+            HookGrab.transform.parent = null; //nicht mehr Child des Players
+            //Parenten                                           
+            Target = grabCheck.collider.gameObject.GetComponent<Transform>();
+            PLPO.transform.parent = Target.transform; //Parent = PIN
+            HookGrab.transform.parent = PLPO.transform; //Child des PLPO          
+            Player.transform.parent = HookGrab.transform; //Child des Hooks
+
+            //Position
+            PLPO.transform.localPosition = new Vector3(0, 0, 0);
+            HookGrab.transform.localPosition = new Vector3(0, -0.4f, 0);
+            Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0);
+
+            //effect
+            //Instantiate(GrabVis, new Vector2(HookGrab.transform.position.x, HookGrab.transform.position.y), Quaternion.identity);
+
+            PendulumRotation();
+
+            HookDetect = true;
+            PlayerattachedtoPendulum = true;
+        }
     }
     public void Rotation()
     {
         SoundmillObjekt = Target.transform.root.GetComponent<Transform>();
 
-        //SoundmillObjekt = Target.transform.parent.GetComponent<Transform>();
         SoundRb = Target.root.GetComponent<Rigidbody2D>();
         Debug.Log("Targets Parent" + Target.transform.root.name);
-        //Rigidbody2D SoundRb = Target.transform.parent.GetComponent<Rigidbody2D>();
 
         SoundmillOffsetVector = SoundmillObjekt.transform.position;
 
@@ -235,7 +249,6 @@ public class CharControllerPhysics : MonoBehaviour
         Vector2 gloabalpinvector = Target.transform.position;
         Vector3 targetDir = gloabalpinvector - SoundmillOffsetVector;
         Angle = Vector3.Angle(targetDir, PlayerVelocity);
-        //Debug.Log(string.Format("angle={0}", Angle));
 
         //In welche richtung soll sich die Soundmill drehen?
         float direction = 1;
@@ -248,45 +261,51 @@ public class CharControllerPhysics : MonoBehaviour
                 direction = -1;
         SoundRb.angularVelocity += PlayerVelocity.sqrMagnitude * Mathf.Sin(Angle * Mathf.Deg2Rad) * direction; //hier wird der impuls aus dem Winkel und der Geschwindigleit berechnet     
 
-        Force = SoundRb.angularVelocity;
+  
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void PendulumRotation()
     {
-        if (collision.tag == "CableCar" && IsOnSoundMill == false) //Sobald auf einer Soundmill/Grounded/oder E gedrückt wird = Ignore CableCar
-        {
-            if (IsOnSoundMill == true || Grounded == true || Input.GetKey(KeyCode.E))
-            {
-                collision = GetComponent<Collider2D>();
-                Physics2D.IgnoreCollision(collision, Player.GetComponent<Collider2D>());
-                Debug.Log("IgnoredCollision");
-            }
-            else
-            {
-                Player.transform.parent = collision.transform; //Child des PLPO 
-                ChaRigidbody.gravityScale = 0;
-                ChaRigidbody.velocity = new Vector2(0, 0);
-                Player.transform.localPosition = new Vector2(0, 0);
-                IsOnCableCar = true;
-            }
-        }
-        if (collision.gameObject.tag == "interaction")
-        {
-            OpenInteraktableIcon();
-            touchLever = true;
-        }
+        PendulumObject = Target.transform.root.GetComponent<Transform>();
+        RotationPointRb = Target.gameObject.GetComponent<Rigidbody2D>(); //.GetComponent<Rigidbody2D>();
+        PendulumOffsetVector = PendulumObject.transform.position;
 
+        //berechnet den Winkel des andockends
+        Vector2 globalpinvector = Target.transform.position;
+        Vector3 targetDir = globalpinvector - PendulumOffsetVector;
+        PendulumAngle = Vector3.Angle(targetDir, PlayerVelocity);
+
+        //In welche richtung soll sich das Pendel drehen?
+        float direction = 1;
+        if (Player.position.x > PendulumOffsetVector.x) //Right           
+            if (PlayerVelocity.y < 0) //down
+                direction = -1;
+
+        if (Player.position.x < PendulumOffsetVector.x) //Left
+            if (PlayerVelocity.y > 0) //up
+                direction = -1;
+        RotationPointRb.angularVelocity += PlayerVelocity.sqrMagnitude * Mathf.Sin(Angle * Mathf.Deg2Rad) * direction; //hier wird der impuls aus dem Winkel und der Geschwindigleit berechnet     
+
+        Force = RotationPointRb.angularVelocity;
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "interaction")
-        {
-            CloseInteraktableIcon();
-            touchLever = false;
-        }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.tag == "interaction")
+    //    {
+    //        OpenInteraktableIcon();
+    //        touchLever = true;
+    //    }
+    //}
 
-    }
+    //private void OnTriggerExit2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.tag == "interaction")
+    //    {
+    //        CloseInteraktableIcon();
+    //        touchLever = false;
+    //    }
+    //}
 
     void FixedUpdate()
     {
@@ -298,21 +317,21 @@ public class CharControllerPhysics : MonoBehaviour
 
         float velocityDelta = 50;
 
-        if (IsOnSoundMill == false) //nicht auf den Soundmills möglich !
+        if (IsOnSoundMill == false || isOnPendulum == false) //nicht auf den Soundmills möglich !
             xVelocity = Mathf.MoveTowards(ChaRigidbody.velocity.x, xInput * MoveSpeed, velocityDelta * Time.deltaTime);
 
         //HookGrab
-        if (xVelocity < 1f && Input.GetKey(KeyCode.A) && IsOnSoundMill == false)
+        if (xVelocity < 1f && Input.GetKey(KeyCode.A) && IsOnSoundMill == false || xVelocity < 1f && Input.GetKey(KeyCode.A) && isOnPendulum == false)
         {
             HookGrab.transform.localPosition = new Vector2(-0.7f, 0); //left
             direction = true;
         }
-        else if (xVelocity > 1f && IsOnSoundMill == false)
+        else if (xVelocity > 1f && IsOnSoundMill == false || xVelocity > 1f && isOnPendulum == false)
         {
             HookGrab.transform.localPosition = new Vector2(0.7f, 0); //right
             direction = false;
         }
-        else if (xVelocity == 0 && IsOnSoundMill == false)
+        else if (xVelocity == 0 && IsOnSoundMill == false || xVelocity == 0 && isOnPendulum == false)
         {
             if (direction == false)
                 HookGrab.transform.localPosition = new Vector2(0.7f, 0); //right
@@ -321,61 +340,49 @@ public class CharControllerPhysics : MonoBehaviour
         }
 
         ChaRigidbody.velocity = new Vector2(xVelocity, ChaRigidbody.velocity.y);
-
-        //cablecarjump
-        if (Input.GetKey(KeyCode.Space) && IsOnCableCar == true)
-        {
-            IsOnCableCar = false;
-            Player.transform.parent = null; // collision.transform.SetParent(null);               
-            HookDetect = false;
-            //Jumping = true;
-            ChaRigidbody.gravityScale = 1;
-            ChaRigidbody.velocity = new Vector3(0, JumpForce / 5);
-        }
        
         //ONSOUNDMILL
         if (IsOnSoundMill == true)
         {
-           // SoundOffsetAngleSavedPosition = SoundmillObjekt.transform.rotation.z;
-
             SoundOffsetAngleSavedPosition = SoundmillObjekt.transform.rotation.z;
             PLPO.transform.localPosition = new Vector3(0, 0, 0);
             HookGrab.transform.localPosition = new Vector3(0, -0.4f, 0);
             Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0);
             ChaRigidbody.angularVelocity = 0;
-        }      
+        }
+
+        //ONPENDULUM
+        if (isOnPendulum == true)
+        {
+            PendulumOffsetAngleSavedPosition = PendulumObject.transform.rotation.z;
+            PLPO.transform.localPosition = new Vector3(0, 0, 0);
+            HookGrab.transform.localPosition = new Vector3(0, -0.4f, 0);
+            Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0);
+            ChaRigidbody.angularVelocity = 0;
+        }
 
         if (Grounded == true)
         {
-            paracute.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
             Jumping = false;
-            DropTimer = 0;
-            ExtraGlide = 1;
+            //DropTimer = 0;
             Milljump = false;
+            PendJump = false;
             DropTimer = 0;
             //viseffect
             if (DidawesomeJump == true)
             {
                 //ChaRigidbody.position.
-                Instantiate(Powerjumpvis, new Vector2(Player.transform.position.x, Player.transform.position.y-0.5f), Quaternion.Euler(-0.113f, -90f, 90));
+                Instantiate(Powerjumpvis, new Vector2(Player.transform.localPosition.x, Player.transform.localPosition.y-0.5f), Quaternion.identity);
                 DidawesomeJump = false;
             }
 
         }
-        
-        if (Input.GetKey(KeyCode.LeftShift) && Grounded == false)
-        {
-            paracute.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
-        }
-        //Soundmilljump
-        if (Input.GetKey(KeyCode.Space) && IsOnSoundMill == true && !Input.GetKey(KeyCode.K))
-            SoundmillJump();
     }
 
     void SoundmillJump()
     {
-        //Debug.Log(CurrentRotation);
-        // Debug.Log(SoundOffsetAngle);
+        Force = SoundRb.angularVelocity;
+
         //rotation
         SoundOffsetAngle = SoundmillObjekt.transform.rotation.z;
         //VERSTOßEN
@@ -392,26 +399,12 @@ public class CharControllerPhysics : MonoBehaviour
         hookup = false;
         HookDetect = false;
         ChaRigidbody.gravityScale = 1;
-
-        //if (SoundOffsetAngle < SoundOffsetAngleSavedPosition)
-        //    Force *= -1;
-        //??????????????????????????????????????????????????????????????????????????????????????????????????????????????
-        //if (Soundmillscript.isSoundtouching == true)
-        //max = 240f;
-
-        float normalized;
-         if (Force < 0)
+        if (SoundOffsetAngle < SoundOffsetAngleSavedPosition)
             Force *= -1;
-        normalized = Mathf.InverseLerp(-180f, 180f, Force); //Damit habe ich eine Value zwischen ´0-1      
-       
-        //if (SoundOffsetAngle < SoundOffsetAngleSavedPosition)
-          //   normalized = Mathf.InverseLerp(0, -180f, Force); //Damit habe ich eine Value zwischen ´0-1    
 
-       // if (normalized <= 0.2f)
-         //   normalized = 0.3f;
-        //??????????????????????????????????????????????????????????????????????????????????????????????????????????????
-        // if (Soundmillscript.isSoundtouching == true)//stärker Jump sobald aktiv
-        // normalized *= 2;
+        float normalized = Mathf.InverseLerp(0, 180f, Force); //Damit habe ich eine Value zwischen ´0-1      
+        if (normalized <= 0.2f)
+            normalized = 0.3f;
 
         normalized = normalized * Momentumjumpmin;
      
@@ -423,29 +416,91 @@ public class CharControllerPhysics : MonoBehaviour
         
         if (Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
             ChaRigidbody.velocity = new Vector3(0, normalized);
-        Debug.Log(normalized);
+
         DropTimer = 0; //mal schauen
         Milljump = true;
-        //Debug.Log("Normalized" + normalized);
         IsOnSoundMill = false;
+    }
+
+    void PendulumJump()
+    {
+        //ROTATION
+        PendulumOffsetAngle = PendulumObject.transform.rotation.z;
+        //ABANDON
+        Player.transform.parent = null;
+        PLPO.transform.parent = null; //Nicht mehr Child des Hooks
+        HookGrab.transform.parent = null; //nicht mehr Child des Players
+        //PARENT
+        HookGrab.transform.parent = Player.transform; //Hook = Child des Player
+        PLPO.transform.parent = HookGrab.transform;   //PLPO = Child des Hooks   
+        HookGrab.transform.localPosition = new Vector3(-0.7f, 0, 0);
+        PLPO.transform.localPosition = new Vector3(0, 0.4f, 0);
+
+        //JUMPING = TRUE
+        hookup = false;
+        HookDetect = false;
+        ChaRigidbody.gravityScale = 1;
+        if (PendulumOffsetAngle < PendulumOffsetAngleSavedPosition)
+            Force *= -1;
+
+        float normalized = Mathf.InverseLerp(0, 180f, Force); //Damit habe ich eine Value zwischen ´0-1      
+        if (normalized <= 0.2f)
+            normalized = 0.3f;
+
+        normalized = normalized * Momentumjumpmin;
+
+        if (Input.GetKey(KeyCode.A))
+            ChaRigidbody.velocity = new Vector3(-Mathf.Cos(-45), Mathf.Sin(45)) * normalized;
+
+        if (Input.GetKey(KeyCode.D))
+            ChaRigidbody.velocity = new Vector3(Mathf.Cos(-45), Mathf.Sin(45)) * normalized;
+
+        if (Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
+            ChaRigidbody.velocity = new Vector3(0, normalized);
+
+        DropTimer = 0; //mal schauen
+        PendJump = true;
+        isOnPendulum = false;
     }
 
     void TrailRendererVFX()
     {
-   
+        //visuell Feedback sobald es möglich ist Powerdrop zu machen!
+        if (DropTimer > 1.5f)
+        {
+            TrailRender.material.EnableKeyword("_ShowDropColor");
+            //TrailRender.sharedMaterial.SetFloat("_YourParameter", someValue);
+            //  TrailRender.material.SetColor("_ShowDropColor", Color.red);
+        }
+        if (DropTimer > 1.5f)
+        {
+            //Vector4 somevalue = new Vector4();
+            TrailRender.material.EnableKeyword("_ShowDropColor2");
+            //TrailRender.sharedMaterial.SetColor("_ShowDropColor2", somevalue);
+            // TrailRender.material.Color("_ShowDropColor2", Color.yellow);
+        }
 
+        if (DropTimer < 1.5f)
+        {
+            Vector4 somevalue = new Vector4(118, 231, 177, 255);
+            // TrailRender.material.EnableKeyword("_ShowDropColor"); //Klappt noch nicht.. :C
+            // TrailRender.material.SetColor("_ShowDropColor", somevalue);
+        }
+        if (DropTimer < 1.5f)
+        {
+            Vector4 somevalue = new Vector4(229, 223, 123, 255);
+            float R = 229;
+            float G = 223;
+            float B = 123;
+            // TrailRender.material.EnableKeyword("_ShowDropColor2");
+            // TrailRender.material.SetColor("_ShowDropColor2", somevalue);
+            //TrailRender.material.SetColor("_ShowDropColor2", Color.RGBToHSV(Color rgbColor, R, G, B);
+        }
     }
     void Update()
     {
-        //Menu
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            SceneManager.LoadScene(0);
-            pauseMenu = true;
-        }
-
         //Soundmillgrab
-        if (Input.GetKey(KeyCode.K)&& IsOnSoundMill==false) //funktioniert leider nicht wenn man das gedrückt hält... muss getestet werden ob das besser in "update" hineinkommt.
+        if (Input.GetKey(KeyCode.K)&& IsOnSoundMill==false || Input.GetKey(KeyCode.K) && isOnPendulum == false) //funktioniert leider nicht wenn man das gedrückt hält... muss getestet werden ob das besser in "update" hineinkommt.
             GrabHook();
 
         //SIMPLE JUMP
@@ -456,49 +511,31 @@ public class CharControllerPhysics : MonoBehaviour
             Jumping = true;
         }
         if(Jumping == true)    
-            jumpTimer = Time.deltaTime + jumpDelay;     
+            jumpTimer = Time.deltaTime + jumpDelay;
 
-            //POWERDROP
-        if (/*Jumping == true ||*/ Milljump == true)
-        {
+        //POWERDROP
+        if (Milljump == true || PendJump == true)
             DropTimer += Time.deltaTime;
-        }
+
       
         //POWER DROP
-        if (Input.GetKey(KeyCode.Space) && Milljump == true && DropTimer > 1.5f /*Input.GetKey(KeyCode.L) && Jumping == true && DropTimer > 2 || */)
+        if (Input.GetKey(KeyCode.Space) && Milljump == true && DropTimer > 1.5f || Input.GetKey(KeyCode.Space) && PendJump == true && DropTimer > 1.5f)
         {
             ChaRigidbody.velocity = Vector2.down * JumpForce * 5;
             DidawesomeJump = true;
             Milljump = false;
-        }
-        //GLIDING
-        bool currentlygliding=false;
-        //start gliding
-        if (Input.GetKeyDown(KeyCode.LeftShift) && Grounded == false) 
-        {
-            FindObjectOfType<Gliding>().StopGliding();
-            paracute.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
-            currentlygliding = true;
-        }
-        //extragliding
-        if (Input.GetKeyDown(KeyCode.LeftShift) && Grounded == false && ExtraGlide > 0 && currentlygliding == true)
-        {
-            FindObjectOfType<Gliding>().StartGliding();
-            ExtraGlide--;
-            currentlygliding = false;
+            PendJump = false;
+            TrailRender.material.EnableKeyword("_ShowDropColor"); //Klappt noch nicht.. :C
+            TrailRender.material.SetColor("_ShowDropColor", Color.red);
         }
 
-        if (Grounded == true)
-        {
-            FindObjectOfType<Gliding>().StopGliding();
-            paracute.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
-        }
+        //Soundmilljump
+        if (Input.GetKey(KeyCode.Space) && IsOnSoundMill == true && !Input.GetKey(KeyCode.K))
+            SoundmillJump();
 
-        //if (Jumping == false || Milljump == false || Milljump == false && Jumping == false)
-           // DropTimer = 0;
-
-        Shader.SetGlobalFloat("_AvaiblePowerjump", DropTimer);
-
+        //PENDULUMJUMP
+        if (Input.GetKey(KeyCode.Space) && isOnPendulum == true && !Input.GetKey(KeyCode.K))
+            PendulumJump();
     }
 
     void LateUpdate()
@@ -510,11 +547,11 @@ public class CharControllerPhysics : MonoBehaviour
 
     public void OpenInteraktableIcon()
     {
-        Interaktiv.gameObject.SetActive(true);
+        //Interaktiv.gameObject.SetActive(true);
     }
     public void CloseInteraktableIcon()
     {
-        Interaktiv.gameObject.SetActive(false);
+        //Interaktiv.gameObject.SetActive(false);
     }
 
     void OnDrawGizmos()
