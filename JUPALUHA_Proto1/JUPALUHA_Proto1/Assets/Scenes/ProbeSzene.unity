@@ -323,7 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1176ac22d3b6e67418db3defb2e8bd61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 3
+  type: 2
   SoundmillScript: {fileID: 1656902648}
   Aktivatorscript: {fileID: 1598037623}
   Drumzonescript: {fileID: 1250513899}
@@ -1881,7 +1881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1176ac22d3b6e67418db3defb2e8bd61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 2
+  type: 1
   SoundmillScript: {fileID: 772253552}
   Aktivatorscript: {fileID: 1926084944}
   Drumzonescript: {fileID: 5341886054001214395}
@@ -11082,7 +11082,6 @@ MonoBehaviour:
   AktivatorAktiv: 0
   SoundmillScript: {fileID: 1365869452}
   PlayerScript: {fileID: 1717640976}
-  Drumzonescript: {fileID: 1552267368}
 --- !u!1 &1591236225
 GameObject:
   m_ObjectHideFlags: 0
@@ -11319,7 +11318,6 @@ MonoBehaviour:
   AktivatorAktiv: 0
   SoundmillScript: {fileID: 1656902648}
   PlayerScript: {fileID: 0}
-  Drumzonescript: {fileID: 0}
 --- !u!1 &1621285775
 GameObject:
   m_ObjectHideFlags: 0
@@ -13462,7 +13460,6 @@ MonoBehaviour:
   AktivatorAktiv: 0
   SoundmillScript: {fileID: 772253552}
   PlayerScript: {fileID: 0}
-  Drumzonescript: {fileID: 0}
 --- !u!61 &1926084945
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -15031,7 +15028,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1176ac22d3b6e67418db3defb2e8bd61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
+  type: 0
   SoundmillScript: {fileID: 1365869452}
   Aktivatorscript: {fileID: 1574517479}
   Drumzonescript: {fileID: 5341886054544153498}
