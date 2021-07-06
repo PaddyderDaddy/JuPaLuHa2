@@ -114,7 +114,7 @@ public class CharControllerPhysics : MonoBehaviour
 
     void Start()
     {
-        TrailRender.material.EnableKeyword("_AvaiblePowerjump"); //hier hab ich den float übertragen
+        //TrailRender.material.EnableKeyword("_AvaiblePowerjump"); //hier hab ich den float übertragen
 
         ChaRigidbody = GetComponent<Rigidbody2D>();
         Renderer = GetComponent<SpriteRenderer>();
