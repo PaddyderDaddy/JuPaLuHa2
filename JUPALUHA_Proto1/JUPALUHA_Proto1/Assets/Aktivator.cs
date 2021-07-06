@@ -8,14 +8,14 @@ public class Aktivator : MonoBehaviour
     public SoundmillRotation SoundmillScript;
 
     public CharControllerPhysics PlayerScript;
-    public Drumzone Drumzonescript;
+    //public Drumzone Drumzonescript;
 
-    private void Update()
-    {
-        if(SoundmillScript.isSoundtouching==false)
-            AktivatorAktiv = false;
+    //private void Update()
+    //{
+    //    //if(SoundmillScript.isSoundtouching==false)
+    //    //    AktivatorAktiv = false;
 
-    }
+    //}
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //AktivatorAktiv = true;
