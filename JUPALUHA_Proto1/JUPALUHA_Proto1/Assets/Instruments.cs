@@ -125,7 +125,7 @@ public class Instruments : MonoBehaviour
 
                 break;
             default:
-                Debug.Log("NONE");
+               // Debug.Log("NONE");
                 break;
         }
     }
