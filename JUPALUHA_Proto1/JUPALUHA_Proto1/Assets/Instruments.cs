@@ -14,6 +14,8 @@ public class Instruments : MonoBehaviour
     static bool ShmolInstruAktiv;
     static bool AllinInstruAktiv;
 
+    public bool connectetInstruaktiv;//Wichtig für Vents
+
     GameObject[] InstrumentenARRAY; //dot length oder so
     //Dictoniary
 
@@ -61,14 +63,18 @@ public class Instruments : MonoBehaviour
     {
         if (Aktivatorscript.AktivatorAktiv == true && SoundmillScript.isSoundtouching == true)
         {
+            connectetInstruaktiv = true;
             ShmolInstruAktiv = true;
             if (Drumzonescript.isOpen == true)
             {
+                connectetInstruaktiv = true;
+
                 AllinInstruAktiv = true;
             }
         }
         else
         {
+            connectetInstruaktiv = false;
             ShmolInstruAktiv = false;
             AllinInstruAktiv = false;
         }

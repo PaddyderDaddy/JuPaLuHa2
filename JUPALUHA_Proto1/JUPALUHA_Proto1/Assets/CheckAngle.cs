@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class CheckAngle : MonoBehaviour
 {
-    [SerializeField] GameObject collisionPoint;
-    [SerializeField] GameObject dirPointObj;
+   // [SerializeField] GameObject collisionPoint;
+    //[SerializeField] GameObject dirPointObj;
     [SerializeField] LayerMask layermask;
+   
+    public Drumzone drumscript; //Ventopen
 
+   // public Instruments instrumentscript; //InstruAktiv
     private void Update()
     {
-        //if ([bool]soundOutputShooting)
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (drumscript.isOpen == true )
+        {
             ShootRaycast();
+
+        }
     }
 
     void ShootRaycast()

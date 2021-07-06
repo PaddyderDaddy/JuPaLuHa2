@@ -327,6 +327,7 @@ MonoBehaviour:
   SoundmillScript: {fileID: 1656902648}
   Aktivatorscript: {fileID: 1598037623}
   Drumzonescript: {fileID: 1250513899}
+  connectetInstruaktiv: 0
   SecInstruSOUND: {fileID: 913815190}
   ThirdInstruSOUND: {fileID: 948338477}
   FourthInstruSOUND: {fileID: 859550540}
@@ -1885,6 +1886,7 @@ MonoBehaviour:
   SoundmillScript: {fileID: 772253552}
   Aktivatorscript: {fileID: 1926084944}
   Drumzonescript: {fileID: 5341886054001214395}
+  connectetInstruaktiv: 0
   SecInstruSOUND: {fileID: 913815190}
   ThirdInstruSOUND: {fileID: 948338477}
   FourthInstruSOUND: {fileID: 859550540}
@@ -2192,6 +2194,8 @@ MonoBehaviour:
   ventOpen: 1
   PlayerScript: {fileID: 1717640976}
   DeployScript: {fileID: 517191232}
+  instrumentscript: {fileID: 0}
+  instruAscript: {fileID: 0}
 --- !u!61 &341512412
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6298,6 +6302,8 @@ MonoBehaviour:
   ventOpen: 1
   PlayerScript: {fileID: 1717640976}
   DeployScript: {fileID: 517191232}
+  instrumentscript: {fileID: 0}
+  instruAscript: {fileID: 0}
 --- !u!61 &936651856
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7619,6 +7625,8 @@ MonoBehaviour:
   ventOpen: 1
   PlayerScript: {fileID: 1717640976}
   DeployScript: {fileID: 517191232}
+  instrumentscript: {fileID: 0}
+  instruAscript: {fileID: 0}
 --- !u!61 &1131189826
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8332,6 +8340,10 @@ PrefabInstance:
     - target: {fileID: 6899771172745466399, guid: 961f66bd2fab2ad478cee45122226486, type: 3}
       propertyPath: m_Name
       value: ParentSoundmill (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6899771172745466399, guid: 961f66bd2fab2ad478cee45122226486, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6899771172745466399, guid: 961f66bd2fab2ad478cee45122226486, type: 3}
       propertyPath: m_IsActive
@@ -9636,6 +9648,8 @@ MonoBehaviour:
   ventOpen: 1
   PlayerScript: {fileID: 1717640976}
   DeployScript: {fileID: 517191232}
+  instrumentscript: {fileID: 0}
+  instruAscript: {fileID: 0}
 --- !u!61 &1250513900
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10914,6 +10928,8 @@ MonoBehaviour:
   ventOpen: 1
   PlayerScript: {fileID: 1717640976}
   DeployScript: {fileID: 517191232}
+  instrumentscript: {fileID: 0}
+  instruAscript: {fileID: 0}
 --- !u!61 &1552267369
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14080,6 +14096,7 @@ MonoBehaviour:
   SoundmillScript: {fileID: 0}
   Aktivatorscript: {fileID: 0}
   Drumzonescript: {fileID: 0}
+  connectetInstruaktiv: 0
   SecInstruSOUND: {fileID: 295024969}
   ThirdInstruSOUND: {fileID: 333900409}
   FourthInstruSOUND: {fileID: 422074315}
@@ -14096,6 +14113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1698ceb6038215b49835693098dc9491, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectetInstruaktivA: 0
   audioSourceOne: {fileID: 935142949}
   DrumScript: {fileID: 5341886053300054983}
   DrumScriptleft: {fileID: 5341886053190371567}
@@ -15032,6 +15050,7 @@ MonoBehaviour:
   SoundmillScript: {fileID: 1365869452}
   Aktivatorscript: {fileID: 1574517479}
   Drumzonescript: {fileID: 5341886054544153498}
+  connectetInstruaktiv: 0
   SecInstruSOUND: {fileID: 913815190}
   ThirdInstruSOUND: {fileID: 948338477}
   FourthInstruSOUND: {fileID: 859550540}
@@ -16095,7 +16114,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &43349243725793880
 Transform:
   m_ObjectHideFlags: 0
@@ -16559,13 +16578,29 @@ GameObject:
   - component: {fileID: 43349243942020084}
   - component: {fileID: 43349243942020085}
   - component: {fileID: 43349243942020086}
+  - component: {fileID: 43349243942020105}
   m_Layer: 3
-  m_Name: Square1
+  m_Name: CheckAngle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &43349243942020105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43349243942020104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f10bb27f90512bf41a7f889b50af45ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layermask:
+    serializedVersion: 2
+    m_Bits: 16384
 --- !u!4 &43349244006972837
 Transform:
   m_ObjectHideFlags: 0
@@ -17097,11 +17132,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2413232798233260586, guid: b7c56cb3b7e9b9d4b9a96ac289c43ec8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.64
+      value: 10.73
       objectReference: {fileID: 0}
     - target: {fileID: 2413232798233260586, guid: b7c56cb3b7e9b9d4b9a96ac289c43ec8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -15.46
+      value: -13.83
       objectReference: {fileID: 0}
     - target: {fileID: 2413232798233260586, guid: b7c56cb3b7e9b9d4b9a96ac289c43ec8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -17492,6 +17527,8 @@ MonoBehaviour:
   ventOpen: 1
   PlayerScript: {fileID: 1717640976}
   DeployScript: {fileID: 517191232}
+  instrumentscript: {fileID: 0}
+  instruAscript: {fileID: 0}
 --- !u!61 &5341886053145292537
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -17625,6 +17662,8 @@ MonoBehaviour:
   ventOpen: 1
   PlayerScript: {fileID: 1717640976}
   DeployScript: {fileID: 517191232}
+  instrumentscript: {fileID: 1961278064}
+  instruAscript: {fileID: 1961278065}
 --- !u!1 &5341886053300054976
 GameObject:
   m_ObjectHideFlags: 0
@@ -17700,6 +17739,8 @@ MonoBehaviour:
   ventOpen: 1
   PlayerScript: {fileID: 1717640976}
   DeployScript: {fileID: 517191232}
+  instrumentscript: {fileID: 1961278064}
+  instruAscript: {fileID: 1961278065}
 --- !u!61 &5341886054001214394
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -17743,6 +17784,8 @@ MonoBehaviour:
   ventOpen: 1
   PlayerScript: {fileID: 1717640976}
   DeployScript: {fileID: 517191232}
+  instrumentscript: {fileID: 0}
+  instruAscript: {fileID: 0}
 --- !u!1 &5341886054001214396
 GameObject:
   m_ObjectHideFlags: 0
@@ -17902,6 +17945,8 @@ MonoBehaviour:
   ventOpen: 1
   PlayerScript: {fileID: 1717640976}
   DeployScript: {fileID: 517191232}
+  instrumentscript: {fileID: 0}
+  instruAscript: {fileID: 0}
 --- !u!61 &5341886054544153499
 BoxCollider2D:
   m_ObjectHideFlags: 0

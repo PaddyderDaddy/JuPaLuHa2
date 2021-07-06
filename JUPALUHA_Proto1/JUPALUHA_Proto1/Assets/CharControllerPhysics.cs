@@ -6,17 +6,10 @@ using UnityEngine.SceneManagement;
 public class CharControllerPhysics : MonoBehaviour
 {
     public Rigidbody2D ChaRigidbody;
-    SpriteRenderer Renderer;
-
-    BoxCollider2D ChaBoxCollider;
-
     public float MoveSpeed = 10;
-
     float xVelocity;
-
     public float jumpDelay = 0.25f;
     private float jumpTimer;
-
     public float OverlapBoxDistance = 0;
     public bool Grounded = false;
 
@@ -26,6 +19,8 @@ public class CharControllerPhysics : MonoBehaviour
     public Vector2 upOffset;
     public float collisionRadius;
     public Color gizmoColor = Color.red;
+    public Transform grabDetect;
+    float rayDist;
 
     [Header("Gravity")]
     public float GravityNormal = -9.81f;
@@ -44,12 +39,10 @@ public class CharControllerPhysics : MonoBehaviour
 
     //MOMENTUM JUMP
     [Header("MOMENTUM JUMP")]
-    public Transform grabDetect;
-    float rayDist;
-    public float Momentumjumpmin = 20;
+    float Momentumjumpmin = 20;
     GameObject PlayerObj;
     public Transform Player;
-    public static Vector3 PlayerVector;
+    static Vector3 PlayerVector;
 
     //HOOK GRAB
     [Header("Hook Grab")]
@@ -98,8 +91,6 @@ public class CharControllerPhysics : MonoBehaviour
     [Header("Visuellobjects")]
     public GameObject Powerjumpvis;
     public GameObject GrabVis;
-    TrailRenderer TrailRender;
-    Material TrailMat;
 
     [Header("menu")]
     public bool pauseMenu = false;
@@ -115,17 +106,9 @@ public class CharControllerPhysics : MonoBehaviour
 
     void Start()
     {
-        //TrailRender.material.EnableKeyword("_AvaiblePowerjump"); //hier hab ich den float übertragen
-
         ChaRigidbody = GetComponent<Rigidbody2D>();
-        Renderer = GetComponent<SpriteRenderer>();
-        ChaBoxCollider = GetComponent<BoxCollider2D>();
-        TrailRender = GetComponent<TrailRenderer>();
-
         Interaktiv.gameObject.SetActive(false);
         paracute.gameObject.SetActive(true);
-
-       // Physics2D.IgnoreLayerCollision(7, 11);//ignore Soundmillrotor and player
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -372,8 +355,6 @@ public class CharControllerPhysics : MonoBehaviour
 
     void SoundmillJump()
     {
-        //Debug.Log(CurrentRotation);
-        // Debug.Log(SoundOffsetAngle);
         //rotation
         SoundOffsetAngle = SoundmillObjekt.transform.rotation.z;
         //VERSTOßEN
@@ -386,53 +367,30 @@ public class CharControllerPhysics : MonoBehaviour
         HookGrab.transform.localPosition = new Vector3(-0.7f, 0, 0);
         PLPO.transform.localPosition = new Vector3(0, 0.4f, 0);
 
-        //Jumping = true;
         hookup = false;
         HookDetect = false;
         ChaRigidbody.gravityScale = 1;
 
-        //if (SoundOffsetAngle < SoundOffsetAngleSavedPosition)
-        //    Force *= -1;
-        //??????????????????????????????????????????????????????????????????????????????????????????????????????????????
-        //if (Soundmillscript.isSoundtouching == true)
-        //max = 240f;
-
+        //Jumplogic
         float normalized;
          if (Force < 0)
             Force *= -1;
         normalized = Mathf.InverseLerp(-180f, 180f, Force); //Damit habe ich eine Value zwischen ´0-1      
-       
-        //if (SoundOffsetAngle < SoundOffsetAngleSavedPosition)
-          //   normalized = Mathf.InverseLerp(0, -180f, Force); //Damit habe ich eine Value zwischen ´0-1    
-
-       // if (normalized <= 0.2f)
-         //   normalized = 0.3f;
-        //??????????????????????????????????????????????????????????????????????????????????????????????????????????????
-        // if (Soundmillscript.isSoundtouching == true)//stärker Jump sobald aktiv
-        // normalized *= 2;
-
         normalized = normalized * Momentumjumpmin;
-     
+        //Jumpsteuerung
         if (Input.GetKey(KeyCode.A))
             ChaRigidbody.velocity = new Vector3(-Mathf.Cos(-45), Mathf.Sin(45)) * normalized;
-
         if (Input.GetKey(KeyCode.D))
-            ChaRigidbody.velocity = new Vector3(Mathf.Cos(-45), Mathf.Sin(45)) * normalized;
-        
+            ChaRigidbody.velocity = new Vector3(Mathf.Cos(-45), Mathf.Sin(45)) * normalized;       
         if (Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
             ChaRigidbody.velocity = new Vector3(0, normalized);
-        Debug.Log(normalized);
+
+        //other stuff
         DropTimer = 0; //mal schauen
         Milljump = true;
-        //Debug.Log("Normalized" + normalized);
         IsOnSoundMill = false;
     }
 
-    void TrailRendererVFX()
-    {
-   
-
-    }
     void Update()
     {
         //Menu
@@ -456,7 +414,7 @@ public class CharControllerPhysics : MonoBehaviour
         if(Jumping == true)    
             jumpTimer = Time.deltaTime + jumpDelay;     
 
-            //POWERDROP
+        //POWERDROP
         if (/*Jumping == true ||*/ Milljump == true)
         {
             DropTimer += Time.deltaTime;
