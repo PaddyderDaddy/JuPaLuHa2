@@ -4,18 +4,25 @@ using UnityEngine;
 
 public class CheckAngle : MonoBehaviour
 {
-    [SerializeField] GameObject collisionPoint;
-    [SerializeField] GameObject dirPointObj;
+   // [SerializeField] GameObject collisionPoint;
+    //[SerializeField] GameObject dirPointObj;
     [SerializeField] LayerMask layermask;
-
+   
+    public Drumzone drumscript; //Ventopen
+    public bool RaycastSoundhit = false;
+   // public Instruments instrumentscript; //InstruAktiv
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (drumscript.isOpen == true )
+        {
             ShootRaycast();
+
+        }
     }
 
     void ShootRaycast()
     {
+
         RaycastHit2D hit;
 
         Debug.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * 5f, Color.red);
@@ -23,6 +30,7 @@ public class CheckAngle : MonoBehaviour
 
         if (hit)
         {
+            RaycastSoundhit = true;
             Vector3 posTangent = Quaternion.Euler(0, 0, 90) * hit.normal;
             Vector3 negTangent = Quaternion.Euler(0, 0, -90) * hit.normal;
 
@@ -53,6 +61,9 @@ public class CheckAngle : MonoBehaviour
                 //isSoundTouching = true;
                 //currentSoundmill = this;
             }
+            
         }
+        else
+            RaycastSoundhit = false;
     }
 }

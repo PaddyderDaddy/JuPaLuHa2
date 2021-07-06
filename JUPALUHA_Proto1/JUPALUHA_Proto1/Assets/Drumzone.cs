@@ -5,13 +5,15 @@ using UnityEngine;
 public class Drumzone : MonoBehaviour
 {
     public GameObject vent;
-    public bool isOpen;
-    public bool ventOpen = true;
+    public bool isOpen = false; //Das ist das wichtige
+    public bool ventOpen = false; 
 
     [Header("Scripts")]
     public CharControllerPhysics PlayerScript;
     public DeploySound DeployScript;
 
+    public Instruments instrumentscript; //InstruAktiv
+    public InstrumentAktivatorA instruAscript;
     private void FixedUpdate()
     {
         if (vent.transform.localPosition.y >= 1)
@@ -27,17 +29,24 @@ public class Drumzone : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (PlayerScript.ChaRigidbody.velocity.y <= -40 && ventOpen == false)
+        if (instrumentscript.connectetInstruaktiv == true || instruAscript.connectetInstruaktivA ==true)
         {
-            isOpen = true;
-            vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 1, 0);
+            if (PlayerScript.DidawesomeJump == true && ventOpen == false)
+            {
+                Debug.Log("true");
+                isOpen = true;
+                vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 1, 0);
+            }
+            if (PlayerScript.DidawesomeJump == true && ventOpen == true)
+            {
+                Debug.Log("false");
+                vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 0, 0);
+                isOpen = false;
+            }
         }
-
-        if (PlayerScript.ChaRigidbody.velocity.y <= -40 && ventOpen == true)
-        {
-            vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 0, 0);
-            isOpen = false;
-        }
+       // else
+       // {
+            //feedbackSound/vis das es noch nicht aufgeht
+       // }     
     }
-
 }

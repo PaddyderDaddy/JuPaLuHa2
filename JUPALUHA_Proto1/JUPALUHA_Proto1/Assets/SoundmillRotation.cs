@@ -13,13 +13,14 @@ public class SoundmillRotation : MonoBehaviour
     public SoundmillRotation ConnectedSoundmill;
     public SoundmillRotation ConnectedScript;
 
-    public float Timer;
+   // public float Timer;
 
     public delegate void RotationChange();
     public RotationChange onRotationChange;
 
     public Instruments InstrumentsScript;
 
+    public CheckAngle checkanglescript;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -30,6 +31,7 @@ public class SoundmillRotation : MonoBehaviour
 
     void Update()
     {
+        /*
         if (isSoundtouching)
             Timer += Time.deltaTime;
 
@@ -40,7 +42,7 @@ public class SoundmillRotation : MonoBehaviour
  
             Timer = 0;
         }
-
+        */
         //setting maxima for rotation velocity
         float newAngularVelocity = Mathf.Clamp(rb.angularVelocity, -180, 180);
 
@@ -54,6 +56,20 @@ public class SoundmillRotation : MonoBehaviour
             if (Mathf.Round(newAngularVelocity) != 0 && GameManager.instance.ActiveSoundmill == this)
                 onRotationChange();
         }
+        if (checkanglescript != null) //kein komischer spam
+        {
+            if (checkanglescript.RaycastSoundhit == true)
+            {
+                isSoundtouching = true;
+                ConnectedScript.isSoundtouching = true;
+            }
+            else
+            {
+                isSoundtouching = false;
+                ConnectedScript.isSoundtouching = false;
+            }
+        }
+      
     }
 
     void Coolfunction()
@@ -61,18 +77,16 @@ public class SoundmillRotation : MonoBehaviour
         rb.angularVelocity = connectetrb.angularVelocity;
     }
 
+    /*
     //Sobald der Sound die Soundmills aktiviert soll der Player nicht mehr sein Momentum benutzen um die SOundmills zu verändern.
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.tag == "SoundPrefab")
         {
-            isSoundtouching = true;
-            ConnectedScript.isSoundtouching = true;
             Destroy(collision.gameObject);
             Timer = 0;
             ConnectedScript.Timer = Timer; // copying Timer value to connected soundmill's Timer
-
         }
     }
-
+    */
 }
