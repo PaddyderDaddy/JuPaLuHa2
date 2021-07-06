@@ -16,6 +16,8 @@ TagManager:
   - SoundPrefab
   - VentTrigger
   - CollisionObject
+  - Pause
+  - Start
   layers:
   - Default
   - TransparentFX
