@@ -49,7 +49,7 @@ public class Pausemenu : MonoBehaviour
     {
         //audioMixer.SetFloat("Volume", Mathf.Log10(volume) * 20);
         audioMixer.SetFloat("Volume", volume);
-        Debug.Log(volume);
+        //Debug.Log(volume);
 
     }
 }

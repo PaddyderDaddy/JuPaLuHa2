@@ -7,7 +7,8 @@ public class CheckAngle : MonoBehaviour
    // [SerializeField] GameObject collisionPoint;
     //[SerializeField] GameObject dirPointObj;
     [SerializeField] LayerMask layermask;
-   
+    [SerializeField] float Raydist;
+    [SerializeField] float Force;
     public Drumzone drumscript; //Ventopen
     public bool RaycastSoundhit = false;
    // public Instruments instrumentscript; //InstruAktiv
@@ -25,8 +26,8 @@ public class CheckAngle : MonoBehaviour
 
         RaycastHit2D hit;
 
-        Debug.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * 5f, Color.red);
-        hit = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.right), 5f, layermask);
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * Raydist, Color.red);
+        hit = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.right), Raydist, layermask);
 
         if (hit)
         {
@@ -48,7 +49,7 @@ public class CheckAngle : MonoBehaviour
             if (posAngle < negAngle)
             {
                 //anticlockwise
-                hit.rigidbody.angularVelocity = 100;
+                hit.rigidbody.angularVelocity = Force;
 
                 //isSoundTouching = true;
                 //currentSoundmill = this;
@@ -56,7 +57,7 @@ public class CheckAngle : MonoBehaviour
             else
             {
                 //clockwise
-                hit.rigidbody.angularVelocity = -100;
+                hit.rigidbody.angularVelocity = -Force;
 
                 //isSoundTouching = true;
                 //currentSoundmill = this;

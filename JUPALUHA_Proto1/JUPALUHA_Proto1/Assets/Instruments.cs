@@ -76,15 +76,9 @@ public class Instruments : MonoBehaviour
             connectetInstruaktiv = false;
             ShmolInstruAktiv = false;
             AllinInstruAktiv = false;
-       }
-        //notiz an mich, eher einfach rausschmeiﬂen und ein neues objekt mit dem material der einen mini script beeinh‰lt der einfach nur bis zu einem bestimmten wert z‰hlt.
-       // if (Input.GetKeyDown(KeyCode.X))//test shader
-        //{
-       //     Timer += Time.deltaTime;
-        //    connectetInstruaktiv = true;
-        //    ShmolInstruAktiv = true;
-       // }
+       }    
         Instrument();
+
     }
     void Instrument()
     {
@@ -96,10 +90,7 @@ public class Instruments : MonoBehaviour
             case InteractionType.Second:
 
                 if (ShmolInstruAktiv == true)
-                {
-                    //Debug.Log("3");
-                    //Shader.SetGlobalFloat("_aktivatorfloat2", 3);
-                    //Shader.SetGlobalFloat("_TimerInstru2", Timer);
+                {                
                     if (AllinInstruAktiv == true)
                     {
                         SecInstru.volume = allInsound;
@@ -112,7 +103,6 @@ public class Instruments : MonoBehaviour
                     }
                 }
                 else
-                  //  Shader.SetGlobalFloat("_aktivatorfloat2", 1);
                      SecInstru.volume = 0;
                 break;
 
