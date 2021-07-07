@@ -18,6 +18,8 @@ TagManager:
   - CollisionObject
   - Pause
   - Start
+  - big
+  - Mike
   layers:
   - Default
   - TransparentFX
