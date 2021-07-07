@@ -33,6 +33,9 @@ public class Instruments : MonoBehaviour
     float allInsound = 1f;
 
     int finaltimer = 0;
+
+    public Material instrumaterial;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,32 +56,29 @@ public class Instruments : MonoBehaviour
         ThirdInstru.volume = 0;
         FourthInstru.volume = 0;
     }
-    void aktiv()
-    {    
-
-    }
-   
     // Update is called once per frame
     void Update()
-    {
+    {    
         if (Aktivatorscript.AktivatorAktiv == true && SoundmillScript.isSoundtouching == true)
         {
+
             connectetInstruaktiv = true;
             ShmolInstruAktiv = true;
+
             if (Drumzonescript.isOpen == true)
             {
                 connectetInstruaktiv = true;
-
                 AllinInstruAktiv = true;
             }
         }
-        else
-        {
+       else
+       {
             connectetInstruaktiv = false;
             ShmolInstruAktiv = false;
             AllinInstruAktiv = false;
-        }
+       }    
         Instrument();
+
     }
     void Instrument()
     {
@@ -88,8 +88,9 @@ public class Instruments : MonoBehaviour
             //        break;
 
             case InteractionType.Second:
+
                 if (ShmolInstruAktiv == true)
-                {
+                {                
                     if (AllinInstruAktiv == true)
                     {
                         SecInstru.volume = allInsound;
@@ -102,12 +103,14 @@ public class Instruments : MonoBehaviour
                     }
                 }
                 else
-                    SecInstru.volume = 0;
-
+                     SecInstru.volume = 0;
                 break;
+
             case InteractionType.Third:
                 if (ShmolInstruAktiv == true)
                 {
+                    Shader.SetGlobalFloat("_TimerInstru3", Timer);
+
                     if (AllinInstruAktiv == true)
                         ThirdInstru.volume = allInsound;
                     else
@@ -115,12 +118,13 @@ public class Instruments : MonoBehaviour
                 }      
                 else
                     ThirdInstru.volume = 0;
-
                 break;
 
             case InteractionType.Fourth:
                 if (ShmolInstruAktiv == true)
                 {
+                    Shader.SetGlobalFloat("_TimerInstru4", Timer);
+
                     if (AllinInstruAktiv == true)
                         FourthInstru.volume = allInsound;
                     else
@@ -128,8 +132,8 @@ public class Instruments : MonoBehaviour
                 }          
                 else
                     FourthInstru.volume = 0;
-
                 break;
+
             default:
                // Debug.Log("NONE");
                 break;

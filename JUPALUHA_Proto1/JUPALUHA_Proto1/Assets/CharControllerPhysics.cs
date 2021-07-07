@@ -39,7 +39,7 @@ public class CharControllerPhysics : MonoBehaviour
 
     //MOMENTUM JUMP
     [Header("MOMENTUM JUMP")]
-    float Momentumjumpmin = 20;
+    public float Momentumjumpmin = 20;
     GameObject PlayerObj;
     public Transform Player;
     static Vector3 PlayerVector;
@@ -392,15 +392,8 @@ public class CharControllerPhysics : MonoBehaviour
     }
 
     void Update()
-    {
-        //Menu
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            SceneManager.LoadScene(0);
-            pauseMenu = true;
-        }
-
-        //Soundmillgrab
+    {      
+       //Soundmillgrab
         if (Input.GetKey(KeyCode.K)&& IsOnSoundMill==false) //funktioniert leider nicht wenn man das gedrückt hält... muss getestet werden ob das besser in "update" hineinkommt.
             GrabHook();
 
