@@ -126,8 +126,6 @@ public class Instruments : MonoBehaviour
             case InteractionType.Fourth:
                 if (ShmolInstruAktiv == true)
                 {
-                    Shader.SetGlobalFloat("_TimerInstru4", Timer);
-
                     if (AllinInstruAktiv == true)
                         FourthInstru.volume = allInsound;
                     else
