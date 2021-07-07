@@ -14,6 +14,7 @@ public class Drumzone : MonoBehaviour
 
     public Instruments instrumentscript; //InstruAktiv
     public InstrumentAktivatorA instruAscript;
+    public Rigidbody2D charRB;
     private void FixedUpdate()
     {
         if (vent.transform.localPosition.y >= 1)

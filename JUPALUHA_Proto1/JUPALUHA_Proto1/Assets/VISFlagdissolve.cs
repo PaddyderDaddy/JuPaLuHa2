@@ -8,13 +8,18 @@ public class VISFlagdissolve : MonoBehaviour
     public InteractionType type;
 
     public float Timer = 0;
-    public float open = 0;//wird hiereinmal auf 1 gesetzt damit der einmal in den Instrumenten code geht
-    Aktivator aktivatorscript;
-    InstrumentAktivatorA aktivatorAscript;
+    public float open = 0; //wird hiereinmal auf 1 gesetzt damit der einmal in den Instrumenten code geht
+    public Aktivator aktivatorscript;
+    public InstrumentAktivatorA aktivatorAscript;
     // Start is called before the first frame update
     void Start()
     {
-        
+         Timer = 0;
+        Shader.SetGlobalFloat("_Flag1time", Timer);
+        Shader.SetGlobalFloat("_Flag2time", Timer);
+        Shader.SetGlobalFloat("_Flag3Time", Timer);
+        Shader.SetGlobalFloat("_Flag4time", Timer);
+
     }
 
     // Update is called once per frame
