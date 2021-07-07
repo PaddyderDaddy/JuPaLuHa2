@@ -11,6 +11,10 @@ public class VISInstrument : MonoBehaviour
     public float open = 1;//wird hiereinmal auf 1 gesetzt damit der einmal in den Instrumenten code geht
     public Instruments instrumentscript;
     bool instruwasturnedon =false;
+
+    public InstrumentAktivatorA instruAaktiv;
+    bool instruAAwasturnedon = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,16 +44,16 @@ public class VISInstrument : MonoBehaviour
                     open = 0;
                 Instrument();
             }         
-        }
+        }     
+
+
     }
     //als nächstes die anderen Shader und auf die  anderen Scripte
     void Instrument()
     {
         switch (type)
         {
-            case InteractionType.First:
-                Shader.SetGlobalFloat("_aktivatorfloat2", 1);
-                Shader.SetGlobalFloat("_TimerInstru2", Timer);
+            case InteractionType.First:             
                 break;
             
             case InteractionType.Second:
@@ -68,11 +72,25 @@ public class VISInstrument : MonoBehaviour
                 break;
 
             case InteractionType.Third:
-              
+                if (instruwasturnedon == false && instrumentscript.connectetInstruaktiv == true) //sobald einmal aktiv gewesen und Instru true:
+                {
+                    open = 1;
+                    instruwasturnedon = true;
+                }
+                //wird immer gesetzt
+                Shader.SetGlobalFloat("_TimerInstru3", Timer);
+                Shader.SetGlobalFloat("_Instru3Aktiv", open);
                 break;
 
             case InteractionType.Fourth:
-           
+                if (instruwasturnedon == false && instrumentscript.connectetInstruaktiv == true) //sobald einmal aktiv gewesen und Instru true:
+                {
+                    open = 1;
+                    instruwasturnedon = true;
+                }
+                //wird immer gesetzt
+                Shader.SetGlobalFloat("_TimerInstru4", Timer);
+                Shader.SetGlobalFloat("_Instru4Aktiv", open);
                 break;
 
             default:

@@ -107,17 +107,20 @@ public class Instruments : MonoBehaviour
                 break;
 
             case InteractionType.Third:
+
                 if (ShmolInstruAktiv == true)
                 {
-                    Shader.SetGlobalFloat("_TimerInstru3", Timer);
-
                     if (AllinInstruAktiv == true)
-                        ThirdInstru.volume = allInsound;
+                    {
+                        SecInstru.volume = allInsound;
+                    }
                     else
-                        ThirdInstru.volume = shmolsound;
-                }      
+                    {
+                        SecInstru.volume = shmolsound;
+                    }
+                }
                 else
-                    ThirdInstru.volume = 0;
+                    SecInstru.volume = 0;
                 break;
 
             case InteractionType.Fourth:
