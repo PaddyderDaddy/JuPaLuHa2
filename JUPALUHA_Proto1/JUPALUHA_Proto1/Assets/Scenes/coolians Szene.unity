@@ -372,7 +372,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 595102673}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.625, y: -0.35, z: -13.200709}
+  m_LocalPosition: {x: 1.625, y: -0.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 825025807}
@@ -976,8 +976,12 @@ MonoBehaviour:
   layermask:
     serializedVersion: 2
     m_Bits: 16384
+  Raydist: 0
+  Force: 0
+  Rbsoundmill: {fileID: 0}
   drumscript: {fileID: 0}
-  RaycastSoundhit: 0
+  Raycastsoundhit1: 0
+  Raycastsoundhit2: 0
 --- !u!1 &1085171588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1415,8 +1419,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e25a8354e8fe1448592225ae32a816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   rb: {fileID: 1291416850}
-  RotationZ: 1
   connectetrb: {fileID: 0}
   isSoundtouching: 0
   ConnectedSoundmill: {fileID: 0}
@@ -1759,8 +1763,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e25a8354e8fe1448592225ae32a816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   rb: {fileID: 2086822523}
-  RotationZ: 1
   connectetrb: {fileID: 0}
   isSoundtouching: 0
   ConnectedSoundmill: {fileID: 0}
