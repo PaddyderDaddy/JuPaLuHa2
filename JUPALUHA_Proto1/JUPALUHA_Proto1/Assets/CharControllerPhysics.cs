@@ -218,6 +218,7 @@ public class CharControllerPhysics : MonoBehaviour
             hookup = true;
             Jumping = false;
             DropTimer = 0;
+            Milljump = false;
 
             //Entparent
             Player.transform.parent = null;
