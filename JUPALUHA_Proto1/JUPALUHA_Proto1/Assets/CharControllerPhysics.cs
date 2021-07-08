@@ -218,6 +218,7 @@ public class CharControllerPhysics : MonoBehaviour
             hookup = true;
             Jumping = false;
             DropTimer = 0;
+            Milljump = false;
 
             //Entparent
             Player.transform.parent = null;
@@ -460,6 +461,13 @@ public class CharControllerPhysics : MonoBehaviour
         HookDetect = false;
         ChaRigidbody.gravityScale = 1;
 
+        if (Input.GetKey(KeyCode.A))
+            ChaRigidbody.velocity = new Vector3(-Mathf.Cos(-45), Mathf.Sin(45) * JumpForce);
+        if (Input.GetKey(KeyCode.D))
+            ChaRigidbody.velocity = new Vector3(Mathf.Cos(-45), Mathf.Sin(45) * JumpForce);
+        if (Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
+            ChaRigidbody.velocity = new Vector3(0, JumpForce);
+
 
         isOnPendulum = false;
     }
@@ -468,15 +476,9 @@ public class CharControllerPhysics : MonoBehaviour
     {
         if (isOnPendulum)
             Debug.Log("is on Pendulum");
-        //Menu
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            SceneManager.LoadScene(0);
-            pauseMenu = true;
-        }
 
         //Soundmillgrab
-        if (Input.GetKey(KeyCode.K)&& IsOnSoundMill==false) //funktioniert leider nicht wenn man das gedrückt hält... muss getestet werden ob das besser in "update" hineinkommt.
+        if (Input.GetKey(KeyCode.K)&& IsOnSoundMill==false && isOnPendulum ==false) //funktioniert leider nicht wenn man das gedrückt hält... muss getestet werden ob das besser in "update" hineinkommt.
             GrabHook();
 
         //SIMPLE JUMP

@@ -5,20 +5,17 @@ using UnityEngine;
 public class Pendulum : MonoBehaviour
 {
     Rigidbody2D rb;
+    bool movingClockwise;
+    float maxSpeed;
 
     [SerializeField] GameObject pipe;
-    [SerializeField] float rotZ;
-
-    bool movingClockwise;
 
     CharControllerPhysics characterScript;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-
-        //rb.angularVelocity = 30;
-        //movingClockwise = false;
+        maxSpeed = 100;
 
         characterScript = FindObjectOfType<CharControllerPhysics>();
     }
@@ -30,8 +27,10 @@ public class Pendulum : MonoBehaviour
 
         if (Mathf.Round(rb.angularVelocity) == 0 && characterScript.isOnPendulum)
         {
-            rb.angularVelocity = 30;
-            movingClockwise = false;
+            if (movingClockwise)
+                rb.angularVelocity = -maxSpeed;
+            else
+                rb.angularVelocity = maxSpeed;
         }
 
         if (!characterScript.isOnPendulum)
@@ -40,38 +39,43 @@ public class Pendulum : MonoBehaviour
 
     void PendulumRotation()
     {
-        //Debug.Log("Rotation: " + Mathf.Round(rb.angularVelocity));
+        //decelerate pendulum
+        if (!movingClockwise && transform.eulerAngles.z >= 22.5f && transform.eulerAngles.z <= 55f) //right hemisphere
+            rb.angularVelocity *= 0.985f;
+        else if (movingClockwise && transform.eulerAngles.z <= 337.5f && transform.eulerAngles.z >= 305f) //left hemisphere
+            rb.angularVelocity *= 0.985f;
 
-        if (transform.eulerAngles.z >= 0 && transform.eulerAngles.z <= 180 && !movingClockwise)
-            rb.angularVelocity *= 0.99f;
-        else if (transform.eulerAngles.z <= 360 && transform.eulerAngles.z >= 180 && movingClockwise)
-            rb.angularVelocity *= 0.99f;
+        //accelerate pendulum
+        if (movingClockwise && transform.eulerAngles.z >= 22.5f && transform.eulerAngles.z <= 55f) //right hemisphere
+            rb.angularVelocity *= 1.015f;
+        else if (!movingClockwise && transform.eulerAngles.z <= 337.5f && transform.eulerAngles.z >= 305f) //left hemisphere
+            rb.angularVelocity *= 1.015f;
 
-        if (transform.eulerAngles.z >= 0 && transform.eulerAngles.z <= 180 && movingClockwise)
-            rb.angularVelocity *= 1.01f;
-        else if (transform.eulerAngles.z <= 360 && transform.eulerAngles.z >= 180 && !movingClockwise)
-            rb.angularVelocity *= 1.01f;
-
-
-        if (Mathf.Round(rb.angularVelocity) == 5 && !movingClockwise)
+        //reversing velocity on angular point
+        if (Mathf.Round(transform.eulerAngles.z) == 55 && !movingClockwise)
         {
-            rb.angularVelocity = -10;
+            rb.angularVelocity = -maxSpeed;
             movingClockwise = true;
         }
-        else if (Mathf.Round(rb.angularVelocity) == -5 && movingClockwise)
+        else if (Mathf.Round(transform.eulerAngles.z) == 305 && movingClockwise)
         {
-            rb.angularVelocity = 10;
+            rb.angularVelocity = maxSpeed;
             movingClockwise = false;
         }
 
-        if (Mathf.Round(transform.eulerAngles.z) >= 0 && Mathf.Round(transform.eulerAngles.z) <= 1 && !movingClockwise)
-            pipe.transform.localEulerAngles = new Vector3(0, 0, rotZ);
-        else if (Mathf.Round(transform.eulerAngles.z) <= 360 && Mathf.Round(transform.eulerAngles.z) >= 359 && movingClockwise)
-            pipe.transform.localEulerAngles = new Vector3(0, 0, -rotZ);
+        //setting pipe angles to pendulum angles
+        pipe.transform.localEulerAngles = transform.eulerAngles;
 
-        if (rb.angularVelocity >= 50 && !movingClockwise)
-            rb.angularVelocity = 50;
-        else if (rb.angularVelocity <= -50 && movingClockwise)
-            rb.angularVelocity = -50;
+        //setting maximum velocity for pendulum
+        if (rb.angularVelocity >= maxSpeed && !movingClockwise)
+            rb.angularVelocity = maxSpeed;
+        else if (rb.angularVelocity <= -maxSpeed && movingClockwise)
+            rb.angularVelocity = -maxSpeed;
+
+        //setting maximum angles for pendulum
+        if (transform.eulerAngles.z >= 55 && transform.eulerAngles.z <= 180)
+            transform.eulerAngles = new Vector3(0, 0, 55);
+        else if (transform.eulerAngles.z <= 305 && transform.eulerAngles.z >= 180)
+            transform.eulerAngles = new Vector3(0, 0, 305);
     }
 }
