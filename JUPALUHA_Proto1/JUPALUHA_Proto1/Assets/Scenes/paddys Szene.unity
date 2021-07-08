@@ -1597,6 +1597,8 @@ MonoBehaviour:
   type: 0
   Timer: 0
   open: 0
+  aktivatorscript: {fileID: 0}
+  aktivatorAscript: {fileID: 0}
 --- !u!1001 &507506066
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2036,8 +2038,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e25a8354e8fe1448592225ae32a816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   rb: {fileID: 582965664}
-  RotationZ: 1
   connectetrb: {fileID: 1582271647}
   isSoundtouching: 0
   ConnectedSoundmill: {fileID: 1582271648}
@@ -8834,6 +8836,8 @@ MonoBehaviour:
   type: 0
   Timer: 0
   open: 0
+  aktivatorscript: {fileID: 0}
+  aktivatorAscript: {fileID: 0}
 --- !u!212 &1259298231
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9849,8 +9853,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e25a8354e8fe1448592225ae32a816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   rb: {fileID: 1582271647}
-  RotationZ: 1
   connectetrb: {fileID: 582965664}
   isSoundtouching: 0
   ConnectedSoundmill: {fileID: 582965665}
@@ -16572,7 +16576,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7082348373642611060, guid: 63df5f03b7adb1c458ffa606ebcb0a26, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7962955197835841336, guid: 63df5f03b7adb1c458ffa606ebcb0a26, type: 3}
       propertyPath: m_Materials.Array.data[0]
