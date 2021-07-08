@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Instru1
+  m_Name: Instru2
   m_Shader: {fileID: -6465566751694194690, guid: 4d6a0fbec7852af42b02ef99833f77e4, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA _EMISSION _NORMALMAP _PARALLAXMAP
   m_LightmapFlags: 2
@@ -106,6 +106,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_b074a61ad15b4ebdba2d1222bb651dfe: 0
+    - Vector1_f8094196fe48423f9ca7f2118836e0cc: -0.2
     - _AlphaClip: 0
     - _Blend: 0
     - _BlendOp: 0
@@ -149,7 +150,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
-    - Color_4d3d6a8f5c9e4036a7b85077c9e5f0f0: {r: 0.9512013, g: 1, b: 0, a: 0}
+    - Color_4d3d6a8f5c9e4036a7b85077c9e5f0f0: {r: 1, g: 0.9218782, b: 0, a: 0}
     - Vector2_e6b0267299834dddb59e23ad963cd0fd: {r: 0, g: 0.5, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}

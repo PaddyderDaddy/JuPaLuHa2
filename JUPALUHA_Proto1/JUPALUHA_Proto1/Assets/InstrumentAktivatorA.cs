@@ -17,8 +17,11 @@ public class InstrumentAktivatorA : MonoBehaviour
     private void Update()
     {
         audioSourceOne.volume = musicVolume;
+
         if (startMusic == true)
         {
+            connectetInstruaktivA = true;
+
             musicVolume += Time.deltaTime / FadeTime;
 
             if (musicVolume < 0.7f && DONOTBOTHERME == false)
@@ -45,7 +48,6 @@ public class InstrumentAktivatorA : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.U))
         {
             startMusic = true;
-            connectetInstruaktivA = true;
         }
     }
 }

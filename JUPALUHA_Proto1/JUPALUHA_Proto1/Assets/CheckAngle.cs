@@ -7,10 +7,15 @@ public class CheckAngle : MonoBehaviour
    // [SerializeField] GameObject collisionPoint;
     //[SerializeField] GameObject dirPointObj;
     [SerializeField] LayerMask layermask;
-   
+    [SerializeField] float Raydist;
+    [SerializeField] float Force;
+
+    public Rigidbody2D Rbsoundmill;
     public Drumzone drumscript; //Ventopen
-    public bool RaycastSoundhit = false;
-   // public Instruments instrumentscript; //InstruAktiv
+    public bool Raycastsoundhit1 = false;
+    public bool Raycastsoundhit2 = false;
+
+    // public Instruments instrumentscript; //InstruAktiv
     private void Update()
     {
         if (drumscript.isOpen == true )
@@ -25,12 +30,24 @@ public class CheckAngle : MonoBehaviour
 
         RaycastHit2D hit;
 
-        Debug.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * 5f, Color.red);
-        hit = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.right), 5f, layermask);
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * Raydist, Color.red);
+        hit = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.right), Raydist, layermask);
 
         if (hit)
         {
-            RaycastSoundhit = true;
+
+            if (hit.collider.tag == "SoundmillA")
+            {
+                Raycastsoundhit1 = true;
+                Raycastsoundhit2 = false;
+
+            }
+            if (hit.collider.tag == "SoundmillB")
+            {
+                Raycastsoundhit2 = true;
+                Raycastsoundhit1 = false;
+
+            }
             Vector3 posTangent = Quaternion.Euler(0, 0, 90) * hit.normal;
             Vector3 negTangent = Quaternion.Euler(0, 0, -90) * hit.normal;
 
@@ -47,8 +64,8 @@ public class CheckAngle : MonoBehaviour
 
             if (posAngle < negAngle)
             {
-                //anticlockwise
-                hit.rigidbody.angularVelocity = 100;
+                //anticlockwise            
+                hit.rigidbody.angularVelocity = Force;
 
                 //isSoundTouching = true;
                 //currentSoundmill = this;
@@ -56,7 +73,7 @@ public class CheckAngle : MonoBehaviour
             else
             {
                 //clockwise
-                hit.rigidbody.angularVelocity = -100;
+                hit.rigidbody.angularVelocity = -Force;
 
                 //isSoundTouching = true;
                 //currentSoundmill = this;
@@ -64,6 +81,9 @@ public class CheckAngle : MonoBehaviour
             
         }
         else
-            RaycastSoundhit = false;
+        {
+            Raycastsoundhit1 = false;
+            Raycastsoundhit2 = false;
+        }
     }
 }
