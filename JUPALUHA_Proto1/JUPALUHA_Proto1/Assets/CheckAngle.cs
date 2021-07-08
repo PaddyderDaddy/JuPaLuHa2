@@ -9,9 +9,13 @@ public class CheckAngle : MonoBehaviour
     [SerializeField] LayerMask layermask;
     [SerializeField] float Raydist;
     [SerializeField] float Force;
+
+    public Rigidbody2D Rbsoundmill;
     public Drumzone drumscript; //Ventopen
-    public bool RaycastSoundhit = false;
-   // public Instruments instrumentscript; //InstruAktiv
+    public bool Raycastsoundhit1 = false;
+    public bool Raycastsoundhit2 = false;
+
+    // public Instruments instrumentscript; //InstruAktiv
     private void Update()
     {
         if (drumscript.isOpen == true )
@@ -31,7 +35,19 @@ public class CheckAngle : MonoBehaviour
 
         if (hit)
         {
-            RaycastSoundhit = true;
+
+            if (hit.collider.tag == "SoundmillA")
+            {
+                Raycastsoundhit1 = true;
+                Raycastsoundhit2 = false;
+
+            }
+            if (hit.collider.tag == "SoundmillB")
+            {
+                Raycastsoundhit2 = true;
+                Raycastsoundhit1 = false;
+
+            }
             Vector3 posTangent = Quaternion.Euler(0, 0, 90) * hit.normal;
             Vector3 negTangent = Quaternion.Euler(0, 0, -90) * hit.normal;
 
@@ -48,7 +64,7 @@ public class CheckAngle : MonoBehaviour
 
             if (posAngle < negAngle)
             {
-                //anticlockwise
+                //anticlockwise            
                 hit.rigidbody.angularVelocity = Force;
 
                 //isSoundTouching = true;
@@ -65,6 +81,9 @@ public class CheckAngle : MonoBehaviour
             
         }
         else
-            RaycastSoundhit = false;
+        {
+            Raycastsoundhit1 = false;
+            Raycastsoundhit2 = false;
+        }
     }
 }

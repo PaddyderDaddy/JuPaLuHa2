@@ -18,8 +18,7 @@ TagManager:
   - CollisionObject
   - Pause
   - Start
-  - big
-  - Mike
+  - PinPendulum
   layers:
   - Default
   - TransparentFX

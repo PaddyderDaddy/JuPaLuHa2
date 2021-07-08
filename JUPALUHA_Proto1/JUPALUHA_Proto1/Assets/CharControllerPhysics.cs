@@ -39,7 +39,7 @@ public class CharControllerPhysics : MonoBehaviour
 
     //MOMENTUM JUMP
     [Header("MOMENTUM JUMP")]
-    public float Momentumjumpmin = 20;
+    float Momentumjumpmin = 20;
     GameObject PlayerObj;
     public Transform Player;
     static Vector3 PlayerVector;
@@ -97,6 +97,10 @@ public class CharControllerPhysics : MonoBehaviour
 
     // public ParticleSystem ;
     public bool DidawesomeJump = false;
+
+
+    public bool isOnPendulum = false;
+
     private void Awake()
     {
         rotationPLPO = PLPO.transform.rotation;
@@ -199,6 +203,43 @@ public class CharControllerPhysics : MonoBehaviour
         
             HookDetect = true;
             PlayerattachedtoSoundmill = true;
+        }
+
+        if (grabCheck.collider != null && grabCheck.collider.tag == "PinPendulum")
+        {
+            grabbed = true;
+            PlayerVelocity = ChaRigidbody.velocity;
+
+            //standart Kram
+            isOnPendulum = true;
+            ChaRigidbody.gravityScale = 0;
+            xVelocity = 0;
+            ChaRigidbody.velocity = new Vector2(0, 0);
+            hookup = true;
+            Jumping = false;
+            DropTimer = 0;
+            Milljump = false;
+
+            //Entparent
+            Player.transform.parent = null;
+            PLPO.transform.parent = null; //Nicht mehr Child des Hooks
+            HookGrab.transform.parent = null; //nicht mehr Child des Players
+
+            //Parenten                                           
+            Target = grabCheck.collider.gameObject.GetComponent<Transform>();
+            PLPO.transform.parent = Target.transform; //Parent = PIN
+            HookGrab.transform.parent = PLPO.transform; //Child des PLPO          
+            Player.transform.parent = HookGrab.transform; //Child des Hooks                  
+
+            //Position
+            PLPO.transform.localPosition = new Vector3(0, 0, 0);
+            HookGrab.transform.localPosition = new Vector3(0, -0.4f, 0);
+            Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0);
+            //effect
+
+            Instantiate(GrabVis, new Vector2(HookGrab.transform.position.x, HookGrab.transform.position.y), Quaternion.identity);
+
+            HookDetect = true;
         }
     }
     public void Rotation()
@@ -326,6 +367,16 @@ public class CharControllerPhysics : MonoBehaviour
             ChaRigidbody.angularVelocity = 0;
         }      
 
+        //ONPENDULUM
+        if (isOnPendulum == true)
+        {
+            PLPO.transform.localPosition = new Vector3(0, 0, 0);
+            HookGrab.transform.localPosition = new Vector3(0, -0.4f, 0);
+            Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0);
+            ChaRigidbody.angularVelocity = 0;
+        }
+
+
         if (Grounded == true)
         {
             paracute.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
@@ -351,6 +402,9 @@ public class CharControllerPhysics : MonoBehaviour
         //Soundmilljump
         if (Input.GetKey(KeyCode.Space) && IsOnSoundMill == true && !Input.GetKey(KeyCode.K))
             SoundmillJump();
+
+        if (Input.GetKey(KeyCode.Space) && isOnPendulum && !Input.GetKey(KeyCode.K))
+            PendulumJump();
     }
 
     void SoundmillJump()
@@ -391,10 +445,40 @@ public class CharControllerPhysics : MonoBehaviour
         IsOnSoundMill = false;
     }
 
+    void PendulumJump()
+    {
+        //VERSTOßEN
+        Player.transform.parent = null;
+        PLPO.transform.parent = null; //Nicht mehr Child des Hooks
+        HookGrab.transform.parent = null; //nicht mehr Child des Players
+        //PARENTEN
+        HookGrab.transform.parent = Player.transform; //Hook = Child des Player
+        PLPO.transform.parent = HookGrab.transform;   //PLPO = Child des Hooks   
+        HookGrab.transform.localPosition = new Vector3(-0.7f, 0, 0);
+        PLPO.transform.localPosition = new Vector3(0, 0.4f, 0);
+
+        hookup = false;
+        HookDetect = false;
+        ChaRigidbody.gravityScale = 1;
+
+        if (Input.GetKey(KeyCode.A))
+            ChaRigidbody.velocity = new Vector3(-Mathf.Cos(-45), Mathf.Sin(45) * JumpForce);
+        if (Input.GetKey(KeyCode.D))
+            ChaRigidbody.velocity = new Vector3(Mathf.Cos(-45), Mathf.Sin(45) * JumpForce);
+        if (Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
+            ChaRigidbody.velocity = new Vector3(0, JumpForce);
+
+
+        isOnPendulum = false;
+    }
+
     void Update()
-    {      
-       //Soundmillgrab
-        if (Input.GetKey(KeyCode.K)&& IsOnSoundMill==false) //funktioniert leider nicht wenn man das gedrückt hält... muss getestet werden ob das besser in "update" hineinkommt.
+    {
+        if (isOnPendulum)
+            Debug.Log("is on Pendulum");
+
+        //Soundmillgrab
+        if (Input.GetKey(KeyCode.K)&& IsOnSoundMill==false && isOnPendulum ==false) //funktioniert leider nicht wenn man das gedrückt hält... muss getestet werden ob das besser in "update" hineinkommt.
             GrabHook();
 
         //SIMPLE JUMP

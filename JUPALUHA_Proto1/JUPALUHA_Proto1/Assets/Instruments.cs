@@ -94,12 +94,10 @@ public class Instruments : MonoBehaviour
                     if (AllinInstruAktiv == true)
                     {
                         SecInstru.volume = allInsound;
-                        Debug.Log("allinsound works");
                     }
                     else
                     {
                         SecInstru.volume = shmolsound;
-                        Debug.Log("shmol shmolsound works");
                     }
                 }
                 else
@@ -112,11 +110,11 @@ public class Instruments : MonoBehaviour
                 {
                     if (AllinInstruAktiv == true)
                     {
-                        SecInstru.volume = allInsound;
+                        ThirdInstru.volume = allInsound;
                     }
                     else
                     {
-                        SecInstru.volume = shmolsound;
+                        ThirdInstru.volume = shmolsound;
                     }
                 }
                 else
@@ -126,8 +124,6 @@ public class Instruments : MonoBehaviour
             case InteractionType.Fourth:
                 if (ShmolInstruAktiv == true)
                 {
-                    Shader.SetGlobalFloat("_TimerInstru4", Timer);
-
                     if (AllinInstruAktiv == true)
                         FourthInstru.volume = allInsound;
                     else
