@@ -24146,7 +24146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 43349242916442357}
   m_Layer: 0
-  m_Name: RotationPoint
+  m_Name: RotationPoint1
   m_TagString: PipeAdjustable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
