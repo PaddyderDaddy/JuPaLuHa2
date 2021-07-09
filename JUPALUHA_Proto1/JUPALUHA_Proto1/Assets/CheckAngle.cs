@@ -15,12 +15,18 @@ public class CheckAngle : MonoBehaviour
     public bool Raycastsoundhit1 = false;
     public bool Raycastsoundhit2 = false;
 
+    public GameObject visEffect;
     // public Instruments instrumentscript; //InstruAktiv
+    private void Start()
+    {
+        visEffect.SetActive(false);
+    }
     private void Update()
     {
         if (drumscript.isOpen == true )
         {
             ShootRaycast();
+            visEffect.SetActive(true);
 
         }
     }

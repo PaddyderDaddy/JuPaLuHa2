@@ -39,7 +39,7 @@ public class CharControllerPhysics : MonoBehaviour
 
     //MOMENTUM JUMP
     [Header("MOMENTUM JUMP")]
-    float Momentumjumpmin = 20;
+    public float Momentumjumpmin = 20;
     GameObject PlayerObj;
     public Transform Player;
     static Vector3 PlayerVector;
