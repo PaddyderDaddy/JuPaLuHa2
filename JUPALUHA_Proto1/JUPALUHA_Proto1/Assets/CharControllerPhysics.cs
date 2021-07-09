@@ -332,20 +332,20 @@ public class CharControllerPhysics : MonoBehaviour
         //HookGrab
         if (xVelocity < 1f && Input.GetKey(KeyCode.A) && IsOnSoundMill == false)
         {
-            HookGrab.transform.localPosition = new Vector2(-0.7f, 0); //left
+            HookGrab.transform.localPosition = new Vector2(-7, 20); //left
             facingLeft = true;
         }
         else if (xVelocity > 1f && IsOnSoundMill == false)
         {
-            HookGrab.transform.localPosition = new Vector2(0.7f, 0); //right
+            HookGrab.transform.localPosition = new Vector2(7, 20); //right
             facingLeft = false;
         }
         else if (xVelocity == 0 && IsOnSoundMill == false)
         {
             if (facingLeft == false)
-                HookGrab.transform.localPosition = new Vector2(0.7f, 0); //right
+                HookGrab.transform.localPosition = new Vector2(7, 20); //right
             if (facingLeft == true)
-                HookGrab.transform.localPosition = new Vector2(-0.7f, 0); //left
+                HookGrab.transform.localPosition = new Vector2(-7, 20); //left
         }
 
         ChaRigidbody.velocity = new Vector2(xVelocity, ChaRigidbody.velocity.y);
