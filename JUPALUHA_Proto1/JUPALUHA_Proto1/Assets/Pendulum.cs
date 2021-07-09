@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Pendulum : MonoBehaviour
 {
-    Rigidbody2D rb;
-    bool movingClockwise;
+    Rigidbody2D rbPendulum;
+    bool movingClockwise = false;
     float maxSpeed;
 
     [SerializeField] GameObject pipe;
@@ -14,7 +14,7 @@ public class Pendulum : MonoBehaviour
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rbPendulum = gameObject.GetComponent<Rigidbody2D>();
         maxSpeed = 100;
 
         characterScript = FindObjectOfType<CharControllerPhysics>();
@@ -22,44 +22,49 @@ public class Pendulum : MonoBehaviour
 
     private void Update()
     {
-        if (characterScript.isOnPendulum)
-            PendulumRotation();
-
-        if (Mathf.Round(rb.angularVelocity) == 0 && characterScript.isOnPendulum)
+        if (GameManager.instance.ActivePendulum != null)
         {
-            if (movingClockwise)
-                rb.angularVelocity = -maxSpeed;
-            else
-                rb.angularVelocity = maxSpeed;
-        }
+            if (characterScript.isOnPendulum && GameManager.instance.ActivePendulum == this)
+            {
+                if (Mathf.Round(rbPendulum.angularVelocity) == 0 && characterScript.isOnPendulum)
+                {
+                    if (movingClockwise)
+                        rbPendulum.angularVelocity = -maxSpeed;
+                    else
+                        rbPendulum.angularVelocity = maxSpeed;
+                }
 
-        if (!characterScript.isOnPendulum)
-            rb.angularVelocity = 0;
+                PendulumRotation();
+            }
+            else
+                rbPendulum.angularVelocity = 0;
+        }
     }
 
     void PendulumRotation()
     {
+        Debug.Log("is on pendulum");
         //decelerate pendulum
         if (!movingClockwise && transform.eulerAngles.z >= 22.5f && transform.eulerAngles.z <= 55f) //right hemisphere
-            rb.angularVelocity *= 0.985f;
+            rbPendulum.angularVelocity *= 0.985f;
         else if (movingClockwise && transform.eulerAngles.z <= 337.5f && transform.eulerAngles.z >= 305f) //left hemisphere
-            rb.angularVelocity *= 0.985f;
+            rbPendulum.angularVelocity *= 0.985f;
 
         //accelerate pendulum
         if (movingClockwise && transform.eulerAngles.z >= 22.5f && transform.eulerAngles.z <= 55f) //right hemisphere
-            rb.angularVelocity *= 1.015f;
+            rbPendulum.angularVelocity *= 1.015f;
         else if (!movingClockwise && transform.eulerAngles.z <= 337.5f && transform.eulerAngles.z >= 305f) //left hemisphere
-            rb.angularVelocity *= 1.015f;
+            rbPendulum.angularVelocity *= 1.015f;
 
         //reversing velocity on angular point
         if (Mathf.Round(transform.eulerAngles.z) == 55 && !movingClockwise)
         {
-            rb.angularVelocity = -maxSpeed;
+            rbPendulum.angularVelocity = -maxSpeed;
             movingClockwise = true;
         }
         else if (Mathf.Round(transform.eulerAngles.z) == 305 && movingClockwise)
         {
-            rb.angularVelocity = maxSpeed;
+            rbPendulum.angularVelocity = maxSpeed;
             movingClockwise = false;
         }
 
@@ -67,10 +72,10 @@ public class Pendulum : MonoBehaviour
         pipe.transform.localEulerAngles = transform.eulerAngles;
 
         //setting maximum velocity for pendulum
-        if (rb.angularVelocity >= maxSpeed && !movingClockwise)
-            rb.angularVelocity = maxSpeed;
-        else if (rb.angularVelocity <= -maxSpeed && movingClockwise)
-            rb.angularVelocity = -maxSpeed;
+        if (rbPendulum.angularVelocity >= maxSpeed && !movingClockwise)
+            rbPendulum.angularVelocity = maxSpeed;
+        else if (rbPendulum.angularVelocity <= -maxSpeed && movingClockwise)
+            rbPendulum.angularVelocity = -maxSpeed;
 
         //setting maximum angles for pendulum
         if (transform.eulerAngles.z >= 55 && transform.eulerAngles.z <= 180)

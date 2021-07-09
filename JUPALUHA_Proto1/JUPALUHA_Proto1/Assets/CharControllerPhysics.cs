@@ -98,7 +98,6 @@ public class CharControllerPhysics : MonoBehaviour
     // public ParticleSystem ;
     public bool DidawesomeJump = false;
 
-
     public bool isOnPendulum = false;
 
     private void Awake()
@@ -111,6 +110,8 @@ public class CharControllerPhysics : MonoBehaviour
     void Start()
     {
         ChaRigidbody = GetComponent<Rigidbody2D>();
+        
+
         Interaktiv.gameObject.SetActive(false);
         paracute.gameObject.SetActive(true);
     }
@@ -207,6 +208,11 @@ public class CharControllerPhysics : MonoBehaviour
 
         if (grabCheck.collider != null && grabCheck.collider.tag == "PinPendulum")
         {
+            Pendulum currentPendulum = grabCheck.collider.transform.parent.GetComponent<Pendulum>();
+
+            if (currentPendulum != null)
+                GameManager.instance.ActivePendulum = currentPendulum;
+
             grabbed = true;
             PlayerVelocity = ChaRigidbody.velocity;
 
