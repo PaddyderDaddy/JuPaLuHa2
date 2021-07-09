@@ -39,7 +39,7 @@ public class CharControllerPhysics : MonoBehaviour
 
     //MOMENTUM JUMP
     [Header("MOMENTUM JUMP")]
-    float Momentumjumpmin = 20;
+    public float Momentumjumpmin = 20;
     GameObject PlayerObj;
     public Transform Player;
     static Vector3 PlayerVector;
@@ -162,8 +162,11 @@ public class CharControllerPhysics : MonoBehaviour
         {
             SoundmillRotation currentSoundmill = grabCheck.collider.transform.parent.GetComponent<SoundmillRotation>();
 
-            if (currentSoundmill != null)
-                GameManager.instance.ActiveSoundmill = currentSoundmill;
+            if (!currentSoundmill.isPoweredByRaycast && !currentSoundmill.ConnectedSoundmill.isPoweredByRaycast)
+            {
+                currentSoundmill.isSoundmillFuckingActive = true;
+                currentSoundmill.ConnectedSoundmill.isSoundmillFuckingActive = false;
+            }
 
             Debug.Log("Ich erkenne etwas");
             grabbed = true;
