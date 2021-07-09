@@ -4,24 +4,28 @@ using UnityEngine;
 
 public class CheckAngle : MonoBehaviour
 {
-   // [SerializeField] GameObject collisionPoint;
-    //[SerializeField] GameObject dirPointObj;
     [SerializeField] LayerMask layermask;
     [SerializeField] float Raydist;
     [SerializeField] float Force;
 
+    SoundmillRotation currentSoundmill;
+
     public Rigidbody2D Rbsoundmill;
     public Drumzone drumscript; //Ventopen
-    public bool Raycastsoundhit1 = false;
-    public bool Raycastsoundhit2 = false;
 
-    // public Instruments instrumentscript; //InstruAktiv
+    public GameObject visEffect;
+
+    private void Start()
+    {
+        visEffect.SetActive(false);
+    }
+
     private void Update()
     {
         if (drumscript.isOpen == true )
         {
             ShootRaycast();
-
+            visEffect.SetActive(true);
         }
     }
 
@@ -35,19 +39,19 @@ public class CheckAngle : MonoBehaviour
 
         if (hit)
         {
+            currentSoundmill = hit.transform.gameObject.GetComponent<SoundmillRotation>();
 
-            if (hit.collider.tag == "SoundmillA")
+            //if (currentSoundmill != null)
+            //    GameManager.instance.ActiveSoundmill = currentSoundmill;
+
+            if (currentSoundmill != null)
             {
-                Raycastsoundhit1 = true;
-                Raycastsoundhit2 = false;
-
+                currentSoundmill.isSoundmillFuckingActive = true;
+                currentSoundmill.ConnectedSoundmill.isSoundmillFuckingActive = false;
+                currentSoundmill.isPoweredByRaycast = true;
+                currentSoundmill.ConnectedSoundmill.isPoweredByRaycast = true;
             }
-            if (hit.collider.tag == "SoundmillB")
-            {
-                Raycastsoundhit2 = true;
-                Raycastsoundhit1 = false;
 
-            }
             Vector3 posTangent = Quaternion.Euler(0, 0, 90) * hit.normal;
             Vector3 negTangent = Quaternion.Euler(0, 0, -90) * hit.normal;
 
@@ -66,24 +70,20 @@ public class CheckAngle : MonoBehaviour
             {
                 //anticlockwise            
                 hit.rigidbody.angularVelocity = Force;
-
-                //isSoundTouching = true;
-                //currentSoundmill = this;
             }
             else
             {
                 //clockwise
                 hit.rigidbody.angularVelocity = -Force;
-
-                //isSoundTouching = true;
-                //currentSoundmill = this;
             }
-            
+
         }
         else
         {
-            Raycastsoundhit1 = false;
-            Raycastsoundhit2 = false;
+            if (currentSoundmill == null) return;
+
+            currentSoundmill.isPoweredByRaycast = false;
+            currentSoundmill.ConnectedSoundmill.isPoweredByRaycast = false;
         }
     }
 }
