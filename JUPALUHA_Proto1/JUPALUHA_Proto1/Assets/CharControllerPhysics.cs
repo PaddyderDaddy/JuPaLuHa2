@@ -511,9 +511,7 @@ public class CharControllerPhysics : MonoBehaviour
         //POWER DROP
         if (Input.GetKey(KeyCode.Space) && Milljump == true && DropTimer > 1.5f /*Input.GetKey(KeyCode.L) && Jumping == true && DropTimer > 2 || */)
         {
-
             ChaRigidbody.velocity = Vector2.down * JumpForce * 5;
-
             DidawesomeJump = true;
             Milljump = false;
         }
