@@ -100,6 +100,11 @@ public class CharControllerPhysics : MonoBehaviour
 
     public bool isOnPendulum = false;
 
+    public Animator animator;
+    public bool isRunning;
+    public bool isGrounded;
+    public bool onSoundmill = false;
+
     private void Awake()
     {
         rotationPLPO = PLPO.transform.rotation;
@@ -114,6 +119,9 @@ public class CharControllerPhysics : MonoBehaviour
 
         Interaktiv.gameObject.SetActive(false);
         paracute.gameObject.SetActive(true);
+
+        animator = GetComponentInChildren<Animator>();
+        //animator = GetComponent<Animator>();
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -191,12 +199,14 @@ public class CharControllerPhysics : MonoBehaviour
             Target = grabCheck.collider.gameObject.GetComponent<Transform>();
             PLPO.transform.parent = Target.transform; //Parent = PIN
             HookGrab.transform.parent = PLPO.transform; //Child des PLPO          
-            Player.transform.parent = HookGrab.transform; //Child des Hooks                  
+            Player.transform.parent = HookGrab.transform; //Child des Hooks
+            //CharacterRigging.. transform.parent = Blue.transform
 
             //Position
             PLPO.transform.localPosition = new Vector3(0, 0, 0);
             HookGrab.transform.localPosition = new Vector3(0, -0.4f, 0);
-            Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0); 
+            Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0);
+            //Charcriiign.transform.position = blue.transorm.localposition; //entweder local oder normal position /hookgrab, soundmill, soundmilljummp (entparenten)
             //effect
 
             Instantiate(GrabVis, new Vector2(HookGrab.transform.position.x, HookGrab.transform.position.y), Quaternion.identity);
@@ -321,6 +331,7 @@ public class CharControllerPhysics : MonoBehaviour
 
     void FixedUpdate()
     {
+
         //GROUNDED
         Grounded = Physics2D.OverlapBox(ChaRigidbody.position + Vector2.up * OverlapBoxDistance, transform.localScale * 0.98f, 0, LayerMask.GetMask("Level"));
         TouchingObject = Physics2D.OverlapCircle((Vector2)transform.position + upOffset, collisionRadius, LayerMask.GetMask("GrabbableObject"));
@@ -374,6 +385,8 @@ public class CharControllerPhysics : MonoBehaviour
             HookGrab.transform.localPosition = new Vector3(0, -0.4f, 0);
             Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0);
             ChaRigidbody.angularVelocity = 0;
+
+            //animator.SetBool("onSoundmill", onSoundmill = true);
         }      
 
         //ONPENDULUM
@@ -383,6 +396,8 @@ public class CharControllerPhysics : MonoBehaviour
             HookGrab.transform.localPosition = new Vector3(0, -0.4f, 0);
             Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0);
             ChaRigidbody.angularVelocity = 0;
+
+            //animator.SetBool("onSoundmill", onSoundmill = true);
         }
 
 
@@ -401,6 +416,7 @@ public class CharControllerPhysics : MonoBehaviour
                 Instantiate(Powerjumpvis, new Vector2(Player.transform.position.x, Player.transform.position.y-0.5f), Quaternion.Euler(-0.113f, -90f, 90));
                 DidawesomeJump = false;
             }
+            animator.SetBool("isGrounded", isGrounded = true);
 
         }
         
@@ -446,7 +462,11 @@ public class CharControllerPhysics : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
             ChaRigidbody.velocity = new Vector3(Mathf.Cos(-45), Mathf.Sin(45)) * normalized;       
         if (Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
+        {
             ChaRigidbody.velocity = new Vector3(0, normalized);
+            animator.SetTrigger("SoundmillJump");
+        }
+
 
         //other stuff
         DropTimer = 0; //mal schauen
@@ -490,7 +510,12 @@ public class CharControllerPhysics : MonoBehaviour
 
         //Soundmillgrab
         if (Input.GetKey(KeyCode.K)&& IsOnSoundMill==false && isOnPendulum ==false) //funktioniert leider nicht wenn man das gedrückt hält... muss getestet werden ob das besser in "update" hineinkommt.
+        {
             GrabHook();
+        } 
+
+        if (Input.GetKey(KeyCode.K))
+            animator.SetTrigger("Grabbing");
 
         //SIMPLE JUMP
         if (Input.GetKey(KeyCode.Space) && Grounded)
@@ -498,6 +523,8 @@ public class CharControllerPhysics : MonoBehaviour
             jumpTimer = Time.deltaTime + jumpDelay;
             ChaRigidbody.velocity = Vector2.up * JumpForce;
             Jumping = true;
+            animator.SetTrigger("Jump");
+            animator.SetBool("isGrounded", isGrounded = false);
         }
         if(Jumping == true)    
             jumpTimer = Time.deltaTime + jumpDelay;     
@@ -516,6 +543,8 @@ public class CharControllerPhysics : MonoBehaviour
 
             DidawesomeJump = true;
             Milljump = false;
+
+            animator.SetTrigger("FuckingAwesomeJump");
         }
         //GLIDING
         bool currentlygliding=false;
@@ -544,6 +573,38 @@ public class CharControllerPhysics : MonoBehaviour
            // DropTimer = 0;
 
         Shader.SetGlobalFloat("_AvaiblePowerjump", DropTimer);
+
+        //animation
+        Move();
+    }
+
+    // animation
+    void Move()
+    {
+        float xVelocity = Input.GetAxis("Horizontal");
+
+        Vector2 moveDelta = new Vector2(xVelocity * MoveSpeed * Time.deltaTime, 0);
+
+        ChaRigidbody.AddForce(moveDelta, ForceMode2D.Impulse);
+
+        float clampedVelocity = Mathf.Clamp(ChaRigidbody.velocity.x, -MoveSpeed, MoveSpeed);
+
+        if (xVelocity > 0f)
+        {
+            transform.localScale = new Vector3(-0.75f, 1.75f, 1);
+            animator.SetBool("isRunning", isRunning = true);
+            Debug.Log("itworks");
+        }
+        else if (xVelocity < -0f)
+        {
+            transform.localScale = new Vector3(0.75f, 1.75f, 1);
+            animator.SetBool("isRunning", isRunning = true);
+        }
+        else if (xVelocity == 0)
+        {
+            animator.SetBool("isRunning", isRunning = false);
+        }
+        ChaRigidbody.velocity = new Vector2(clampedVelocity, ChaRigidbody.velocity.y);
 
     }
 
