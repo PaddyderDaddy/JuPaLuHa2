@@ -14,6 +14,12 @@ public class InstrumentAktivatorA : MonoBehaviour
 
     public bool startMusic;
     bool DONOTBOTHERME = false;
+
+    private void Start()
+    {
+        audioSourceOne.volume = 0;
+
+    }
     private void Update()
     {
         audioSourceOne.volume = musicVolume;

@@ -59,7 +59,7 @@ public class Instruments : MonoBehaviour
     // Update is called once per frame
     void Update()
     {    
-        if (Aktivatorscript.AktivatorAktiv == true && SoundmillScript.isSoundtouching == true)
+        if (Aktivatorscript.AktivatorAktiv == true && SoundmillScript.isPoweredByRaycast == true)
         {
 
             connectetInstruaktiv = true;
