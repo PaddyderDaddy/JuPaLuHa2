@@ -15,14 +15,29 @@ public class Drumzone : MonoBehaviour
     public Instruments instrumentscript; //InstruAktiv
     public InstrumentAktivatorA instruAscript;
     public Rigidbody2D charRB;
+
+    [SerializeField] Vector3 closedVent;
+    [SerializeField] Vector3 openVent;
+
+    private void Start()
+    {
+        closedVent = vent.transform.localEulerAngles;
+        openVent = closedVent + new Vector3(0, 0, 180);
+    }
+
     private void FixedUpdate()
     {
-        if (vent.transform.localPosition.y >= 1)
+        if (instrumentscript.connectetInstruaktiv == true || instruAscript.connectetInstruaktivA == true)
+            Debug.Log("eulerAngles: " + vent.transform.localEulerAngles.z);
+
+        if (vent.transform.localEulerAngles.z == openVent.z)
         {
+            Debug.Log("vent open");
             ventOpen = true;
         }
-        else
+        else if (vent.transform.localEulerAngles.z == closedVent.z)
         {
+            Debug.Log("vent closed");
             ventOpen = false;
         }
     }
@@ -30,41 +45,22 @@ public class Drumzone : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //das lieber mal lassen, better safe than sorry
-        //if (instrumentscript.connectetInstruaktiv == true || instruAscript.connectetInstruaktivA ==true)
-        //{
-        //    if (PlayerScript.DidawesomeJump == true && ventOpen == false)
-        //    {
-        //        Debug.Log("true");
-        //        isOpen = true;
-        //        vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 1, 0);
-        //    }
-        //    if (PlayerScript.DidawesomeJump == true && ventOpen == true)
-        //    {
-        //        Debug.Log("false");
-        //        vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 0, 0);
-        //        isOpen = false;
-        //    }
-        //}
-
         if (instrumentscript.connectetInstruaktiv == true || instruAscript.connectetInstruaktivA == true)
         {
             if (PlayerScript.ChaRigidbody.velocity.y <= -40 && ventOpen == false)
             {
-                Debug.Log("true");
+                Debug.Log("opening vent");
                 isOpen = true;
-                vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 1, 0);
+                //vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 1, 0);
+                vent.transform.localEulerAngles = openVent;
             }
             if (PlayerScript.ChaRigidbody.velocity.y <= -40 && ventOpen == true)
             {
-                Debug.Log("false");
-                vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 0, 0);
+                Debug.Log("closing vent");
                 isOpen = false;
+                //vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 0, 0);
+                vent.transform.localEulerAngles = closedVent;
             }
         }
-        // else
-        // {
-        //feedbackSound/vis das es noch nicht aufgeht
-        // }     
     }
 }

@@ -22,11 +22,13 @@ public class CheckAngle : MonoBehaviour
 
     private void Update()
     {
-        if (drumscript.isOpen == true )
+        if (drumscript.isOpen == true)
         {
             ShootRaycast();
             visEffect.SetActive(true);
         }
+        else
+            visEffect.SetActive(false);
     }
 
     void ShootRaycast()
