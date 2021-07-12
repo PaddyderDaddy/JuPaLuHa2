@@ -104,6 +104,13 @@ public class CharControllerPhysics : MonoBehaviour
     public bool isRunning;
     public bool isGrounded;
     public bool onSoundmill = false;
+    public bool HookIsUp = false;
+    public bool isJumping = false;
+
+    public bool AisPressed = false;
+    public bool DisPressed = false;
+
+    public bool Right = false;
 
     private void Awake()
     {
@@ -142,11 +149,11 @@ public class CharControllerPhysics : MonoBehaviour
             //VERSTOßEN
             Player.transform.parent = null;
             PLPO.transform.parent = null; //Nicht mehr Child des Hooks
-            HookGrab.transform.parent = null; //nicht mehr Child des Players
-                                              //PARENTEN
-            HookGrab.transform.parent = Player.transform; //Hook = Child des Player
+                                          HookGrab.transform.parent = null; //nicht mehr Child des Players
+                                          //PARENTEN
+                                          HookGrab.transform.parent = Player.transform; //Hook = Child des Player
             PLPO.transform.parent = HookGrab.transform;   //PLPO = Child des Hooks   
-            HookGrab.transform.localPosition = new Vector3(-0.7f, 0, 0);
+            HookGrab.transform.localPosition = new Vector3(-0.7f, 0, 0); //-0.7f
             PLPO.transform.localPosition = new Vector3(0, 0.4f, 0);
 
             hookup = false;
@@ -158,10 +165,10 @@ public class CharControllerPhysics : MonoBehaviour
     }
     public void GrabHook()
     {
-        if (facingLeft == false && IsOnSoundMill == false)
-            HookGrab.transform.localPosition = new Vector2(0.7f, hookupheight); //right up      
-        if (facingLeft == true && IsOnSoundMill == false)
-            HookGrab.transform.localPosition = new Vector2(-0.7f, hookupheight); //left up            
+        //if (facingLeft == false && IsOnSoundMill == false)
+        //    HookGrab.transform.localPosition = new Vector2(2f, hookupheight); //right up      
+        //if (facingLeft == true && IsOnSoundMill == false)
+        //    HookGrab.transform.localPosition = new Vector2(-0.7f, hookupheight); //left up            
 
         RaycastHit2D grabCheck = Physics2D.Raycast(grabDetect.position, Vector2.right * transform.localScale, rayDist); //kann nur nach rechts schauen
 
@@ -195,7 +202,7 @@ public class CharControllerPhysics : MonoBehaviour
             PLPO.transform.parent = null; //Nicht mehr Child des Hooks
             HookGrab.transform.parent = null; //nicht mehr Child des Players
 
-            //Parenten                                           
+            //Parenten
             Target = grabCheck.collider.gameObject.GetComponent<Transform>();
             PLPO.transform.parent = Target.transform; //Parent = PIN
             HookGrab.transform.parent = PLPO.transform; //Child des PLPO          
@@ -204,8 +211,8 @@ public class CharControllerPhysics : MonoBehaviour
 
             //Position
             PLPO.transform.localPosition = new Vector3(0, 0, 0);
-            HookGrab.transform.localPosition = new Vector3(0, -0.4f, 0);
-            Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0);
+            HookGrab.transform.localPosition = new Vector3(0, 0f, 0); //-0.4fy
+            Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0); //(-0.7f, -hookupheight, 0)
             //Charcriiign.transform.position = blue.transorm.localposition; //entweder local oder normal position /hookgrab, soundmill, soundmilljummp (entparenten)
             //effect
 
@@ -252,7 +259,7 @@ public class CharControllerPhysics : MonoBehaviour
 
             //Position
             PLPO.transform.localPosition = new Vector3(0, 0, 0);
-            HookGrab.transform.localPosition = new Vector3(0, -0.4f, 0);
+            HookGrab.transform.localPosition = new Vector3(0, -0.4f, 0); //-0.4f
             Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0);
             //effect
 
@@ -341,26 +348,29 @@ public class CharControllerPhysics : MonoBehaviour
         float velocityDelta = 50;
 
         if (IsOnSoundMill == false) //nicht auf den Soundmills möglich !
+        {
             xVelocity = Mathf.MoveTowards(ChaRigidbody.velocity.x, xInput * MoveSpeed, velocityDelta * Time.deltaTime);
+            animator.SetBool("onSoundmill", onSoundmill = false);
+        }
 
         //HookGrab
-        if (xVelocity < 1f && Input.GetKey(KeyCode.A) && IsOnSoundMill == false)
-        {
-            HookGrab.transform.localPosition = new Vector2(-7, 20); //left
-            facingLeft = true;
-        }
-        else if (xVelocity > 1f && IsOnSoundMill == false)
-        {
-            HookGrab.transform.localPosition = new Vector2(7, 20); //right
-            facingLeft = false;
-        }
-        else if (xVelocity == 0 && IsOnSoundMill == false)
-        {
-            if (facingLeft == false)
-                HookGrab.transform.localPosition = new Vector2(7, 20); //right
-            if (facingLeft == true)
-                HookGrab.transform.localPosition = new Vector2(-7, 20); //left
-        }
+        //if (xVelocity < 1f && Input.GetKey(KeyCode.A) && IsOnSoundMill == false)
+        //{
+        //    HookGrab.transform.localPosition = new Vector2(0.5f, 5); //left  //position after first soundmillgrab
+        //    facingLeft = true;
+        //}
+        //else if (xVelocity > 1f && IsOnSoundMill == false)
+        //{
+        //    HookGrab.transform.localPosition = new Vector2(15, 2); //right
+        //    facingLeft = false;
+        //}
+        //else if (xVelocity == 0 && IsOnSoundMill == false)
+        //{
+        //    if (facingLeft == false)
+        //        HookGrab.transform.localPosition = new Vector2(0, 0); //right
+        //    if (facingLeft == true)
+        //        HookGrab.transform.localPosition = new Vector2(-0, 0); //left   // 7, 20
+        //}
 
         ChaRigidbody.velocity = new Vector2(xVelocity, ChaRigidbody.velocity.y);
 
@@ -374,7 +384,7 @@ public class CharControllerPhysics : MonoBehaviour
             ChaRigidbody.gravityScale = 1;
             ChaRigidbody.velocity = new Vector3(0, JumpForce / 5);
         }
-       
+
         //ONSOUNDMILL
         if (IsOnSoundMill == true)
         {
@@ -382,22 +392,51 @@ public class CharControllerPhysics : MonoBehaviour
 
             SoundOffsetAngleSavedPosition = SoundmillObjekt.transform.rotation.z;
             PLPO.transform.localPosition = new Vector3(0, 0, 0);
-            HookGrab.transform.localPosition = new Vector3(0, -0.4f, 0);
-            Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0);
+            HookGrab.transform.localPosition = new Vector3(-0f, 0f, 0); //-0.4f
+            //Player.transform.localPosition = new Vector3(-1.6f, -hookupheight, 0);
+
             ChaRigidbody.angularVelocity = 0;
 
-            //animator.SetBool("onSoundmill", onSoundmill = true);
-        }      
+            if (Right == false)
+            {
+                //animator.SetBool("AisPressed", AisPressed = true);
+                //animator.SetBool("DisPressed", AisPressed = false);
+                //transform.localScale = new Vector3(-0.75f, 1.75f, 1);
+                Player.transform.localPosition = new Vector3(-1.6f, -hookupheight, 0);  // -> parent den verschieben  (-1.6f, -hookupheight, 0) ändert links und rechts
+            }
+
+            if (Right == true)
+            {
+                //animator.SetBool("AisPressed", AisPressed = false);
+                //animator.SetBool("DisPressed", AisPressed = true);
+                //    AisPressed = false;
+                //    transform.localScale = new Vector3(0.75f, 1.75f, 1);
+                Player.transform.localPosition = new Vector3(-1.7f, 0.4f, 0); //(1.6f, -hookupheight, 0);
+                //Player.transform.localPosition = new Vector3(0.79f, -2.595f, 0);
+            }
+
+        //animator.SetBool("onSoundmill", onSoundmill = true);
+    }
 
         //ONPENDULUM
         if (isOnPendulum == true)
         {
             PLPO.transform.localPosition = new Vector3(0, 0, 0);
-            HookGrab.transform.localPosition = new Vector3(0, -0.4f, 0);
-            Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0);
+            HookGrab.transform.localPosition = new Vector3(-0f, 0f, 0); //-0.4f
+            //Player.transform.localPosition = new Vector3(-1.6f, -hookupheight, 0);
             ChaRigidbody.angularVelocity = 0;
 
             //animator.SetBool("onSoundmill", onSoundmill = true);
+
+            if (Right == false)
+            {
+                Player.transform.localPosition = new Vector3(-1.6f, -hookupheight, 0);  
+            }
+
+            if (Right == true)
+            {
+                Player.transform.localPosition = new Vector3(-1.7f, 0.4f, 0); 
+            }
         }
 
 
@@ -417,6 +456,7 @@ public class CharControllerPhysics : MonoBehaviour
                 DidawesomeJump = false;
             }
             animator.SetBool("isGrounded", isGrounded = true);
+            animator.SetBool("isJumping", isJumping = false);
 
         }
         
@@ -426,7 +466,10 @@ public class CharControllerPhysics : MonoBehaviour
         }
         //Soundmilljump
         if (Input.GetKey(KeyCode.Space) && IsOnSoundMill == true && !Input.GetKey(KeyCode.K))
+        {
             SoundmillJump();
+        }
+
 
         if (Input.GetKey(KeyCode.Space) && isOnPendulum && !Input.GetKey(KeyCode.K))
             PendulumJump();
@@ -436,6 +479,7 @@ public class CharControllerPhysics : MonoBehaviour
     {
         //rotation
         SoundOffsetAngle = SoundmillObjekt.transform.rotation.z;
+        
         //VERSTOßEN
         Player.transform.parent = null;
         PLPO.transform.parent = null; //Nicht mehr Child des Hooks
@@ -443,8 +487,9 @@ public class CharControllerPhysics : MonoBehaviour
         //PARENTEN
         HookGrab.transform.parent = Player.transform; //Hook = Child des Player
         PLPO.transform.parent = HookGrab.transform;   //PLPO = Child des Hooks   
-        HookGrab.transform.localPosition = new Vector3(-0.7f, 0, 0);
-        PLPO.transform.localPosition = new Vector3(0, 0.4f, 0);
+        HookGrab.transform.localPosition = new Vector3(-0.6f, 0.8f, 0); //-0.7f   //verschiebt gelb -> parent
+        PLPO.transform.localPosition = new Vector3(0, 0, 0); //0.4f  //beijhonny 0.3, 1.5  1.541f, 0.095f, 0  f-> 000, geht von gelb aus
+
 
         hookup = false;
         HookDetect = false;
@@ -464,7 +509,6 @@ public class CharControllerPhysics : MonoBehaviour
         if (Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
         {
             ChaRigidbody.velocity = new Vector3(0, normalized);
-            animator.SetTrigger("SoundmillJump");
         }
 
 
@@ -483,8 +527,8 @@ public class CharControllerPhysics : MonoBehaviour
         //PARENTEN
         HookGrab.transform.parent = Player.transform; //Hook = Child des Player
         PLPO.transform.parent = HookGrab.transform;   //PLPO = Child des Hooks   
-        HookGrab.transform.localPosition = new Vector3(-0.7f, 0, 0);
-        PLPO.transform.localPosition = new Vector3(0, 0.4f, 0);
+        HookGrab.transform.localPosition = new Vector3(-0.6f, 0.8f, 0); //-0.7f
+        PLPO.transform.localPosition = new Vector3(0, 0, 0); //0.4f  (0.3f, 1.5f, 0)
 
         hookup = false;
         HookDetect = false;
@@ -508,14 +552,41 @@ public class CharControllerPhysics : MonoBehaviour
         if (isOnPendulum)
             Debug.Log("is on Pendulum");
 
+        if (isOnPendulum == false)
+            animator.SetBool("onSoundmill", onSoundmill = false);
+
+        if (Grounded == false)
+            animator.SetBool("isGrounded", isGrounded = false);
+
+        if (IsOnSoundMill == true || isOnPendulum == true)
+            animator.SetBool("onSoundmill", onSoundmill = true);
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            AisPressed = true;
+            DisPressed = false;
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            AisPressed = false;
+            DisPressed = true;
+        }
+
+        if (AisPressed == true && DisPressed == true)
+            DisPressed = false;
+
         //Soundmillgrab
         if (Input.GetKey(KeyCode.K)&& IsOnSoundMill==false && isOnPendulum ==false) //funktioniert leider nicht wenn man das gedrückt hält... muss getestet werden ob das besser in "update" hineinkommt.
         {
             GrabHook();
-        } 
+        }
 
         if (Input.GetKey(KeyCode.K))
-            animator.SetTrigger("Grabbing");
+            animator.SetBool("HookIsUp", HookIsUp = true);
+        if (!Input.GetKey(KeyCode.K))
+            animator.SetBool("HookIsUp", HookIsUp = false);
+
+        //animator.SetTrigger("Grabbing");
 
         //SIMPLE JUMP
         if (Input.GetKey(KeyCode.Space) && Grounded)
@@ -523,7 +594,8 @@ public class CharControllerPhysics : MonoBehaviour
             jumpTimer = Time.deltaTime + jumpDelay;
             ChaRigidbody.velocity = Vector2.up * JumpForce;
             Jumping = true;
-            animator.SetTrigger("Jump");
+            //animator.SetTrigger("Jump");
+            animator.SetBool("isJumping", isJumping = true);
             animator.SetBool("isGrounded", isGrounded = false);
         }
         if(Jumping == true)    
@@ -591,14 +663,16 @@ public class CharControllerPhysics : MonoBehaviour
 
         if (xVelocity > 0f)
         {
-            transform.localScale = new Vector3(-0.75f, 1.75f, 1);
+            transform.localScale = new Vector3(-0.75f, 1.75f, 1); //-
             animator.SetBool("isRunning", isRunning = true);
             Debug.Log("itworks");
+            Right = true;
         }
         else if (xVelocity < -0f)
         {
             transform.localScale = new Vector3(0.75f, 1.75f, 1);
             animator.SetBool("isRunning", isRunning = true);
+            Right = false;
         }
         else if (xVelocity == 0)
         {
