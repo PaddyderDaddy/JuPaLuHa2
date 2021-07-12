@@ -9,10 +9,14 @@ public class VISInstruAA : MonoBehaviour
     public InstrumentAktivatorA instruAaktiv;
     bool instruAAwasturnedon = false;
     bool currentstateaktiv = false;
+
+    public GameObject Viseffekt;
+
     // Start is called before the first frame update
     void Start()
     {
-       
+        Viseffekt.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -25,7 +29,7 @@ public class VISInstruAA : MonoBehaviour
 
         if (currentstateaktiv == true)
         {
-            Debug.Log("erstesLevel");
+            //Debug.Log("erstesLevel");
             if (Timer <= 5) //langsamer glow effekt durch den Timer
                 Timer += Time.deltaTime;
 
@@ -51,10 +55,13 @@ public class VISInstruAA : MonoBehaviour
 
         if (instruAAwasturnedon == false && currentstateaktiv == true) //sobald einmal aktiv gewesen und Instru true:
         {
+            Viseffekt.SetActive(true);
+
             open = 1;
             instruAAwasturnedon = true;
         }
         Shader.SetGlobalFloat("_aktivatorfloat1", 1);
         Shader.SetGlobalFloat("_TimerInstru1", Timer);
+
     }
 }
