@@ -12,10 +12,14 @@ public class PausePlayer : MonoBehaviour
 
     private int Timer = 0;
 
+    Animator animator;
+
     private void Start()
     {
         gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         transform.position = gm.lastCheckPointPos;
+
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -31,6 +35,8 @@ public class PausePlayer : MonoBehaviour
             //Time.timeScale = 1f;
 
             Camera.main.gameObject.transform.position = new Vector3(/*gm.lastCheckPointPos.x*/ Camera.main.gameObject.transform.position.x, gm.lastCheckPointPos.y, -10f);
+
+            animator.SetTrigger("Death");
 
             //transform.position = gm.lastCheckPointPos;
             //cf.transform.position = new Vector3 (this.gameObject.transform.position.x, this.gameObject.transform.position.y, -10f);
