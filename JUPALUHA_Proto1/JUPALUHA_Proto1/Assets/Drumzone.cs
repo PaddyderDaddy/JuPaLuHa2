@@ -27,17 +27,17 @@ public class Drumzone : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (instrumentscript.connectetInstruaktiv == true || instruAscript.connectetInstruaktivA == true)
-            Debug.Log("eulerAngles: " + vent.transform.localEulerAngles.z);
+       // if (instrumentscript.connectetInstruaktiv == true  || instruAscript.connectetInstruaktivA == true)
+          //  Debug.Log("eulerAngles: " + vent.transform.localEulerAngles.z);
 
         if (vent.transform.localEulerAngles.z == openVent.z)
         {
-            Debug.Log("vent open");
+           // Debug.Log("vent open");
             ventOpen = true;
         }
         else if (vent.transform.localEulerAngles.z == closedVent.z)
         {
-            Debug.Log("vent closed");
+           // Debug.Log("vent closed");
             ventOpen = false;
         }
     }

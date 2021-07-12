@@ -15,10 +15,12 @@ public class VISInstrument : MonoBehaviour
     public InstrumentAktivatorA instruAaktiv;
     bool instruAAwasturnedon = false;
 
+    public GameObject Viseffekt; 
+
     // Start is called before the first frame update
     void Start()
     {
-
+        Viseffekt.SetActive(false);
     }
 
     // Update is called once per frame
@@ -26,9 +28,11 @@ public class VISInstrument : MonoBehaviour
     {
         if (instrumentscript.connectetInstruaktiv == true) 
         {
-            Debug.Log("erstesLevel");
+          //  Debug.Log("erstesLevel");
             if (Timer <= 5) //langsamer glow effekt durch den Timer
                 Timer += Time.deltaTime;
+
+            Viseffekt.SetActive(true);
 
             Instrument();
            
@@ -62,8 +66,8 @@ public class VISInstrument : MonoBehaviour
                 {
                     open = 1;
                     instruwasturnedon = true;
-                    Debug.Log("eigentlich soll er jetzt blinken");                  
-                    Debug.Log("zweitesLevel");
+                   // Debug.Log("eigentlich soll er jetzt blinken");                  
+                   // Debug.Log("zweitesLevel");
                 }
                 //wird immer gesetzt
                 Shader.SetGlobalFloat("_InstruaktivTimer2", Timer);

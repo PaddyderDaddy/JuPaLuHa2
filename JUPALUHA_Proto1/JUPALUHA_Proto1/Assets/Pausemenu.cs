@@ -7,11 +7,12 @@ using UnityEngine.Audio;
 public class Pausemenu : MonoBehaviour
 {
     public bool GameIsPaused = false;
-
     public GameObject pauseMenuUI;
     public AudioMixer audioMixer;
+    public GameObject Endscreen;
 
-    void Update()
+    public ENDDRUMBUM Endscript;
+    public void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -19,6 +20,12 @@ public class Pausemenu : MonoBehaviour
                 Resume();
             else
                 Pause();
+
+        }
+        if(Endscript.GameFinandTimeFin == true)
+        {
+            Endscreen.SetActive(true);
+            Time.timeScale = 0f;
 
         }
     }
