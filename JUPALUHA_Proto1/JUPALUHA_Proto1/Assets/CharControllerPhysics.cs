@@ -100,7 +100,7 @@ public class CharControllerPhysics : MonoBehaviour
 
     public bool isOnPendulum = false;
 
-    public Animator animator;
+   // public Animator animator;
     public bool isRunning;
     public bool isGrounded;
     public bool onSoundmill = false;
@@ -120,7 +120,7 @@ public class CharControllerPhysics : MonoBehaviour
         Interaktiv.gameObject.SetActive(false);
         paracute.gameObject.SetActive(true);
 
-        animator = GetComponentInChildren<Animator>();
+       // animator = GetComponentInChildren<Animator>();
         //animator = GetComponent<Animator>();
     }
     private void OnCollisionExit2D(Collision2D collision)
@@ -416,7 +416,7 @@ public class CharControllerPhysics : MonoBehaviour
                 Instantiate(Powerjumpvis, new Vector2(Player.transform.position.x, Player.transform.position.y-0.5f), Quaternion.Euler(-0.113f, -90f, 90));
                 DidawesomeJump = false;
             }
-            animator.SetBool("isGrounded", isGrounded = true);
+           // animator.SetBool("isGrounded", isGrounded = true);
 
         }
         
@@ -464,7 +464,7 @@ public class CharControllerPhysics : MonoBehaviour
         if (Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
         {
             ChaRigidbody.velocity = new Vector3(0, normalized);
-            animator.SetTrigger("SoundmillJump");
+           // animator.SetTrigger("SoundmillJump");
         }
 
 
@@ -514,8 +514,8 @@ public class CharControllerPhysics : MonoBehaviour
             GrabHook();
         } 
 
-        if (Input.GetKey(KeyCode.K))
-            animator.SetTrigger("Grabbing");
+       // if (Input.GetKey(KeyCode.K))
+           // animator.SetTrigger("Grabbing");
 
         //SIMPLE JUMP
         if (Input.GetKey(KeyCode.Space) && Grounded)
@@ -523,8 +523,8 @@ public class CharControllerPhysics : MonoBehaviour
             jumpTimer = Time.deltaTime + jumpDelay;
             ChaRigidbody.velocity = Vector2.up * JumpForce;
             Jumping = true;
-            animator.SetTrigger("Jump");
-            animator.SetBool("isGrounded", isGrounded = false);
+           // animator.SetTrigger("Jump");
+            //animator.SetBool("isGrounded", isGrounded = false);
         }
         if(Jumping == true)    
             jumpTimer = Time.deltaTime + jumpDelay;     
@@ -542,7 +542,7 @@ public class CharControllerPhysics : MonoBehaviour
             DidawesomeJump = true;
             Milljump = false;
 
-            animator.SetTrigger("FuckingAwesomeJump");
+           // animator.SetTrigger("FuckingAwesomeJump");
         }
         //GLIDING
         bool currentlygliding=false;
@@ -590,17 +590,17 @@ public class CharControllerPhysics : MonoBehaviour
         if (xVelocity > 0f)
         {
             transform.localScale = new Vector3(-0.75f, 1.75f, 1);
-            animator.SetBool("isRunning", isRunning = true);
-            Debug.Log("itworks");
+           // animator.SetBool("isRunning", isRunning = true);
+           // Debug.Log("itworks");
         }
         else if (xVelocity < -0f)
         {
             transform.localScale = new Vector3(0.75f, 1.75f, 1);
-            animator.SetBool("isRunning", isRunning = true);
+            //animator.SetBool("isRunning", isRunning = true);
         }
         else if (xVelocity == 0)
         {
-            animator.SetBool("isRunning", isRunning = false);
+            //animator.SetBool("isRunning", isRunning = false);
         }
         ChaRigidbody.velocity = new Vector2(clampedVelocity, ChaRigidbody.velocity.y);
 

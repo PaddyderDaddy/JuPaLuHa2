@@ -25,8 +25,6 @@ public class Pausemenu : MonoBehaviour
         if(Endscript.GameFinandTimeFin == true)
         {
             Endscreen.SetActive(true);
-            Time.timeScale = 0f;
-
         }
     }
 
