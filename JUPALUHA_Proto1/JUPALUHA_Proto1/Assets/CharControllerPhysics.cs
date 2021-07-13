@@ -203,16 +203,32 @@ public class CharControllerPhysics : MonoBehaviour
             HookGrab.transform.parent = null; //nicht mehr Child des Players
 
             //Parenten
-            Target = grabCheck.collider.gameObject.GetComponent<Transform>();
+            Target = grabCheck.collider.transform;
             PLPO.transform.parent = Target.transform; //Parent = PIN
             HookGrab.transform.parent = PLPO.transform; //Child des PLPO          
             Player.transform.parent = HookGrab.transform; //Child des Hooks
             //CharacterRigging.. transform.parent = Blue.transform
 
+            //Philipps magic
+            Vector3 baseScale = new Vector3(1, 1, 1);
+            PLPO.transform.localScale = baseScale;
+            HookGrab.transform.localScale = baseScale;
+
+            if (Right)
+                transform.localScale = new Vector3(-0.75f, 1.75f, 1);
+            else
+                transform.localScale = new Vector3(0.75f, 1.75f , 1);
             //Position
             PLPO.transform.localPosition = new Vector3(0, 0, 0);
-            HookGrab.transform.localPosition = new Vector3(0, 0f, 0); //-0.4fy
-            Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0); //(-0.7f, -hookupheight, 0)
+            HookGrab.transform.localPosition = new Vector3(0, 0f, 0); //-0.
+
+            if (Right == false)
+                Player.transform.localPosition = new Vector3(-1.6f, -hookupheight, 0);
+            
+            if (Right == true)
+                Player.transform.localPosition = new Vector3(-1.7f , hookupheight , 0);
+            
+
             //Charcriiign.transform.position = blue.transorm.localposition; //entweder local oder normal position /hookgrab, soundmill, soundmilljummp (entparenten)
             //effect
 
@@ -255,12 +271,29 @@ public class CharControllerPhysics : MonoBehaviour
             Target = grabCheck.collider.gameObject.GetComponent<Transform>();
             PLPO.transform.parent = Target.transform; //Parent = PIN
             HookGrab.transform.parent = PLPO.transform; //Child des PLPO          
-            Player.transform.parent = HookGrab.transform; //Child des Hooks                  
+            Player.transform.parent = HookGrab.transform; //Child des Hooks       
 
+            //Philipps magic
+            Vector3 baseScale = new Vector3(1, 1, 1);
+            PLPO.transform.localScale = baseScale;
+            HookGrab.transform.localScale = baseScale;
+            if (Right)
+                transform.localScale = new Vector3(-0.75f, 1.75f, 1);
+            else
+                transform.localScale = new Vector3(0.75f, 1.75f, 1);
             //Position
             PLPO.transform.localPosition = new Vector3(0, 0, 0);
-            HookGrab.transform.localPosition = new Vector3(0, -0.4f, 0); //-0.4f
-            Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0);
+            HookGrab.transform.localPosition = new Vector3(0, 0f, 0); //-0.
+            if (Right == false)
+                Player.transform.localPosition = new Vector3(-1.6f, -hookupheight, 0);
+
+            if (Right == true)
+                Player.transform.localPosition = new Vector3(-1.7f, hookupheight, 0);
+
+            //Position
+           // PLPO.transform.localPosition = new Vector3(0, 0, 0);
+           // HookGrab.transform.localPosition = new Vector3(0, -0.4f, 0); //-0.4f
+            //Player.transform.localPosition = new Vector3(-0.7f, -hookupheight, 0);
             //effect
 
             Instantiate(GrabVis, new Vector2(HookGrab.transform.position.x, HookGrab.transform.position.y), Quaternion.identity);
