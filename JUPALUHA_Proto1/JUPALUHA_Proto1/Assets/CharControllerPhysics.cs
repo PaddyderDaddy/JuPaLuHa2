@@ -91,7 +91,8 @@ public class CharControllerPhysics : MonoBehaviour
     [Header("Visuellobjects")]
     public GameObject Powerjumpvis;
     public GameObject GrabVis;
-
+    public GameObject Powerjumpvis2;
+    bool wasinstatiatet = false;
     [Header("menu")]
     public bool pauseMenu = false;
 
@@ -447,9 +448,10 @@ public class CharControllerPhysics : MonoBehaviour
                 Player.transform.localPosition = new Vector3(-1.7f, 0.4f, 0); //(1.6f, -hookupheight, 0);
                 //Player.transform.localPosition = new Vector3(0.79f, -2.595f, 0);
             }
+            wasinstatiatet = false;
 
-        //animator.SetBool("onSoundmill", onSoundmill = true);
-    }
+            //animator.SetBool("onSoundmill", onSoundmill = true);
+        }
 
         //ONPENDULUM
         if (isOnPendulum == true)
@@ -534,6 +536,9 @@ public class CharControllerPhysics : MonoBehaviour
             Force *= -1;
         normalized = Mathf.InverseLerp(-180f, 180f, Force); //Damit habe ich eine Value zwischen ´0-1      
         normalized = normalized * Momentumjumpmin;
+
+        if (normalized <= 0.3f)
+            normalized = 0.3f;
         //Jumpsteuerung
         if (Input.GetKey(KeyCode.A))
             ChaRigidbody.velocity = new Vector3(-Mathf.Cos(-45), Mathf.Sin(45)) * normalized;
@@ -639,7 +644,9 @@ public class CharControllerPhysics : MonoBehaviour
         {
             DropTimer += Time.deltaTime;
         }
+
       
+
         //POWER DROP
         if (Input.GetKey(KeyCode.Space) && Milljump == true && DropTimer > 1.5f /*Input.GetKey(KeyCode.L) && Jumping == true && DropTimer > 2 || */)
         {
@@ -668,6 +675,7 @@ public class CharControllerPhysics : MonoBehaviour
 
         if (Grounded == true)
         {
+            wasinstatiatet = false;
             FindObjectOfType<Gliding>().StopGliding();
             paracute.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
         }
@@ -677,6 +685,15 @@ public class CharControllerPhysics : MonoBehaviour
 
         Shader.SetGlobalFloat("_AvaiblePowerjump", DropTimer);
 
+
+        if (Milljump == true && DropTimer > 1.5f && wasinstatiatet == false)
+        {
+            wasinstatiatet = true;
+            float rightorleft = 90;
+            if (ChaRigidbody.velocity.x < 0)
+                rightorleft *=-1;
+            Instantiate(Powerjumpvis2, new Vector2(Player.transform.position.x, Player.transform.position.y + 0.5f), Quaternion.Euler(3.821f, 90f, rightorleft));
+        }
         //animation
         Move();
     }
