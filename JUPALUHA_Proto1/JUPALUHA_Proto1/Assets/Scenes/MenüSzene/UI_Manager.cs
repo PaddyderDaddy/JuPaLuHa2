@@ -8,7 +8,10 @@ public class Volume_Game : MonoBehaviour
     CharControllerPhysics charphy;
     public GameObject start;
     public GameObject pause;
-   // public GameObject Powerjumpvis;
+    // public GameObject Powerjumpvis;
+
+    [SerializeField]
+    GameObject picture;
 
     public void QuitGame()
     {
