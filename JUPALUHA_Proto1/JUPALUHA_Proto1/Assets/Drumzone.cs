@@ -24,6 +24,7 @@ public class Drumzone : MonoBehaviour
         closedVent = vent.transform.localEulerAngles;
         openVent = closedVent + new Vector3(0, 0, 180);
 
+        //maybe not necessary
         if (Mathf.Abs(openVent.z) > 180)
             openVent = openVent - closedVent;
     }
