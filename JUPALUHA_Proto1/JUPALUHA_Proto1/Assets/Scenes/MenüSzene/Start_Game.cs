@@ -8,7 +8,6 @@ public class Start_Game : MonoBehaviour
 
     void Start()
     {
-        
     }
 
     void Update()
@@ -18,7 +17,6 @@ public class Start_Game : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Menutrigger")
-            rotationMenuScript.Rotationamount = 0;
+            
     }
 }

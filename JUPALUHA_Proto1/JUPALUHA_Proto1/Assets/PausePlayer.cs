@@ -11,7 +11,7 @@ public class PausePlayer : MonoBehaviour
     private int currentSceneIndex;
 
     private int Timer = 0;
-
+    public GameObject DeathSound;
     Animator animator;
 
     private void Start()
@@ -20,6 +20,7 @@ public class PausePlayer : MonoBehaviour
         transform.position = gm.lastCheckPointPos;
 
         animator = GetComponentInChildren<Animator>();
+        DeathSound.gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -27,6 +28,9 @@ public class PausePlayer : MonoBehaviour
         if (collision.gameObject.tag == "Trigger")
         {
             //Timer++;
+            Instantiate(DeathSound, new Vector2(0, 0), Quaternion.Euler(0, 0, 0));
+            DeathSound.gameObject.SetActive(true);
+
             this.gameObject.transform.position = gm.lastCheckPointPos;
             //Time.timeScale = 0f;
             

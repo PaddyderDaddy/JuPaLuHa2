@@ -19,10 +19,14 @@ public class Drumzone : MonoBehaviour
     [SerializeField] Vector3 closedVent;
     [SerializeField] Vector3 openVent;
 
+    public GameObject PowerjumpAUDIO;
+
+
     private void Start()
     {
         closedVent = vent.transform.localEulerAngles;
-        openVent = closedVent + new Vector3(0, 0, 180);
+        openVent = closedVent + new Vector3(0, 0, 120);
+        PowerjumpAUDIO.gameObject.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -47,10 +51,14 @@ public class Drumzone : MonoBehaviour
     {
         if (instrumentscript.connectetInstruaktiv == true || instruAscript.connectetInstruaktivA == true)
         {
+            Debug.Log("hiersollerrein");
             if (PlayerScript.ChaRigidbody.velocity.y <= -40 && ventOpen == false)
             {
                 Debug.Log("opening vent");
                 isOpen = true;
+                Instantiate(PowerjumpAUDIO, new Vector2(0,0), Quaternion.Euler(0, 0, 0));
+                PowerjumpAUDIO.gameObject.SetActive(true);
+
                 //vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 1, 0);
                 vent.transform.localEulerAngles = openVent;
             }
