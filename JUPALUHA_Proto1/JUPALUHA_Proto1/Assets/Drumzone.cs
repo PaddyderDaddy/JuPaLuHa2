@@ -22,7 +22,7 @@ public class Drumzone : MonoBehaviour
     private void Start()
     {
         closedVent = vent.transform.localEulerAngles;
-        openVent = closedVent + new Vector3(0, 0, 180);
+        openVent = closedVent + new Vector3(0, 0, 120);
     }
 
     private void FixedUpdate()
@@ -47,6 +47,7 @@ public class Drumzone : MonoBehaviour
     {
         if (instrumentscript.connectetInstruaktiv == true || instruAscript.connectetInstruaktivA == true)
         {
+            Debug.Log("hiersollerrein");
             if (PlayerScript.ChaRigidbody.velocity.y <= -40 && ventOpen == false)
             {
                 Debug.Log("opening vent");
