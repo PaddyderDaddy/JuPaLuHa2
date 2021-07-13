@@ -19,6 +19,10 @@ TagManager:
   - Pause
   - Start
   - PinPendulum
+  - big
+  - Mike
+  - SoundmillB
+  - SoundmillA
   layers:
   - Default
   - TransparentFX
@@ -35,7 +39,7 @@ TagManager:
   - notPlayerinteract
   - PostProcessingLayer
   - SoundmillCollider
-  - 
+  - enddrum
   - 
   - 
   - 
