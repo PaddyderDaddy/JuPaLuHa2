@@ -27,16 +27,18 @@ public class Drumzone : MonoBehaviour
 
     private void FixedUpdate()
     {
-       // if (instrumentscript.connectetInstruaktiv == true  || instruAscript.connectetInstruaktivA == true)
-          //  Debug.Log("eulerAngles: " + vent.transform.localEulerAngles.z);
+        if (instrumentscript.connectetInstruaktiv == true || instruAscript.connectetInstruaktivA == true)
+            Debug.Log("eulerAngles: " + vent.transform.localEulerAngles.z);
 
         if (vent.transform.localEulerAngles.z == openVent.z)
         {
+            Debug.Log("if this, that would be weird");
            // Debug.Log("vent open");
             ventOpen = true;
         }
         else if (vent.transform.localEulerAngles.z == closedVent.z)
         {
+            Debug.Log("and then this, apparently");
            // Debug.Log("vent closed");
             ventOpen = false;
         }
@@ -47,17 +49,18 @@ public class Drumzone : MonoBehaviour
     {
         if (instrumentscript.connectetInstruaktiv == true || instruAscript.connectetInstruaktivA == true)
         {
-            Debug.Log("hiersollerrein");
             if (PlayerScript.ChaRigidbody.velocity.y <= -40 && ventOpen == false)
             {
-                Debug.Log("opening vent");
+                Debug.Log("should do this first");
+                //Debug.Log("velocity: " + PlayerScript.ChaRigidbody.velocity.y);
                 isOpen = true;
                 //vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 1, 0);
                 vent.transform.localEulerAngles = openVent;
             }
             if (PlayerScript.ChaRigidbody.velocity.y <= -40 && ventOpen == true)
             {
-                Debug.Log("closing vent");
+                Debug.Log("yeah.");
+                //Debug.Log("closing vent" + PlayerScript.ChaRigidbody.velocity.y);
                 isOpen = false;
                 //vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 0, 0);
                 vent.transform.localEulerAngles = closedVent;
