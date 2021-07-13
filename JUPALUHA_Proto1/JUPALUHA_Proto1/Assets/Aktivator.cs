@@ -8,6 +8,8 @@ public class Aktivator : MonoBehaviour
     public SoundmillRotation SoundmillScript;
 
     public CharControllerPhysics PlayerScript;
+    public GameObject PowerjumpAUDIO;
+
     //public Drumzone Drumzonescript;
 
     //private void Update()
@@ -21,7 +23,11 @@ public class Aktivator : MonoBehaviour
         //AktivatorAktiv = true;
 
         if (PlayerScript.DidawesomeJump == true)
+        {
             AktivatorAktiv = true;
+            Instantiate(PowerjumpAUDIO, new Vector2(0, 0), Quaternion.Euler(0, 0, 0));
+
+        }
 
         //if (PlayerScript.ChaRigidbody.velocity.y <= -40)
         //{

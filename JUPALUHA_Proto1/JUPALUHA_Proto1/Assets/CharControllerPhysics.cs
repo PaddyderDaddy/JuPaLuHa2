@@ -43,7 +43,6 @@ public class CharControllerPhysics : MonoBehaviour
     GameObject PlayerObj;
     public Transform Player;
     static Vector3 PlayerVector;
-
     //HOOK GRAB
     [Header("Hook Grab")]
     public Transform HookGrab;
@@ -127,6 +126,7 @@ public class CharControllerPhysics : MonoBehaviour
 
         Interaktiv.gameObject.SetActive(false);
         paracute.gameObject.SetActive(true);
+        //PowerjumpAUDIO.gameObject.SetActive(false);
 
         animator = GetComponentInChildren<Animator>();
         //animator = GetComponent<Animator>();
@@ -488,6 +488,8 @@ public class CharControllerPhysics : MonoBehaviour
             {
                 //ChaRigidbody.position.
                 Instantiate(Powerjumpvis, new Vector2(Player.transform.position.x, Player.transform.position.y-0.5f), Quaternion.Euler(-0.113f, -90f, 90));
+
+
                 DidawesomeJump = false;
             }
             animator.SetBool("isGrounded", isGrounded = true);
