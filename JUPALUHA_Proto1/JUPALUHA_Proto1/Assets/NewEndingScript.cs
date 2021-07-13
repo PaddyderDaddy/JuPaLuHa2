@@ -88,6 +88,7 @@ public class NewEndingScript : MonoBehaviour
             // ownSoundmillRotscript.enabled = !ownSoundmillRotscript.enabled;
             ChaRigidbody.velocity = new Vector3(0, 0, 0);
             ChaRigidbody.gravityScale = 0;
+
             Charscript.enabled = !Charscript.enabled;
             Instrument4.enabled = !Instrument4.enabled;
             Instrument3.enabled = !Instrument3.enabled;
