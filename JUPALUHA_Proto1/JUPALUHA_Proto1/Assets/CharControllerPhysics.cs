@@ -96,6 +96,10 @@ public class CharControllerPhysics : MonoBehaviour
     [Header("menu")]
     public bool pauseMenu = false;
 
+    [Header("Audio objects")]
+
+    public GameObject KampfschreiAUDIO;
+    public GameObject GrabAudio;
     // public ParticleSystem ;
     public bool DidawesomeJump = false;
 
@@ -131,6 +135,8 @@ public class CharControllerPhysics : MonoBehaviour
         Interaktiv.gameObject.SetActive(false);
         paracute.gameObject.SetActive(true);
         //PowerjumpAUDIO.gameObject.SetActive(false);
+        KampfschreiAUDIO.gameObject.SetActive(false);
+        GrabAudio.gameObject.SetActive(false);
 
         animator = GetComponentInChildren<Animator>();
         //animator = GetComponent<Animator>();
@@ -244,6 +250,10 @@ public class CharControllerPhysics : MonoBehaviour
         
             HookDetect = true;
             PlayerattachedtoSoundmill = true;
+            Instantiate(GrabAudio, new Vector2(0, 0), Quaternion.Euler(0, 0, 0));
+
+            GrabAudio.gameObject.SetActive(true);
+
         }
 
         if (grabCheck.collider != null && grabCheck.collider.tag == "PinPendulum")
@@ -303,6 +313,10 @@ public class CharControllerPhysics : MonoBehaviour
             Instantiate(GrabVis, new Vector2(HookGrab.transform.position.x, HookGrab.transform.position.y), Quaternion.identity);
 
             HookDetect = true;
+
+            Instantiate(GrabAudio, new Vector2(0, 0), Quaternion.Euler(0, 0, 0));
+            GrabAudio.gameObject.SetActive(true);
+
         }
     }
     public void Rotation()
@@ -581,10 +595,10 @@ public class CharControllerPhysics : MonoBehaviour
     void Update()
     {
         Shader.SetGlobalFloat("_SpeedVelocity", ChaRigidbody.velocity.y);
-
+        /*
         if (isOnPendulum)
             Debug.Log("is on Pendulum");
-
+        */
         if (isOnPendulum == false)
             animator.SetBool("onSoundmill", onSoundmill = false);
 
@@ -608,15 +622,15 @@ public class CharControllerPhysics : MonoBehaviour
         if (AisPressed == true && DisPressed == true)
             DisPressed = false;
 
-        //Soundmillgrab
-        if (Input.GetKey(KeyCode.K)&& IsOnSoundMill==false && isOnPendulum ==false) //funktioniert leider nicht wenn man das gedrückt hält... muss getestet werden ob das besser in "update" hineinkommt.
+        //Soundmillgrab                             L                                                                E                                                                                K
+        if (Input.GetKey(KeyCode.L)&& IsOnSoundMill==false && isOnPendulum ==false || Input.GetKey(KeyCode.E) && IsOnSoundMill == false && isOnPendulum == false  || Input.GetKey(KeyCode.K) && IsOnSoundMill == false && isOnPendulum == false) //funktioniert leider nicht wenn man das gedrückt hält... muss getestet werden ob das besser in "update" hineinkommt.
         {
             GrabHook();
         }
 
-        if (Input.GetKey(KeyCode.K))
+        if (Input.GetKey(KeyCode.L)  || Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.K))
             animator.SetBool("HookIsUp", HookIsUp = true);
-        if (!Input.GetKey(KeyCode.K))
+        if (!Input.GetKey(KeyCode.L) && !Input.GetKey(KeyCode.E) && !Input.GetKey(KeyCode.K))
             animator.SetBool("HookIsUp", HookIsUp = false);
 
         //animator.SetTrigger("Grabbing");
@@ -645,14 +659,16 @@ public class CharControllerPhysics : MonoBehaviour
         //POWER DROP
         if (Input.GetKey(KeyCode.Space) && Milljump == true && DropTimer > 1.5f /*Input.GetKey(KeyCode.L) && Jumping == true && DropTimer > 2 || */)
         {
+            Instantiate(KampfschreiAUDIO, new Vector2(0, 0), Quaternion.Euler(0, 0, 0));
+            KampfschreiAUDIO.gameObject.SetActive(true);
             ChaRigidbody.velocity = Vector2.down * JumpForce * 5;
             DidawesomeJump = true;
-            Milljump = false;
-
+            Milljump = false;         
             animator.SetTrigger("FuckingAwesomeJump");
         }
         //GLIDING
-        bool currentlygliding=false;
+        //bool currentlygliding=false;
+        /*
         //start gliding
         if (Input.GetKeyDown(KeyCode.LeftShift) && Grounded == false) 
         {
@@ -667,7 +683,7 @@ public class CharControllerPhysics : MonoBehaviour
             ExtraGlide--;
             currentlygliding = false;
         }
-
+        */
         if (Grounded == true)
         {
             wasinstatiatet = false;
@@ -688,7 +704,6 @@ public class CharControllerPhysics : MonoBehaviour
             {
                 //ChaRigidbody.position.
                 Instantiate(Powerjumpvis, new Vector2(Player.transform.position.x, Player.transform.position.y - 0.5f), Quaternion.Euler(-0.113f, -90f, 90));
-
 
                 DidawesomeJump = false;
             }

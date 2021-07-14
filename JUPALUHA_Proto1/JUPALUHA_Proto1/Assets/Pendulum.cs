@@ -43,7 +43,7 @@ public class Pendulum : MonoBehaviour
 
     void PendulumRotation()
     {
-        Debug.Log("is on pendulum");
+       // Debug.Log("is on pendulum");
         //decelerate pendulum
         if (!movingClockwise && transform.eulerAngles.z >= 22.5f && transform.eulerAngles.z <= 55f) //right hemisphere
             rbPendulum.angularVelocity *= 0.985f;
