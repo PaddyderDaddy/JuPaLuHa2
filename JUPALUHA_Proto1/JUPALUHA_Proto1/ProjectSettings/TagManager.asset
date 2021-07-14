@@ -23,6 +23,7 @@ TagManager:
   - Mike
   - SoundmillB
   - SoundmillA
+  - Menutrigger
   layers:
   - Default
   - TransparentFX
