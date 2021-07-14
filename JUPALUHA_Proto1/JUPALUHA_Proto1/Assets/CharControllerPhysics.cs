@@ -496,11 +496,11 @@ public class CharControllerPhysics : MonoBehaviour
             animator.SetBool("isJumping", isJumping = false);
 
         }
-        
+        /*
         if (Input.GetKey(KeyCode.LeftShift) && Grounded == false)
         {
             paracute.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
-        }
+        }*/
         //Soundmilljump
         if (Input.GetKey(KeyCode.Space) && IsOnSoundMill == true && !Input.GetKey(KeyCode.K))
         {
