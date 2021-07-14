@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InstrumentAktivatorA : MonoBehaviour
 {
@@ -20,12 +21,17 @@ public class InstrumentAktivatorA : MonoBehaviour
     public AudioSource Voice;
     public GameObject Voiceobj;
 
+    public GameObject pressU;
+    public GameObject Triggerzonesinging;
+
+
     private void Start()
     {
         audioSourceOne.volume = 0;
         Voice.volume = 0;
 
         Voiceobj.gameObject.SetActive(false);
+        pressU.gameObject.SetActive(false);
 
     }
     private void Update()
@@ -61,26 +67,34 @@ public class InstrumentAktivatorA : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.U) && Char.isinSingingZone == true)
         {
+            pressU.gameObject.SetActive(false);
+            Destroy(Triggerzonesinging);
             StartCoroutine(Wait());
 
         }
+        if (Char.isinSingingZone == true)
+            pressU.gameObject.SetActive(true);
+        if (Char.isinSingingZone == false)
+            pressU.gameObject.SetActive(false);
     }
 
     IEnumerator Wait()
     {
         Char.transform.localScale = new Vector3(-0.75f, 1.75f, 1);
-        Camera.main.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        //Camera.main.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         //Camera.main.gameObject.transform.position = new Vector3(9.08f, -8.6f, -71.4f);
 
         //Voice.Play();
+        Char.animator.SetTrigger("Singing");
         Voiceobj.gameObject.SetActive(true);
         Voice.volume = 1;
-        Char.animator.SetTrigger("Singing");
+        //Char.animator.SetTrigger("Singing");
 
 
-        yield return new WaitForSeconds(8f);
+        yield return new WaitForSeconds(6f);
         Voice.volume = 0;
 
         startMusic = true;
+
     }
 }
