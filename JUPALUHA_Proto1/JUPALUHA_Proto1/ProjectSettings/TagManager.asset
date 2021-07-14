@@ -24,6 +24,7 @@ TagManager:
   - SoundmillB
   - SoundmillA
   - Menutrigger
+  - SoundTrigger
   layers:
   - Default
   - TransparentFX
