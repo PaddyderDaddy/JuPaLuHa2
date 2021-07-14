@@ -23,6 +23,9 @@ TagManager:
   - Mike
   - SoundmillB
   - SoundmillA
+  - Menutrigger
+  - SoundTrigger
+  - SingingTrigger
   layers:
   - Default
   - TransparentFX

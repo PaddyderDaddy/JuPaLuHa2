@@ -22,15 +22,19 @@ public class NewEndingScript : MonoBehaviour
     public bool Playeristhere = false;
 
     public PolygonCollider2D Instrument4;
-
+    public BoxCollider2D DrumEnd;
     public CircleCollider2D Instrument3;
 
+    public GameObject SingSound;
+    public GameObject lilading;
     void Start()
     {
         //Charscript = GetComponent<CharControllerPhysics>();
        // playercollider = GetComponent<BoxCollider2D>();
         ChaRigidbody = GetComponent<Rigidbody2D>();
-       // Instrument4 = GetComponent<PolygonCollider2D>();
+        DrumEnd.enabled = !DrumEnd.enabled;
+        SingSound.gameObject.SetActive(false);
+        // Instrument4 = GetComponent<PolygonCollider2D>();
         //Instrument3 = GetComponent<CircleCollider2D>();
 
         // Soundmill1 = GetComponent<SoundmillRotation>();
@@ -43,6 +47,7 @@ public class NewEndingScript : MonoBehaviour
 
     private void Update()
     {
+
         if (Soundmill1.isPoweredByRaycast == true && Soundmill2.isPoweredByRaycast == true && Soundmill3.isPoweredByRaycast == true && Soundmill4.isPoweredByRaycast == true)
             TheEndisnear = true;
 
@@ -51,28 +56,7 @@ public class NewEndingScript : MonoBehaviour
             //press SPACE 
             //Physics.IgnoreLayerCollision(3, 7);
             //Physics.IgnoreLayerCollision(3, 10);       
-
-            if (Input.GetKey(KeyCode.Space))
-            {
-
-                //VERSTOßEN
-                Player.transform.parent = null;
-                PLPO.transform.parent = null; //Nicht mehr Child des Hooks
-                HookGrab.transform.parent = null; //nicht mehr Child des Players
-                //PARENTEN
-                HookGrab.transform.parent = Player.transform; //Hook = Child des Player
-                PLPO.transform.parent = HookGrab.transform;   //PLPO = Child des Hooks   
-                HookGrab.transform.localPosition = new Vector3(-0.7f, 0, 0);
-                PLPO.transform.localPosition = new Vector3(0, 0.4f, 0);
-
-                DissonanceCloudsetc.SetActive(false);
-              
-                ChaRigidbody.velocity = Vector2.down * 4 * 5;
-
-                Shader.SetGlobalFloat("_AvaiblePowerjump", 6);
-                Shader.SetGlobalFloat("_SpeedVelocity", 50);
-               
-            }
+        
         }
     }
     public static void IgnoreLayerCollision(int layer1, int layer2, bool ignore = true)
@@ -92,6 +76,29 @@ public class NewEndingScript : MonoBehaviour
             Charscript.enabled = !Charscript.enabled;
             Instrument4.enabled = !Instrument4.enabled;
             Instrument3.enabled = !Instrument3.enabled;
+            DrumEnd.enabled = !DrumEnd.enabled;
+
+            //VERSTOßEN
+            Player.transform.parent = null;
+            PLPO.transform.parent = null; //Nicht mehr Child des Hooks
+            HookGrab.transform.parent = null; //nicht mehr Child des Players
+                                              //PARENTEN
+            HookGrab.transform.parent = Player.transform; //Hook = Child des Player
+            PLPO.transform.parent = HookGrab.transform;   //PLPO = Child des Hooks   
+            HookGrab.transform.localPosition = new Vector3(-0.7f, 0, 0);
+            PLPO.transform.localPosition = new Vector3(0, 0.4f, 0);
+
+            DissonanceCloudsetc.SetActive(false);
+
+            ChaRigidbody.velocity = Vector2.down * 4 * 5;
+
+            Shader.SetGlobalFloat("_AvaiblePowerjump", 6);
+            Shader.SetGlobalFloat("_SpeedVelocity", 50);
+
+            Instantiate(SingSound, new Vector2(0, 0), Quaternion.Euler(0, 0, 0));
+            SingSound.gameObject.SetActive(true);
+
+            lilading.gameObject.SetActive(false);
         }
     }
 

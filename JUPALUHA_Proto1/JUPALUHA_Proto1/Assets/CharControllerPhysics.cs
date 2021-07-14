@@ -112,6 +112,9 @@ public class CharControllerPhysics : MonoBehaviour
 
     public bool Right = false;
 
+    InstrumentAktivatorA InstrumentAktivatorAScript;
+    public bool isinSingingZone = false;
+
     private void Awake()
     {
         rotationPLPO = PLPO.transform.rotation;
@@ -161,7 +164,6 @@ public class CharControllerPhysics : MonoBehaviour
             HookDetect = false;
             ChaRigidbody.gravityScale = 1;
             IsOnSoundMill = false;
-
         }
     }
     public void GrabHook()
@@ -357,6 +359,15 @@ public class CharControllerPhysics : MonoBehaviour
             OpenInteraktableIcon();
             touchLever = true;
         }
+        if (collision.gameObject.tag == "SingingTrigger") // && Input.GetKey(KeyCode.U))
+        {
+            isinSingingZone = true;
+
+
+            //InstrumentAktivatorAScript.startMusic = true;
+        }
+
+
 
     }
 
@@ -367,7 +378,8 @@ public class CharControllerPhysics : MonoBehaviour
             CloseInteraktableIcon();
             touchLever = false;
         }
-
+        if (collision.gameObject.tag == "SingingTrigger")
+            isinSingingZone = false;
     }
 
     void FixedUpdate()
@@ -475,32 +487,12 @@ public class CharControllerPhysics : MonoBehaviour
         }
 
 
-        if (Grounded == true)
-        {
-            paracute.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
-            Jumping = false;
-            DropTimer = 0;
-            ExtraGlide = 1;
-            Milljump = false;
-            DropTimer = 0;
-            //viseffect
-            if (DidawesomeJump == true)
-            {
-                //ChaRigidbody.position.
-                Instantiate(Powerjumpvis, new Vector2(Player.transform.position.x, Player.transform.position.y-0.5f), Quaternion.Euler(-0.113f, -90f, 90));
-
-
-                DidawesomeJump = false;
-            }
-            animator.SetBool("isGrounded", isGrounded = true);
-            animator.SetBool("isJumping", isJumping = false);
-
-        }
-        
+       
+        /*
         if (Input.GetKey(KeyCode.LeftShift) && Grounded == false)
         {
             paracute.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
-        }
+        }*/
         //Soundmilljump
         if (Input.GetKey(KeyCode.Space) && IsOnSoundMill == true && !Input.GetKey(KeyCode.K))
         {
@@ -682,8 +674,29 @@ public class CharControllerPhysics : MonoBehaviour
             paracute.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
         }
 
+        if (Grounded == true)
+        {
+            paracute.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+            Jumping = false;
+            DropTimer = 0;
+            ExtraGlide = 1;
+            Milljump = false;
+            DropTimer = 0;
+            //viseffect
+            if (DidawesomeJump == true)
+            {
+                //ChaRigidbody.position.
+                Instantiate(Powerjumpvis, new Vector2(Player.transform.position.x, Player.transform.position.y - 0.5f), Quaternion.Euler(-0.113f, -90f, 90));
+
+
+                DidawesomeJump = false;
+            }
+            animator.SetBool("isGrounded", isGrounded = true);
+            animator.SetBool("isJumping", isJumping = false);
+
+        }
         //if (Jumping == false || Milljump == false || Milljump == false && Jumping == false)
-           // DropTimer = 0;
+        // DropTimer = 0;
 
         Shader.SetGlobalFloat("_AvaiblePowerjump", DropTimer);
 
@@ -715,7 +728,7 @@ public class CharControllerPhysics : MonoBehaviour
         {
             transform.localScale = new Vector3(-0.75f, 1.75f, 1); //-
             animator.SetBool("isRunning", isRunning = true);
-            Debug.Log("itworks");
+            //Debug.Log("itworks");
             Right = true;
         }
         else if (xVelocity < -0f)
@@ -753,4 +766,5 @@ public class CharControllerPhysics : MonoBehaviour
         Gizmos.color = gizmoColor;
         Gizmos.DrawWireSphere((Vector2)transform.position + upOffset, collisionRadius);
     }
+
 }

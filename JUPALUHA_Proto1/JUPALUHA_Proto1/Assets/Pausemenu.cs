@@ -12,6 +12,8 @@ public class Pausemenu : MonoBehaviour
     public GameObject Endscreen;
 
     public ENDDRUMBUM Endscript;
+    public GameObject EndMenuUi;
+    bool endee;
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -22,10 +24,19 @@ public class Pausemenu : MonoBehaviour
                 Pause();
 
         }
+        
         if(Endscript.GameFinandTimeFin == true)
         {
-            Endscreen.SetActive(true);
+            EndMenuUi.SetActive(true);
+
+            Time.timeScale = 0f;
+            //GameIsPaused = true;
+            //Endscreen.SetActive(true);
         }
+    }
+    public void ende()
+    {
+
     }
 
     public void Resume()

@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: Instrument4
+  m_Name: Instrument5
   m_EditorClassIdentifier: 
   components:
   - {fileID: 5475152203822853301}
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   color:
     m_OverrideState: 1
-    m_Value: {r: 0.9150943, g: 0.80107087, b: 0, a: 1}
+    m_Value: {r: 1, g: 0.8279877, b: 0, a: 1}
     hdr: 0
     showAlpha: 0
     showEyeDropper: 1
@@ -223,7 +223,7 @@ MonoBehaviour:
     min: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 1.74
+    m_Value: 2.3
     min: 0
   scatter:
     m_OverrideState: 1

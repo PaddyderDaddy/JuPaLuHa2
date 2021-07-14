@@ -15,9 +15,17 @@ public class InstrumentAktivatorA : MonoBehaviour
     public bool startMusic;
     bool DONOTBOTHERME = false;
 
+    public CharControllerPhysics Char;
+
+    public AudioSource Voice;
+    public GameObject Voiceobj;
+
     private void Start()
     {
         audioSourceOne.volume = 0;
+        Voice.volume = 0;
+
+        Voiceobj.gameObject.SetActive(false);
 
     }
     private void Update()
@@ -51,9 +59,28 @@ public class InstrumentAktivatorA : MonoBehaviour
                 DONOTBOTHERME = false;
             }
         }
-        if (Input.GetKeyDown(KeyCode.U))
+        if (Input.GetKeyDown(KeyCode.U) && Char.isinSingingZone == true)
         {
-            startMusic = true;
+            StartCoroutine(Wait());
+
         }
+    }
+
+    IEnumerator Wait()
+    {
+        Char.transform.localScale = new Vector3(-0.75f, 1.75f, 1);
+        Camera.main.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        //Camera.main.gameObject.transform.position = new Vector3(9.08f, -8.6f, -71.4f);
+
+        //Voice.Play();
+        Voiceobj.gameObject.SetActive(true);
+        Voice.volume = 1;
+        Char.animator.SetTrigger("Singing");
+
+
+        yield return new WaitForSeconds(8f);
+        Voice.volume = 0;
+
+        startMusic = true;
     }
 }
