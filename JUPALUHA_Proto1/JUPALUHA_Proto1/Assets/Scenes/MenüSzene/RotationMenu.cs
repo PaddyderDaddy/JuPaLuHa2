@@ -10,17 +10,20 @@ public class RotationMenu : MonoBehaviour
     // Update is called once per frame
 
     public GameObject Trigger;
-
+    public GameObject RotationAudio;
     public enum Soundmills { left, right }
     public Soundmills type;
     public float newrotation;
 
+    bool PlayedSound = false;
 
     public float Rotationamount;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         //rb.angularVelocity = 20;
+        if(RotationAudio !=null)
+             RotationAudio.gameObject.SetActive(false);
 
     }
     void Update()
@@ -33,22 +36,56 @@ public class RotationMenu : MonoBehaviour
         switch (type)
         {
             case Soundmills.left:
+
                 if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+                {
                     rb.angularVelocity = -Rotationamount;
+
+                }
                 if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+                {
                     rb.angularVelocity = Rotationamount;
+
+                }
+
+
                 break;
             case Soundmills.right:
+
                 if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+                {
                     rb.angularVelocity = Rotationamount;
+
+                }
                 if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+                {
                     rb.angularVelocity = -Rotationamount;
+
+                }
+
                 break;
             default:
                 Debug.Log("NONE");
                 break;
-        }
 
+
+        }
+        if (RotationAudio != null)
+        {
+
+            if (PlayedSound == false)
+            {
+                PlayedSound = true;
+                //Instantiate(RotationAudio, new Vector2(0, 0), Quaternion.Euler(0, 0, 0));
+                RotationAudio.gameObject.SetActive(true);
+            }
+            if (rb.angularVelocity == 0)
+            {
+                RotationAudio.gameObject.SetActive(false);
+                PlayedSound = false;
+            }
+        }
+    
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

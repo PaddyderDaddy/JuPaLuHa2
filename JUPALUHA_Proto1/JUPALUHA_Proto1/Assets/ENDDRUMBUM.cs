@@ -26,8 +26,8 @@ public class ENDDRUMBUM : MonoBehaviour
             Instantiate(PowerjumpAUDIO, new Vector2(0, 0), Quaternion.Euler(0, 0, 0));
             Instantiate(viseffektend, new Vector2(transform.position.x, transform.position.y +4f), Quaternion.Euler(0, 0, 90));
             GameFin = true;
-            Vector3 campos = new Vector3(-2.2f, -67.5f, -71.4f);
-            Camera.main.gameObject.transform.position = Vector3.MoveTowards(Camera.main.gameObject.transform.position, campos, 4 *Time.deltaTime);
+            Vector3 campos = new Vector3(-2.2f, -75.5f, -71.4f);
+            Camera.main.gameObject.transform.position = Vector3.MoveTowards(Camera.main.gameObject.transform.position, campos, 10 *Time.deltaTime);
 
            // Camera.main.gameObject.transform.position = 
                // new Vector3(-2.2f, -67.5f, -71.4f);
