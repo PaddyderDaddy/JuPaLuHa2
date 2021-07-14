@@ -112,6 +112,9 @@ public class CharControllerPhysics : MonoBehaviour
 
     public bool Right = false;
 
+    InstrumentAktivatorA InstrumentAktivatorAScript;
+    public bool isinSingingZone = false;
+
     private void Awake()
     {
         rotationPLPO = PLPO.transform.rotation;
@@ -161,7 +164,6 @@ public class CharControllerPhysics : MonoBehaviour
             HookDetect = false;
             ChaRigidbody.gravityScale = 1;
             IsOnSoundMill = false;
-
         }
     }
     public void GrabHook()
@@ -357,6 +359,15 @@ public class CharControllerPhysics : MonoBehaviour
             OpenInteraktableIcon();
             touchLever = true;
         }
+        if (collision.gameObject.tag == "SingingTrigger") // && Input.GetKey(KeyCode.U))
+        {
+            isinSingingZone = true;
+
+
+            //InstrumentAktivatorAScript.startMusic = true;
+        }
+
+
 
     }
 
@@ -367,7 +378,8 @@ public class CharControllerPhysics : MonoBehaviour
             CloseInteraktableIcon();
             touchLever = false;
         }
-
+        if (collision.gameObject.tag == "SingingTrigger")
+            isinSingingZone = false;
     }
 
     void FixedUpdate()
@@ -754,4 +766,5 @@ public class CharControllerPhysics : MonoBehaviour
         Gizmos.color = gizmoColor;
         Gizmos.DrawWireSphere((Vector2)transform.position + upOffset, collisionRadius);
     }
+
 }

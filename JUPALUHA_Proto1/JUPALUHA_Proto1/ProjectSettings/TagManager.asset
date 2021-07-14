@@ -25,6 +25,7 @@ TagManager:
   - SoundmillA
   - Menutrigger
   - SoundTrigger
+  - SingingTrigger
   layers:
   - Default
   - TransparentFX
