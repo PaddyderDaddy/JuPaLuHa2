@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RotationMenu : MonoBehaviour
 {
@@ -8,9 +9,12 @@ public class RotationMenu : MonoBehaviour
     public Rigidbody2D rb;
     // Update is called once per frame
 
-    public GameObject StartSpitze;
-    public GameObject OptionSpitze;
-    public GameObject QuitSpitze;
+    public GameObject Trigger;
+
+    public enum Soundmills { left, right }
+    public Soundmills type;
+    public float newrotation;
+
 
     public float Rotationamount;
     private void Start()
@@ -26,11 +30,47 @@ public class RotationMenu : MonoBehaviour
         // if (rb.angularVelocity > 0)
         //     rb.angularVelocity -= 10f * Time.deltaTime;
         //soundmillUI.transform.Rotate(0f,0f,0.05f,Space.Self);
+        switch (type)
+        {
+            case Soundmills.left:
+                if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+                    rb.angularVelocity = -Rotationamount;
+                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+                    rb.angularVelocity = Rotationamount;
+                break;
+            case Soundmills.right:
+                if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+                    rb.angularVelocity = Rotationamount;
+                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+                    rb.angularVelocity = -Rotationamount;
+                break;
+            default:
+                Debug.Log("NONE");
+                break;
+        }
 
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-            rb.angularVelocity = -Rotationamount;
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-            rb.angularVelocity = Rotationamount;
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Menutrigger")
+        {
+            StartCoroutine(Wait());
+        }
+        
+
+        
+
+    }
+
+    IEnumerator Wait()
+    {
+
+        Rotationamount = 0;
+        rb.angularDrag = 20;
+        
+        yield return new WaitForSeconds(0.4f);
+        Rotationamount = newrotation;
+        rb.angularDrag = 0.3f;
     }
 }
 
