@@ -66,6 +66,7 @@ public class Drumzone : MonoBehaviour
                 //vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 1, 0);
                 vent.transform.localEulerAngles = openVent;
             }
+            /*
             if (PlayerScript.ChaRigidbody.velocity.y <= -40 && ventOpen == true)
             {
                 //Debug.Log("yeah.");
@@ -73,7 +74,7 @@ public class Drumzone : MonoBehaviour
                 isOpen = false;
                 //vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 0, 0);
                 vent.transform.localEulerAngles = closedVent;
-            }
+            }*/
         }
     }
 }

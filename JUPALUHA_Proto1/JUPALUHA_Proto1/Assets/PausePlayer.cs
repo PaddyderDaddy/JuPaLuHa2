@@ -13,6 +13,12 @@ public class PausePlayer : MonoBehaviour
     private int Timer = 0;
     public GameObject DeathSound;
     Animator animator;
+    public bool Deathtrue;
+
+    public GameObject firstSound;
+    public GameObject SecInstruSOUND;
+    public GameObject ThirdInstruSOUND;
+    public GameObject FourthInstruSOUND;
 
     private void Start()
     {
@@ -25,11 +31,29 @@ public class PausePlayer : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Trigger")
+        if (collision.gameObject.tag == "SoundTrigger")
         {
-            //Timer++;
+
+            firstSound.SetActive(false);
+            SecInstruSOUND.SetActive(false);
+            ThirdInstruSOUND.SetActive(false);
+            FourthInstruSOUND.SetActive(false);
+
+            Deathtrue = true;
             Instantiate(DeathSound, new Vector2(0, 0), Quaternion.Euler(0, 0, 0));
             DeathSound.gameObject.SetActive(true);
+        }
+
+        if (collision.gameObject.tag == "Trigger")
+        {
+            firstSound.SetActive(true);
+            SecInstruSOUND.SetActive(true);
+            ThirdInstruSOUND.SetActive(true);
+            FourthInstruSOUND.SetActive(true);
+
+            //Timer++;
+            Deathtrue = false;
+
 
             this.gameObject.transform.position = gm.lastCheckPointPos;
             //Time.timeScale = 0f;

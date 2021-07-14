@@ -14,6 +14,7 @@ public class Gliding : MonoBehaviour
 
     private float glideTimer;
 
+    public PausePlayer pausePlayerscript;
     void Awake()
     {
         Rigidbody = GetComponent<Rigidbody2D>();
@@ -22,6 +23,8 @@ public class Gliding : MonoBehaviour
 
     void Update()
     {
+        if(pausePlayerscript.Deathtrue ==true)
+            Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, Mathf.Sign(Rigidbody.velocity.y) * m_FallSpeed);
 
         if (IsGliding)
             glideTimer += Time.deltaTime;
