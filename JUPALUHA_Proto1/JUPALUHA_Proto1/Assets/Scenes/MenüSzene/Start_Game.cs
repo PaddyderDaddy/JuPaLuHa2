@@ -11,10 +11,10 @@ public class Start_Game : MonoBehaviour
     public GameObject StartSpitze;
     public GameObject OptionSpitze;
     public GameObject QuitSpitze;
-    public GameObject LeereSpitze;
-    public GameObject LeereSpitze02;
+    public GameObject Tutorial;
+    public GameObject Credits;
 
-    public enum Peak { start, options, quit, none01, none02 }
+    public enum Peak { start, options, quit, Tutorial, Credits }
     public Peak type;
 
 
@@ -35,32 +35,47 @@ public class Start_Game : MonoBehaviour
                 case Peak.start:
                     Debug.Log("start"); 
                     StartSpitze.gameObject.SetActive(true);
+
                     OptionSpitze.gameObject.SetActive(false);
                     QuitSpitze.gameObject.SetActive(false);
+                    Tutorial.gameObject.SetActive(false);
+                    Credits.gameObject.SetActive(false);
                     break;
                 case Peak.options:
                     Debug.Log("options");
                     OptionSpitze.gameObject.SetActive(true);
+
                     QuitSpitze.gameObject.SetActive(false);
                     StartSpitze.gameObject.SetActive(false);
+                    Tutorial.gameObject.SetActive(false);
+                    Credits.gameObject.SetActive(false);
                     break;
                 case Peak.quit:
                     Debug.Log("quit");
                     QuitSpitze.gameObject.SetActive(true);
+
                     StartSpitze.gameObject.SetActive(false);
                     OptionSpitze.gameObject.SetActive(false);
+                    Tutorial.gameObject.SetActive(false);
+                    Credits.gameObject.SetActive(false);
                     break;
-                case Peak.none01:
+                case Peak.Tutorial:
                     Debug.Log("none01");
+                    Tutorial.gameObject.SetActive(true);
+
                     StartSpitze.gameObject.SetActive(false);
                     OptionSpitze.gameObject.SetActive(false);
                     QuitSpitze.gameObject.SetActive(false);
+                    Credits.gameObject.SetActive(false);
                     break;
-                case Peak.none02:
+                case Peak.Credits:
                     Debug.Log("none02");
+                    Credits.gameObject.SetActive(true);
+
                     StartSpitze.gameObject.SetActive(false);
                     OptionSpitze.gameObject.SetActive(false);
                     QuitSpitze.gameObject.SetActive(false);
+                    Tutorial.gameObject.SetActive(false);
                     break;
                 default:
                     Debug.Log("NONE");
