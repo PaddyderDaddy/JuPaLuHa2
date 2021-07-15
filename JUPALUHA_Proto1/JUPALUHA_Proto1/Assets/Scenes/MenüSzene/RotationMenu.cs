@@ -37,12 +37,12 @@ public class RotationMenu : MonoBehaviour
         {
             case Soundmills.left:
 
-                if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+                if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
                 {
                     rb.angularVelocity = -Rotationamount;
 
                 }
-                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
                 {
                     rb.angularVelocity = Rotationamount;
 
@@ -52,12 +52,12 @@ public class RotationMenu : MonoBehaviour
                 break;
             case Soundmills.right:
 
-                if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+                if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
                 {
                     rb.angularVelocity = Rotationamount;
 
                 }
-                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
                 {
                     rb.angularVelocity = -Rotationamount;
 

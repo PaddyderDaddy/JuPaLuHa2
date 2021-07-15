@@ -14,6 +14,10 @@ public class CameraFollow : MonoBehaviour
     public Animator CamAnimator;
     public CharControllerPhysics Char;
 
+    public ENDDRUMBUM EndrumbumScript;
+    bool isactiv = true;
+    //End
+   // public Animator EndAnimator;
 
     void Start()
     {
@@ -23,6 +27,8 @@ public class CameraFollow : MonoBehaviour
         gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         transform.position = new Vector3(/*gm.lastCheckPointPos.x*/transform.position.x, gm.lastCheckPointPos.y, -10);
         CamAnimator = GetComponent<Animator>();
+       // EndAnimator = GetComponent<Animator>();
+
     }
 
     void FixedUpdate()
@@ -44,6 +50,14 @@ public class CameraFollow : MonoBehaviour
         {
             StartCoroutine(Wait());
         }
+        if (EndrumbumScript.GameFin == true)
+        {
+            CamAnimator.enabled = true;
+
+            CamAnimator.SetTrigger("EndTrigger");
+           
+
+        }
     }
 
     private Vector3 calculateThreshold()
@@ -54,14 +68,15 @@ public class CameraFollow : MonoBehaviour
         t.y -= followOffset.y;
         return t;
     }
-
+    
     IEnumerator Wait()
     {
 
         CamAnimator.enabled = true;
-
+        CamAnimator.SetTrigger("ZoomSing");
         yield return new WaitForSeconds(6f);
 
+        CamAnimator.SetTrigger(null);
         CamAnimator.enabled = false;
     }
 

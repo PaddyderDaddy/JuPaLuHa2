@@ -57,24 +57,16 @@ public class Drumzone : MonoBehaviour
         {
             if (PlayerScript.ChaRigidbody.velocity.y <= -40 && ventOpen == false)
             {
-                //Debug.Log("should do this first");
-                //Debug.Log("velocity: " + PlayerScript.ChaRigidbody.velocity.y);
+             
                 isOpen = true;
                 Instantiate(PowerjumpAUDIO, new Vector2(0,0), Quaternion.Euler(0, 0, 0));
                 PowerjumpAUDIO.gameObject.SetActive(true);
 
-                //vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 1, 0);
                 vent.transform.localEulerAngles = openVent;
             }
-            /*
-            if (PlayerScript.ChaRigidbody.velocity.y <= -40 && ventOpen == true)
-            {
-                //Debug.Log("yeah.");
-                //Debug.Log("closing vent" + PlayerScript.ChaRigidbody.velocity.y);
-                isOpen = false;
-                //vent.transform.localPosition = new Vector3(vent.transform.localPosition.x, 0, 0);
-                vent.transform.localEulerAngles = closedVent;
-            }*/
+        
         }
     }
+
+  
 }
