@@ -24,6 +24,7 @@ public class InstrumentAktivatorA : MonoBehaviour
     public GameObject pressU;
     public GameObject Triggerzonesinging;
 
+    public bool LightsON = false;
 
     private void Start()
     {
@@ -86,7 +87,7 @@ public class InstrumentAktivatorA : MonoBehaviour
         Char.animator.SetTrigger("Singing");
         Voiceobj.gameObject.SetActive(true);
         Voice.volume = 1;
-      
+        LightsON = true;
         yield return new WaitForSeconds(6f);
         Voice.volume = 0;
 

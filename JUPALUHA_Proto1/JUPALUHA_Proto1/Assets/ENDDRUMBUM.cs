@@ -11,6 +11,8 @@ public class ENDDRUMBUM : MonoBehaviour
     float Timer;
 
     public GameObject PowerjumpAUDIO;
+    public GameObject Player;
+    public CharControllerPhysics Charscript;
 
     //public GameObject EndScreen;
     // Start is called before the first frame update
@@ -23,14 +25,17 @@ public class ENDDRUMBUM : MonoBehaviour
     {
         if (collision.collider.tag == "Player" && ending.TheEndisnear == true)
         {
+
             Instantiate(PowerjumpAUDIO, new Vector2(0, 0), Quaternion.Euler(0, 0, 0));
             Instantiate(viseffektend, new Vector2(transform.position.x, transform.position.y +4f), Quaternion.Euler(0, 0, 90));
             GameFin = true;
             Vector3 campos = new Vector3(-2.2f, -75.5f, -71.4f);
             Camera.main.gameObject.transform.position = Vector3.MoveTowards(Camera.main.gameObject.transform.position, campos, 10 *Time.deltaTime);
 
-           // Camera.main.gameObject.transform.position = 
-               // new Vector3(-2.2f, -67.5f, -71.4f);
+            Charscript.enabled = !Charscript.enabled;
+
+            // Camera.main.gameObject.transform.position = 
+            // new Vector3(-2.2f, -67.5f, -71.4f);
         }
         /*
         if (GameFinandTimeFin == true)

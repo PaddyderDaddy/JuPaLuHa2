@@ -14,6 +14,7 @@ public class Start_Game : MonoBehaviour
     public GameObject Tutorial;
     public GameObject Credits;
 
+   // public Pausemenu ProbeSzeneUIscript;
     public enum Peak { start, options, quit, Tutorial, Credits }
     public Peak type;
 
@@ -24,8 +25,21 @@ public class Start_Game : MonoBehaviour
         StartSpitze.gameObject.SetActive(false);
         OptionSpitze.gameObject.SetActive(false);
         QuitSpitze.gameObject.SetActive(false);
+        Tutorial.gameObject.SetActive(false);
+        Credits.gameObject.SetActive(false);
     }
-
+    private void Update()
+    {
+        /*
+        if(ProbeSzeneUIscript.gameisreallyFIN == true)
+        {
+            StartSpitze.gameObject.SetActive(false);
+            OptionSpitze.gameObject.SetActive(false);
+            QuitSpitze.gameObject.SetActive(false);
+            Tutorial.gameObject.SetActive(false);
+            Credits.gameObject.SetActive(false);
+        }*/
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Menutrigger")
