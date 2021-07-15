@@ -50,14 +50,14 @@ public class NewEndingScript : MonoBehaviour
 
         if (Soundmill1.isPoweredByRaycast == true && Soundmill2.isPoweredByRaycast == true && Soundmill3.isPoweredByRaycast == true && Soundmill4.isPoweredByRaycast == true)
             TheEndisnear = true;
-
+        /*
         if(Playeristhere == true)
         {
             //press SPACE 
             //Physics.IgnoreLayerCollision(3, 7);
             //Physics.IgnoreLayerCollision(3, 10);       
         
-        }
+        }*/
     }
     public static void IgnoreLayerCollision(int layer1, int layer2, bool ignore = true)
     {

@@ -13,6 +13,8 @@ public class Pausemenu : MonoBehaviour
 
     public ENDDRUMBUM Endscript;
     public GameObject EndMenuUi;
+    public bool gameisreallyFIN = false;
+    float Timer;
     bool endee;
     public void Update()
     {
@@ -22,14 +24,12 @@ public class Pausemenu : MonoBehaviour
                 Resume();
             else
                 Pause();
-
         }
         
         if(Endscript.GameFinandTimeFin == true)
         {
             EndMenuUi.SetActive(true);
-
-            Time.timeScale = 0f;
+            Time.timeScale = 1f;
             //GameIsPaused = true;
             //Endscreen.SetActive(true);
         }
@@ -59,6 +59,7 @@ public class Pausemenu : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("Menü");
+        gameisreallyFIN = true;
     }
 
     public void Volume(float volume)
