@@ -11,6 +11,8 @@ public class CameraFollow : MonoBehaviour
     private Rigidbody2D followObjectRigidbody;
 
     private GameManager gm;
+    public Animator CamAnimator;
+    public CharControllerPhysics Char;
 
 
     void Start()
@@ -20,6 +22,7 @@ public class CameraFollow : MonoBehaviour
 
         gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         transform.position = new Vector3(/*gm.lastCheckPointPos.x*/transform.position.x, gm.lastCheckPointPos.y, -10);
+        CamAnimator = GetComponent<Animator>();
     }
 
     void FixedUpdate()
@@ -36,6 +39,11 @@ public class CameraFollow : MonoBehaviour
 
         float moveSpeed = followObjectRigidbody.velocity.magnitude > speed ? followObjectRigidbody.velocity.magnitude : speed;
         transform.position = Vector3.MoveTowards(transform.position, newPosition, moveSpeed * Time.deltaTime);
+
+        if (Input.GetKeyDown(KeyCode.U) && Char.isinSingingZone == true)
+        {
+            StartCoroutine(Wait());
+        }
     }
 
     private Vector3 calculateThreshold()
@@ -46,6 +54,17 @@ public class CameraFollow : MonoBehaviour
         t.y -= followOffset.y;
         return t;
     }
+
+    IEnumerator Wait()
+    {
+
+        CamAnimator.enabled = true;
+
+        yield return new WaitForSeconds(6f);
+
+        CamAnimator.enabled = false;
+    }
+
 
     private void OnDrawGizmos()
     {
