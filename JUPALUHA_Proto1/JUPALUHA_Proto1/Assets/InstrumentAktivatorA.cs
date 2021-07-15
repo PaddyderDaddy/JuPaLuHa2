@@ -70,10 +70,11 @@ public class InstrumentAktivatorA : MonoBehaviour
             pressU.gameObject.SetActive(false);
             Destroy(Triggerzonesinging);
             StartCoroutine(Wait());
-
         }
+
         if (Char.isinSingingZone == true)
             pressU.gameObject.SetActive(true);
+
         if (Char.isinSingingZone == false)
             pressU.gameObject.SetActive(false);
     }
@@ -81,16 +82,11 @@ public class InstrumentAktivatorA : MonoBehaviour
     IEnumerator Wait()
     {
         Char.transform.localScale = new Vector3(-0.75f, 1.75f, 1);
-        //Camera.main.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        //Camera.main.gameObject.transform.position = new Vector3(9.08f, -8.6f, -71.4f);
-
-        //Voice.Play();
+     
         Char.animator.SetTrigger("Singing");
         Voiceobj.gameObject.SetActive(true);
         Voice.volume = 1;
-        //Char.animator.SetTrigger("Singing");
-
-
+      
         yield return new WaitForSeconds(6f);
         Voice.volume = 0;
 

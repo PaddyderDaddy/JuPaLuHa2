@@ -374,12 +374,9 @@ public class CharControllerPhysics : MonoBehaviour
             OpenInteraktableIcon();
             touchLever = true;
         }
-        if (collision.gameObject.tag == "SingingTrigger") // && Input.GetKey(KeyCode.U))
+        if (collision.gameObject.tag == "SingingTrigger") 
         {
             isinSingingZone = true;
-
-
-            //InstrumentAktivatorAScript.startMusic = true;
         }
 
 
